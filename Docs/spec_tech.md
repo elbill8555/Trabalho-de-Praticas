@@ -87,15 +87,15 @@ Orquestração com Kubernetes (futuro) ou serverless (MVP)
 - **IDE**: Antigravity
 - **Gerenciamento de pacotes**: npm / pnpm
 - **Ambiente de desenvolvimento local**: Docker + Docker Compose
-- **Infraestrutura como Código (IaC)**: Terraform
+- **Infraestrutura como Código (IaC)**: Vercel
 - **Pipeline CI/CD**: GitHub Actions
 
 ### Integrações
 
 - **Persistência**: PostgreSQL (RDS ou equivalente)
-- **Deployment**: Vercel (frontend) + AWS/GCP (backend)
+- **Deployment**: Vercel (Hospedar o frontend), Supabase(Backend)
 - **Segurança (autenticação e autorização)**: Auth0 ou Firebase Auth
-- **Observabilidade**: Datadog / Grafana Cloud
+- **Observabilidade**: 
 
 ---
 

@@ -1,223 +1,70 @@
-
-//*mesma que a tech.md*********
-
-Atue como: Arquiteto de software 
-
-Objetivo: Ajude-me a criar a "Especificação Técnica do Produto" para um novo produto de software.
-
-Contexto:
-Consulte o arquivo .\prd.md para mais informações.
-
-Resultado esperado:
-- Definição da especificação técnica (spec_tech.md) com a seguinte estrutura:
-
-# Especificação Técnica
-Este documento descreve a arquitetura, tecnologias e diretrizes técnicas para o desenvolvimento de uma plataforma de gestão de tarefas e produtividade.
-
-## Visão Geral Técnica
-
-O objetivo é garantir:
-
-Escalabilidade e manutenibilidade do sistema
-Clareza na comunicação entre times técnicos
-Base sólida para evolução do produto (MVP → versões futuras)
-
-Público-alvo do documento:
-
-Engenheiros de software (frontend e backend)
-DevOps / SRE
-Arquitetos de software
-Equipes de produto técnico
-
----
-
-## Arquitetura de Referência
-
-Arquitetura baseada em serviços (modular monolith no MVP, evoluindo para microserviços conforme escala).
-
-Componentes principais:
-
-Frontend (SPA)
-API Backend (RESTful)
-Serviço de autenticação
-Banco de dados relacional
-Serviço de métricas/analytics
-
-Serviço de observabilidade:
-
-Logging centralizado (ex: ELK / Datadog)
-Monitoramento (ex: Prometheus + Grafana)
-Tracing distribuído (OpenTelemetry)
-
-Autenticação e autorização:
-
-OAuth 2.0 + JWT
-Login social (Google, Apple)
-RBAC (Role-Based Access Control)
-
-Protocolos de comunicação:
-
-HTTP/HTTPS (REST API)
-JSON como padrão de payload
-
-Infraestrutura de deployment:
-
-Cloud (AWS, GCP ou Azure)
-Containers com Docker
-Orquestração com Kubernetes (futuro) ou serverless (MVP)
-
----
-
-## Stack Tecnológica
-
-### Frontend
-
-- **Linguagem**: TypeScript
-- **Framework web**: React (com Next.js)
-- **EStilização**: Tailwind CSS
-
-### Backend
-
-- **Linguagem**: TypeScript
-- **Runtime**: Node.js
-- **Framework**: NestJS
-- **Persistência**: PostgreSQL
-- **ORM**: Prisma
-
-
-### Stack de Desenvolvimento
-
-- **IDE**: Antigravity
-- **Gerenciamento de pacotes**: npm / pnpm
-- **Ambiente de desenvolvimento local**: Docker + Docker Compose
-- **Infraestrutura como Código (IaC)**: Terraform
-- **Pipeline CI/CD**: GitHub Actions
-
-### Integrações
-
-- **Persistência**: PostgreSQL (RDS ou equivalente)
-- **Deployment**: Vercel (frontend) + AWS/GCP (backend)
-- **Segurança (autenticação e autorização)**: Auth0 ou Firebase Auth
-- **Observabilidade**: Datadog / Grafana Cloud
-
----
-
-## Segurança
-
-### Autenticação e Gestão de Sessão
-
-Autenticação e Gestão de Sessão
-Uso de JWT com expiração curta
-Refresh tokens seguros
-Armazenamento de tokens via HTTP-only cookies
-
-### Controle de Acesso e Autorização 
-
-Controle de Acesso e Autorização
-RBAC (usuário, admin)
-Escopo por recurso (tarefas, projetos)
-Validação de ownership (usuário só acessa seus dados)
-
-### Segurança de Dados e Validação
-
-Segurança de Dados e Validação
-Validação de input no frontend e backend
-Sanitização contra XSS e SQL Injection
-Rate limiting em endpoints críticos
-
-#### Criptografia e Proteção de Dados
-
-HTTPS obrigatório (TLS 1.2+)
-Criptografia de dados sensíveis em repouso
-Hash de senhas com bcrypt
-
-### Segurança da Infraestrutura e Configuração
-
-Segurança da Infraestrutura e Configuração
-Uso de variáveis de ambiente
-Secrets gerenciados (ex: AWS Secrets Manager)
-Configuração isolada por ambiente (dev, staging, prod)
-
-### Segurança no Desenvolvimento e Operação (DevSecOps)
-
-Segurança no Desenvolvimento e Operação (DevSecOps)
-Análise estática de código (SAST)
-Scan de dependências (Dependabot, Snyk)
-Monitoramento de vulnerabilidades
-
----
-
-## APIs
-
-Endpoint base:
-/api/v1
-
-Versionamento:
-
-Versionamento via URL (v1, v2)
-
-Padrão de nomenclatura:
-
-RESTful (ex: /tasks, /projects, /users)
-
-Principais endpoints:
-
-POST /auth/login
-POST /auth/register
-GET /tasks
-POST /tasks
-PATCH /tasks/:id
-DELETE /tasks/:id
-GET /projects
-
-Autenticação:
-
-JWT via header Authorization: Bearer
-
-Endpoints públicos:
-
-Login
-Registro
-
-Endpoints protegidos:
-
-Tasks
-Projects
-Dashboard
-
----
-
-## Tenancy
-
-Estratégia:
-Single-tenant no MVP, evoluindo para multi-tenant lógico.
-
-Isolamento:
-
-Dados isolados por user_id
-
-Identificação:
-
-Cada recurso vinculado a um usuário
-
-Migrações:
-
-Controladas via ORM (Prisma Migrate)
-
-Segurança:
-
-Validação obrigatória de ownership em todas queries
-
----
-
-## Diretrizes para Desenvolvimento Assistido por IA
-
-A IA deve seguir padrões definidos neste documento
-Código deve respeitar arquitetura modular
-Nomeação consistente de variáveis e endpoints
-Evitar lógica duplicada
-Priorizar legibilidade e manutenibilidade
-Sempre considerar segurança (validação e autenticação)
-Seguir princípios SOLID e Clean Code
-
---
+# Especificação de Requisitos
+
+## 1. Visão Geral do Produto
+
+O sistema consiste em uma plataforma web de gestão de tarefas e produtividade, projetada para ajudar usuários a organizarem suas atividades diárias de forma simples, centralizada e eficiente.
+
+A solução foca em reduzir a sobrecarga mental e melhorar a visibilidade do trabalho, permitindo que o usuário acompanhe tarefas, prazos e projetos em um único ambiente.
+
+## 2. Objetivos do Sistema
+
+Validar uma solução que permita ao usuário:
+- Criar e gerenciar tarefas rapidamente.
+- Visualizar prioridades e prazos de forma estruturada.
+- Organizar atividades separando-as por projetos.
+- Acompanhar o progresso de forma clara (dashboard).
+
+## 3. Principais Telas e Requisitos Funcionais
+
+### 3.1 📊 Dashboard
+Tela inicial que apresenta o panorama da rotina do usuário.
+- **Resumo das tarefas:** Visão unificada das tarefas pendentes e concluídas.
+- **Indicadores de produtividade:** Métricas essenciais de progresso para a semana ou mês.
+- **Atividades recentes:** Log das últimas ações tomadas na plataforma.
+- *Propósito:* Servir como visão geral e facilitar o planejamento.
+
+### 3.2 📋 Lista de Tarefas
+O núcleo operativo da aplicação.
+- **Exibição:** Lista de todas as tarefas cadastradas.
+- **Filtros e Buscas:** Funcionalidades para filtrar por status, prioridade e prazo de entrega.
+- **Organização:** Visualização em tabela/lista com ordenação clara.
+- *Propósito:* Foco e clareza na execução do dia a dia.
+
+### 3.3 ✏️ Criação/Edição de Tarefas
+Interface rápida para adicionar e modificar itens da lista.
+- **Formulário simples:** Direto ao ponto, focado no essencial.
+- **Campos sugeridos:** Título, Prazo, Prioridade e Projeto associado.
+- **Edição intuitiva:** Menos uso de modais difíceis, premissa em inserção veloz.
+- *Propósito:* Garantir alta agilidade no uso (baixo atrito).
+
+### 3.4 📁 Projetos
+Agrupamento macro de tarefas por iniciativa/contextos.
+- **Contextualização:** Toda tarefa pode, opcionalmente, pertencer a um projeto.
+- **Visualização Dedicada:** Lista e progresso em relação a o contexto do projeto especifico.
+- *Propósito:* Foco exclusivo na organização do usuário por pilares e metas.
+
+### 3.5 👤 Perfil do Usuário
+Ambiente de conta e definições.
+- **Configurações:** Dados básicos e segurança.
+- **Preferências:** Personalizações mínimas do app, temas claro/escuro, definição de fuso, etc.
+- *Propósito:* Customização pontual e controle de acesso.
+
+## 4. Experiência do Usuário (UX) e Requisitos Não Funcionais
+
+O protótipo e desenvolvimento devem ser fundamentados nos princípios de:
+- **Simplicidade:** Mínimo de ações necessárias para criar e finalizar o fluxo de uma tarefa (ex. máximo de 2 a 3 cliques).
+- **Clareza visual:** Identificação fácil do que é urgente usando a interface a favor (uso de cores, ícones, tamanhos de fonte).
+- **Velocidade:** Tempo de resposta instantâneo (UI otimizada), garantindo zero frustração durante a navegação inter-telas.
+- **Foco:** Evitar distrações eliminando blocos de excesso de informações que não agregam à ação da tarefa.
+
+## 5. Diferencial e Inovação do Protótipo
+
+A plataforma se distancia das alternativas do mercado pelos seguintes fatores:
+- **Interface Minimalista:** Redução massiva de poluição visual. O app é "limpo".
+- **Centralização:** Em um único e centralizado card/tarefa é possível ter todo o controle sem dispersão para outras abas.
+- **Redução de Ferramentas Paralelas:** Consolida pendências e prazos onde antes o usuário precisava de calendário, blocos de nota e lousas.
+- **Produtividade Real:** Não sendo apenas um armazenador ou "gaveta", e sim uma ferramenta que incentiva a finalização da pendência.
+
+## 6. Resumo Estratégico
+
+O protótipo propõe uma solução simples e bastante eficiente para a gestão de tarefas, colaborando objetivamente para que seus usuários mantenham sob controle as suas atividades mais importantes de forma clara e ágil, assim reduzindo substancialmente a desordem geralmente provocada pelo uso de múltiplas ferramentas no trabalho ou em suas vidas pessoais.
