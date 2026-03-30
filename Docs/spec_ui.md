@@ -6,6 +6,8 @@ Contexto:
 
 [inclua aqui a prd.md]
 
+no diretório stitch existe um arquivo code.html que contém a especificação de UI, use ele como base para criar a especificação de UI.
+
 Resultado esperado:
 - Definição da especificação de UI (spec_ui.md) com a seguinte estrutura:
 
