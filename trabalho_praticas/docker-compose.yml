@@ -1,0 +1,75 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: tarefas_db
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: tarefas_backend
+    env_file: .env
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      BACKEND_PORT: ${BACKEND_PORT}
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - web
+      - data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:${BACKEND_PORT}/api/v1/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    container_name: tarefas_frontend
+    env_file: .env
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      NEXT_PUBLIC_API_URL: http://backend:${BACKEND_PORT}
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - web
+    restart: unless-stopped
+
+networks:
+  web:
+    driver: bridge
+  data:
+    driver: bridge
+    internal: true
+
+volumes:
+  postgres_data:

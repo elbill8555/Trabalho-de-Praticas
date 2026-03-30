@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   Design System: The Fluid Architect
+   Fonte: Stitch — Login / Gestão de Tarefas
+   ───────────────────────────────────────────── */
+
+:root {
+  /* Colors */
+  --color-primary:            #003f87;
+  --color-primary-container:  #0056b3;
+  --color-secondary:          #4c5e84;
+  --color-tertiary:           #722b00;
+  --color-error:              #ba1a1a;
+
+  --color-surface:            #f8f9fa;
+  --color-surface-low:        #f3f4f5;
+  --color-surface-high:       #e7e8e9;
+  --color-surface-lowest:     #ffffff;
+  --color-surface-dim:        #d9dadb;
+
+  --color-on-surface:         #191c1d;
+  --color-on-surface-variant: #424752;
+  --color-on-primary:         #ffffff;
+
+  --color-outline:            #727784;
+  --color-outline-variant:    #c2c6d4;
+
+  /* Fonts */
+  --font-heading: var(--font-manrope), sans-serif;
+  --font-body:    var(--font-inter),   sans-serif;
+
+  /* Shadows */
+  --shadow-ambient: 0px 20px 40px rgba(0, 63, 135, 0.06);
+
+  /* Border radius */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1.5rem;
+  --radius-full: 9999px;
+
+  /* Spacing scale */
+  --spacing-base: 1rem;
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
