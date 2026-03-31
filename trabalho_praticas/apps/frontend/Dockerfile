@@ -18,7 +18,7 @@ FROM node:lts-alpine AS build
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/frontend/node_modules ./apps/frontend/node_modules
+COPY --from=deps /app/apps/frontend/node_module[s] ./apps/frontend/node_modules/
 
 COPY apps/frontend/ ./apps/frontend/
 COPY package*.json ./
@@ -38,8 +38,8 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
 WORKDIR /app
 
 COPY --from=build --chown=nextjs:nodejs /app/apps/frontend/.next/standalone ./
-COPY --from=build --chown=nextjs:nodejs /app/apps/frontend/.next/static ./apps/frontend/.next/static
-COPY --from=build --chown=nextjs:nodejs /app/apps/frontend/public ./apps/frontend/public
+COPY --from=build --chown=nextjs:nodejs /app/apps/frontend/.next/stati[c] ./apps/frontend/.next/static/
+COPY --from=build --chown=nextjs:nodejs /app/apps/frontend/publi[c] ./apps/frontend/public/
 
 USER nextjs
 

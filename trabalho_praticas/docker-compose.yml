@@ -54,7 +54,8 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       PORT: ${PORT}
-      NEXT_PUBLIC_API_URL: http://backend:${BACKEND_PORT}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      API_INTERNAL_URL: http://backend:${BACKEND_PORT}
     ports:
       - "${PORT}:${PORT}"
     depends_on:

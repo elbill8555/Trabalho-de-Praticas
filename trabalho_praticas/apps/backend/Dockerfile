@@ -19,11 +19,12 @@ FROM node:lts-alpine AS build
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/backend/node_modules ./apps/backend/node_modules
+COPY --from=deps /app/apps/backend/node_module[s] ./apps/backend/node_modules/
 
 COPY apps/backend/ ./apps/backend/
 COPY package*.json ./
 
+RUN npx prisma generate --schema=apps/backend/prisma/schema.prisma
 RUN npm run build --workspace=apps/backend
 
 # ─────────────────────────────────────────────
@@ -36,7 +37,7 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nestjs -u 1001
 WORKDIR /app
 
 COPY --from=build --chown=nestjs:nodejs /app/apps/backend/dist ./dist
-COPY --from=deps  --chown=nestjs:nodejs /app/apps/backend/node_modules ./node_modules
+COPY --from=build  --chown=nestjs:nodejs /app/node_modules ./node_modules
 COPY --from=build --chown=nestjs:nodejs /app/apps/backend/package.json ./package.json
 
 USER nestjs
