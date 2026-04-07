@@ -10,6 +10,7 @@
     "dev:frontend": "npm run dev --workspace=apps/frontend",
     "dev:backend": "npm run start:dev --workspace=apps/backend",
     "build": "npm run build --workspaces",
+    "postinstall": "npm run postinstall --workspace=apps/backend",
     "lint": "npm run lint --workspaces --if-present"
   },
   "engines": {
