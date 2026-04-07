@@ -15,14 +15,15 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Enable validation pipe globally
   const { ValidationPipe } = await import('@nestjs/common');
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
-  const port = process.env.BACKEND_PORT || 3001;
-  await app.listen(port);
+  if (process.env.NODE_ENV !== 'production') {
+    const port = process.env.BACKEND_PORT || 3001;
+    await app.listen(port);
+  }
 
-  console.log(`Backend running on http://localhost:${port}/api/v1`);
+  return app.getHttpAdapter().getInstance();
 }
 
-bootstrap();
+export default bootstrap();
