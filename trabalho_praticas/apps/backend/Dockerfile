@@ -38,8 +38,9 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nestjs -u 1001
 WORKDIR /app
 
 COPY --from=build --chown=nestjs:nodejs /app/apps/backend/dist ./dist
-COPY --from=build  --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=build --chown=nestjs:nodejs /app/node_modules ./node_modules
 COPY --from=build --chown=nestjs:nodejs /app/apps/backend/package.json ./package.json
+COPY --from=build --chown=nestjs:nodejs /app/apps/backend/prisma ./prisma
 
 USER nestjs
 
