@@ -32,6 +32,7 @@ RUN npm run build --workspace=apps/backend
 # ─────────────────────────────────────────────
 FROM node:lts-alpine AS runtime
 
+RUN apk add --no-cache openssl
 RUN addgroup -g 1001 -S nodejs && adduser -S nestjs -u 1001
 
 WORKDIR /app

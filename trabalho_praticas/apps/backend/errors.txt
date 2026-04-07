@@ -1,0 +1,4 @@
+src/modules/projects/dto/update-project.dto.ts(1,29): error TS2307: Cannot find module '@nestjs/mapped-types' or its corresponding type declarations.
+src/modules/tasks/dto/update-task.dto.ts(1,29): error TS2307: Cannot find module '@nestjs/mapped-types' or its corresponding type declarations.
+src/modules/tasks/tasks.service.ts(47,22): error TS2339: Property 'dueDate' does not exist on type 'UpdateTaskDto'.
+src/modules/tasks/tasks.service.ts(47,45): error TS2339: Property 'dueDate' does not exist on type 'UpdateTaskDto'.

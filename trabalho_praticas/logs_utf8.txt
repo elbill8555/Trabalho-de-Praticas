@@ -1,0 +1,1789 @@
+﻿[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +64ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +18ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +10ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:15 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+docker : /app/node_modules/
+@prisma/client/runtime/libr
+ary.js:64
+No linha:1 caractere:1
++ docker logs 
+tarefas_backend 2>&1 | 
+Out-File -Encoding utf8 
+logs_utf8. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: (/ap  
+  p/node_modul...e/libra   
+ ry.js:64:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599)
+    at async _r.start (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:112:19
+76)
+    at async 
+Proxy.onModuleInit (/app/di
+st/database/prisma.service.
+js:14:9)
+    at async Promise.all 
+(index 0)
+    at async 
+callModuleInitHook (/app/no
+de_modules/@nestjs/core/hoo
+ks/on-module-init.hook.js:4
+3:5)
+    at async NestApplicatio
+n.callInitHook (/app/node_m
+odules/@nestjs/core/nest-ap
+plication-context.js:234:13
+)
+    at async 
+NestApplication.init (/app/
+node_modules/@nestjs/core/n
+est-application.js:100:9) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +46ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +10ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:17 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +1ms[39m
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599)
+    at async _r.start (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:112:19
+76)
+    at async 
+Proxy.onModuleInit (/app/di
+st/database/prisma.service.
+js:14:9)
+    at async Promise.all 
+(index 0)
+    at async 
+callModuleInitHook (/app/no
+de_modules/@nestjs/core/hoo
+ks/on-module-init.hook.js:4
+3:5)
+    at async NestApplicatio
+n.callInitHook (/app/node_m
+odules/@nestjs/core/nest-ap
+plication-context.js:234:13
+)
+    at async 
+NestApplication.init (/app/
+node_modules/@nestjs/core/n
+est-application.js:100:9) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +30ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +10ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +0ms[39m
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:19 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +30ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +2ms[39m
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +7ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +1ms[39m
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599)
+    at async _r.start (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:112:19
+76)
+    at async 
+Proxy.onModuleInit (/app/di
+st/database/prisma.service.
+js:14:9)
+    at async Promise.all 
+(index 0)
+    at async 
+callModuleInitHook (/app/no
+de_modules/@nestjs/core/hoo
+ks/on-module-init.hook.js:4
+3:5)
+    at async NestApplicatio
+n.callInitHook (/app/node_m
+odules/@nestjs/core/nest-ap
+plication-context.js:234:13
+)
+    at async 
+NestApplication.init (/app/
+node_modules/@nestjs/core/n
+est-application.js:100:9) {
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:21 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +59ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +10ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +5ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:24 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +1ms[39m
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599)
+    at async _r.start (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:112:19
+76)
+    at async 
+Proxy.onModuleInit (/app/di
+st/database/prisma.service.
+js:14:9)
+    at async Promise.all 
+(index 0)
+    at async 
+callModuleInitHook (/app/no
+de_modules/@nestjs/core/hoo
+ks/on-module-init.hook.js:4
+3:5)
+    at async NestApplicatio
+n.callInitHook (/app/node_m
+odules/@nestjs/core/nest-ap
+plication-context.js:234:13
+)
+    at async 
+NestApplication.init (/app/
+node_modules/@nestjs/core/n
+est-application.js:100:9) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +57ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +9ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:27 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +1ms[39m
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +52ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +15ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +7ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:32 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599)
+    at async _r.start (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:112:19
+76)
+    at async 
+Proxy.onModuleInit (/app/di
+st/database/prisma.service.
+js:14:9)
+    at async Promise.all 
+(index 0)
+    at async 
+callModuleInitHook (/app/no
+de_modules/@nestjs/core/hoo
+ks/on-module-init.hook.js:4
+3:5)
+    at async NestApplicatio
+n.callInitHook (/app/node_m
+odules/@nestjs/core/nest-ap
+plication-context.js:234:13
+)
+    at async 
+NestApplication.init (/app/
+node_modules/@nestjs/core/n
+est-application.js:100:9) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +35ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +9ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:40 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +35ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHealthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api/v1/health}:[39m[38;5;3m +7ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/health, GET} route[39m[38;5;3m +7ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/v1/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/api/v1/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/tasks/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/v1/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m04/07/2026, 8:45:55 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/v1/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
+/app/node_modules/@prisma/c
+lient/runtime/library.js:64
+${et(e)}`}var zd=L("prisma:
+client:engines:resolveEngin
+ePath"),Yd=()=>new RegExp("
+runtime[\\\\/]library\\.m?j
+s$");async function 
+za(e,t){let r={binary:proce
+ss.env.PRISMA_QUERY_ENGINE_
+BINARY,library:process.env.
+PRISMA_QUERY_ENGINE_LIBRARY
+}[e]??t.prismaPath;if(r!==v
+oid 0)return r;let{enginePa
+th:n,searchedLocations:i}=a
+wait Zd(e,t);if(zd("engineP
+ath",n),n!==void 0&&e==="bi
+nary"&&li(n),n!==void 
+0)return 
+t.prismaPath=n;let o=await 
+nt(),s=t.generator?.binaryT
+argets??[],a=s.some(d=>d.na
+tive),l=!s.some(d=>d.value=
+==o),u=__filename.match(Yd(
+))===null,c={searchedLocati
+ons:i,generatorBinaryTarget
+s:s,generator:t.generator,r
+untimeBinaryTarget:o,queryE
+ngineName:Ya(e,o),expectedL
+ocation:Er.default.relative
+(process.cwd(),t.dirname),e
+rrorStack:new 
+Error().stack},p;throw a&&l
+?p=Wa(c):l?p=Qa(c):u?p=Ja(c
+):p=Ha(c),new 
+R(p,t.clientVersion)}async 
+function 
+Zd(engineType,config){let 
+binaryTarget=await nt(),sea
+rchedLocations=[],dirname=e
+val("__dirname"),searchLoca
+tions=[config.dirname,Er.de
+fault.resolve(dirname,"..")
+,config.generator?.output?.
+value??dirname,Er.default.r
+esolve(dirname,"../../../.p
+risma/client"),"/tmp/prisma
+-engines",config.cwd];__fil
+ename.includes("resolveEngi
+nePath")&&searchLocations.p
+ush(Yo());for(let e of 
+searchLocations){let t=Ya(e
+ngineType,binaryTarget),r=E
+r.default.join(e,t);if(sear
+chedLocations.push(e),Ka.de
+fault.existsSync(r))return{
+enginePath:r,searchedLocati
+ons}}return{enginePath:void
+ 0,searchedLocations}}funct
+ion Ya(e,t){return e==="lib
+rary"?qr(t,"fs"):`query-eng
+ine-${t}${t==="windows"?".e
+xe":""}`}var 
+Hi=k(bi());function 
+Za(e){return e?e.replace(/"
+.*"/g,'"X"').replace(/[\s:\
+[]([+-]?([0-9]*[.])?[0-9]+)
+/g,t=>`${t[0]}5`):""}functi
+on Xa(e){return e.split(`
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                     ^
+
+PrismaClientInitializationE
+rror: Prisma Client could 
+not locate the Query 
+Engine for runtime 
+"linux-musl-openssl-3.0.x".
+
+This happened because 
+Prisma Client was 
+generated for 
+"linux-musl", but the 
+actual deployment required 
+"linux-musl-openssl-3.0.x".
+Add 
+"linux-musl-openssl-3.0.x" 
+to `binaryTargets` in the 
+"schema.prisma" file and 
+run `prisma generate` 
+after saving it:
+
+generator client {
+  provider      = 
+"prisma-client-js"
+  binaryTargets = 
+["native", 
+"linux-musl-openssl-3.0.x"]
+}
+
+The following locations 
+have been searched:
+  /app/node_modules/.prisma
+/client
+  /app/node_modules/@prisma
+/client
+  /tmp/prisma-engines
+    at za (/app/node_module
+s/@prisma/client/runtime/li
+brary.js:64:805)
+    at async 
+Object.loadLibrary (/app/no
+de_modules/@prisma/client/r
+untime/library.js:111:10084
+)
+    at async _r.loadEngine 
+(/app/node_modules/@prisma/
+client/runtime/library.js:1
+12:448)
+    at async 
+_r.instantiateLibrary (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:111:12
+599)
+    at async _r.start (/app
+/node_modules/@prisma/clien
+t/runtime/library.js:112:19
+76)
+    at async 
+Proxy.onModuleInit (/app/di
+st/database/prisma.service.
+js:14:9)
+    at async Promise.all 
+(index 0)
+    at async 
+callModuleInitHook (/app/no
+de_modules/@nestjs/core/hoo
+ks/on-module-init.hook.js:4
+3:5)
+    at async NestApplicatio
+n.callInitHook (/app/node_m
+odules/@nestjs/core/nest-ap
+plication-context.js:234:13
+)
+    at async 
+NestApplication.init (/app/
+node_modules/@nestjs/core/n
+est-application.js:100:9) {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+
+Node.js v24.14.1
