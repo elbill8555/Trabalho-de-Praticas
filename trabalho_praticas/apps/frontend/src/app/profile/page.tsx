@@ -23,7 +23,7 @@ export default function ProfilePage() {
     e.preventDefault();
     setNameMsg(''); setSavingName(true);
     try {
-      const updated = await apiFetch<AuthUser>('/users/me', {
+      const updated = await apiFetch<AuthUser>('/api/v1/users/me', {
         method: 'PATCH',
         body: JSON.stringify({ name: name.trim() }),
       });
@@ -45,7 +45,7 @@ export default function ProfilePage() {
     if (newPwd !== confirmPwd) { setPwdError('As senhas não coincidem.'); return; }
     setSavingPwd(true);
     try {
-      await apiFetch('/auth/password', {
+      await apiFetch('/api/v1/auth/password', {
         method: 'PATCH',
         body: JSON.stringify({ oldPassword: oldPwd, newPassword: newPwd }),
       });
