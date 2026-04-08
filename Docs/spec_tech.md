@@ -79,7 +79,7 @@ Orquestração com Kubernetes (futuro) ou serverless (MVP)
 - **Runtime**: Node.js
 - **Framework**: NestJS
 - **Persistência**: PostgreSQL
-- **ORM**: Prisma
+- **ORM**: Prisma 
 
 
 ### Stack de Desenvolvimento
