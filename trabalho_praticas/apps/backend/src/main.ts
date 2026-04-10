@@ -53,6 +53,14 @@ async function bootstrap() {
 }
 
 export default async (req, res) => {
-  const instance = await bootstrap();
-  return instance(req, res);
+  console.log('[FUNC HANDLER] request received', req.method, req.url);
+  try {
+    const instance = await bootstrap();
+    console.log('[FUNC HANDLER] instance ready, forwarding request');
+    return instance(req, res);
+  } catch (error) {
+    console.error('[FUNC CRASH] error in handler:', error);
+    res.statusCode = 500;
+    res.end('Internal Server Error');
+  }
 };
