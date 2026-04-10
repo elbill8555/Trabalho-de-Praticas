@@ -11,15 +11,15 @@ export class ClerkStrategy extends PassportStrategy(Strategy, 'clerk') {
   constructor(private readonly prisma: PrismaService) {
     const secretKey = process.env.CLERK_SECRET_KEY;
     if (!secretKey) {
-      console.error('CLERK_SECRET_KEY is missing in environment variables!');
+      throw new Error('CLERK_SECRET_KEY is required to initialize Clerk auth strategy');
     }
-    
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: secretKey || 'dummy-secret',
+      secretOrKey: secretKey,
     });
-    
+
     this.clerkClient = createClerkClient({ secretKey });
   }
 
