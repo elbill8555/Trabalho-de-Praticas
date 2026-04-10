@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
+console.log('[FUNC LOAD] Backend function module loaded. NODE_ENV=', process.env.NODE_ENV);
+
 let app;
 
 process.on('uncaughtException', (error) => {
