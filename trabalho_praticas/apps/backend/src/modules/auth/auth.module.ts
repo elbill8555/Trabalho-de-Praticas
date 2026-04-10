@@ -11,6 +11,14 @@ import { PrismaService } from '../../database/prisma.service';
   imports: [
     PassportModule,
     ConfigModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get('JWT_SECRET') || 'default-secret',
+        signOptions: { expiresIn: '1d' },
+      }),
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService, ClerkStrategy, PrismaService],
