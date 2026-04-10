@@ -6,6 +6,11 @@ export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
+  constructor() {
+    super();
+    console.log('[PRISMA] PrismaService instanciado. DATABASE_URL presente:', !!process.env.DATABASE_URL);
+  }
+
   async onModuleInit() {
     try {
       console.log('Tentando conectar ao banco de dados...');

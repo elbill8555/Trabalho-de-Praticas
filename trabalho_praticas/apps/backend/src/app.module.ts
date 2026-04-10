@@ -10,7 +10,10 @@ import { UsersModule } from './modules/users/users.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '../../.env',
+      // No Vercel, usamos as variáveis injetadas no painel, 
+      // o arquivo físico é apenas para desenvolvimento local.
+      envFilePath: process.env.NODE_ENV === 'production' ? undefined : '../../.env',
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
     HealthModule,
     AuthModule,
