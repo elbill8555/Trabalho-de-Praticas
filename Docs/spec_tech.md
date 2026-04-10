@@ -206,7 +206,7 @@ Segurança:
 Validação obrigatória de ownership em todas queries
 
 ---
-
+ 
 ## Diretrizes para Desenvolvimento Assistido por IA
 
 A IA deve seguir padrões definidos neste documento
