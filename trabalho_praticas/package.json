@@ -6,6 +6,10 @@
     "apps/frontend",
     "apps/backend"
   ],
+  "dependencies": {
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
   "scripts": {
     "dev:frontend": "npm run dev --workspace=apps/frontend",
     "dev:backend": "npm run start:dev --workspace=apps/backend",
