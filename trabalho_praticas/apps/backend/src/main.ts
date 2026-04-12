@@ -53,25 +53,20 @@ async function bootstrap() {
 }
 
 export default async (req, res) => {
-  const method = req.method ? req.method.toUpperCase().trim() : 'UNKNOWN';
+  const method = (req.method || 'GET').toUpperCase().trim();
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
   
-  // Set CORS headers for ALL requests
-  try {
-    res.setHeader('Access-Control-Allow-Origin', frontendUrl);
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    res.setHeader('Access-Control-Max-Age', '86400');
-  } catch (headerError) {
-    console.error('[CORS HEADER ERROR]', headerError);
-  }
-
-  console.log('[FUNC HANDLER] request received', `method="${method}"`, `url="${req.url}"`, `origin="${frontendUrl}"`);
+  console.log('[FUNC HANDLER] method=', method, 'url=', req.url, 'FRONTEND_URL=', frontendUrl);
   
-  // Handle OPTIONS preflight
+  // Handle OPTIONS preflight with proper CORS headers
   if (method === 'OPTIONS') {
-    console.log('[OPTIONS HANDLER] responding to CORS preflight');
-    res.statusCode = 204;
+    console.log('[OPTIONS HANDLER] responding to CORS preflight with 204');
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': frontendUrl,
+      'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+      'Access-Control-Max-Age': '86400',
+    });
     res.end();
     return;
   }
@@ -81,8 +76,8 @@ export default async (req, res) => {
     console.log('[FUNC HANDLER] instance ready, forwarding request');
     return instance(req, res);
   } catch (error) {
-    console.error('[FUNC CRASH] error in handler:', error);
-    res.statusCode = 500;
-    res.json?.({ error: 'Internal Server Error' }) || res.end('Internal Server Error');
+    console.error('[FUNC CRASH]', error);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Internal Server Error' }));
   }
 };
