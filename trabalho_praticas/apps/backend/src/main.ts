@@ -55,6 +55,16 @@ async function bootstrap() {
 export default async (req, res) => {
   console.log('[FUNC HANDLER] request received', req.method, req.url);
   try {
+    if (req.method === 'OPTIONS') {
+      console.log('[OPTIONS HANDLER] processing CORS preflight');
+      res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL || 'http://localhost:3000');
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+      res.statusCode = 204;
+      res.end();
+      return;
+    }
+
     const instance = await bootstrap();
     console.log('[FUNC HANDLER] instance ready, forwarding request');
     return instance(req, res);
