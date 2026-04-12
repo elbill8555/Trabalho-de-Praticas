@@ -53,31 +53,35 @@ async function bootstrap() {
 }
 
 export default async (req, res) => {
-  const method = (req.method || 'GET').toUpperCase().trim();
+  const method = (req.method || 'GET').toUpperCase();
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
   
-  console.log('[FUNC HANDLER] method=', method, 'url=', req.url, 'FRONTEND_URL=', frontendUrl);
-  
-  // Handle OPTIONS preflight with proper CORS headers
+  console.log('[FUNC HANDLER] OPTIONS check:', { method, url: req.url, frontend: frontendUrl });
+
+  // Handle OPTIONS preflight
   if (method === 'OPTIONS') {
-    console.log('[OPTIONS HANDLER] responding to CORS preflight with 204');
-    res.writeHead(204, {
-      'Access-Control-Allow-Origin': frontendUrl,
-      'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-      'Access-Control-Max-Age': '86400',
-    });
-    res.end();
-    return;
+    console.log('[OPTIONS HANDLER] processing preflight');
+    try {
+      res.setHeader('Access-Control-Allow-Origin', frontendUrl);
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+      res.setHeader('Access-Control-Credentials', 'true');
+      res.statusCode = 204;
+      return res.end();
+    } catch (err) {
+      console.error('[OPTIONS ERROR]', err);
+      res.statusCode = 204;
+      return res.end();
+    }
   }
 
   try {
     const instance = await bootstrap();
-    console.log('[FUNC HANDLER] instance ready, forwarding request');
+    console.log('[FUNC HANDLER] forwarding to NestJS');
     return instance(req, res);
   } catch (error) {
-    console.error('[FUNC CRASH]', error);
-    res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+    console.error('[BOOTSTRAP ERROR]', error);
+    res.statusCode = 500;
+    return res.end('Error');
   }
 };
