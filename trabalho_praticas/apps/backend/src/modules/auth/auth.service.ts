@@ -19,15 +19,22 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
+    console.log('[REGISTER SERVICE] checking if email exists:', dto.email);
     const existing = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
-    if (existing) throw new ConflictException('Email already in use');
+    if (existing) {
+      console.log('[REGISTER SERVICE] email already in use:', dto.email);
+      throw new ConflictException('Email already in use');
+    }
 
+    console.log('[REGISTER SERVICE] hashing password...');
     const passwordHash = await bcrypt.hash(dto.password, 10);
+    console.log('[REGISTER SERVICE] creating user...');
     const user = await this.prisma.user.create({
       data: { name: dto.name, email: dto.email, passwordHash },
     });
+    console.log('[REGISTER SERVICE] user created:', user.id);
 
     const token = this.jwtService.sign({ sub: user.id, email: user.email });
     return {
