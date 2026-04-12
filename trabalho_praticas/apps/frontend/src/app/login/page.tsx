@@ -15,16 +15,20 @@ export default function LoginPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
+    console.log('[LOGIN] form submitted with email:', email);
     setLoading(true);
     try {
+      console.log('[LOGIN] calling apiFetch');
       const data = await apiFetch<{ token: string; user: AuthUser }>(
         '/api/v1/auth/login',
         { method: 'POST', body: JSON.stringify({ email, password }) },
       );
+      console.log('[LOGIN] success, received token and user:', data.user);
       setToken(data.token);
       setUser(data.user);
       router.push('/dashboard');
     } catch (err: any) {
+      console.error('[LOGIN] error:', err);
       setError(err.message ?? 'Falha no login. Verifique suas credenciais.');
     } finally {
       setLoading(false);

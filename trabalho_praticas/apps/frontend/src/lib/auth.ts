@@ -40,26 +40,44 @@ export function setUser(user: AuthUser) {
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 
+console.log('[AUTH] BASE_URL configured as:', BASE_URL);
+
 export async function apiFetch<T = unknown>(
   path: string,
   opts: RequestInit = {},
 ): Promise<T> {
   const token = getToken();
-  const res = await fetch(`${BASE_URL}${path}`, {
-    ...opts,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(opts.headers ?? {}),
-    },
+  const fullUrl = `${BASE_URL}${path}`;
+  console.log('[APIFETCH] requesting:', {
+    method: opts.method || 'GET',
+    url: fullUrl,
+    hasToken: !!token,
   });
 
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error((body as any).message ?? `HTTP ${res.status}`);
-  }
+  try {
+    const res = await fetch(fullUrl, {
+      ...opts,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(opts.headers ?? {}),
+      },
+    });
 
-  // 204 No Content
-  if (res.status === 204) return undefined as T;
-  return res.json() as Promise<T>;
+    console.log('[APIFETCH] response status:', res.status);
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      const errorMsg = (body as any).message ?? `HTTP ${res.status}`;
+      console.error('[APIFETCH] error response:', errorMsg);
+      throw new Error(errorMsg);
+    }
+
+    // 204 No Content
+    if (res.status === 204) return undefined as T;
+    return res.json() as Promise<T>;
+  } catch (error) {
+    console.error('[APIFETCH] fetch error:', error);
+    throw error;
+  }
 }

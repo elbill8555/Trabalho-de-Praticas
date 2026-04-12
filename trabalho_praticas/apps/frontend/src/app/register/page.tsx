@@ -17,19 +17,31 @@ export default function RegisterPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
-    if (password !== confirm) { setError('As senhas não coincidem.'); return; }
-    if (password.length < 8)  { setError('A senha deve ter ao menos 8 caracteres.'); return; }
+    console.log('[REGISTER] form submitted with:', { name, email });
+    if (password !== confirm) { 
+      setError('As senhas não coincidem.'); 
+      console.log('[REGISTER] passwords do not match');
+      return; 
+    }
+    if (password.length < 8)  { 
+      setError('A senha deve ter ao menos 8 caracteres.'); 
+      console.log('[REGISTER] password too short');
+      return; 
+    }
 
     setLoading(true);
     try {
+      console.log('[REGISTER] calling apiFetch for registration');
       const data = await apiFetch<{ token: string; user: AuthUser }>(
         '/api/v1/auth/register',
         { method: 'POST', body: JSON.stringify({ name, email, password }) },
       );
+      console.log('[REGISTER] success, received token and user:', data.user);
       setToken(data.token);
       setUser(data.user);
       router.push('/dashboard');
     } catch (err: any) {
+      console.error('[REGISTER] error:', err);
       setError(err.message ?? 'Erro ao criar conta.');
     } finally {
       setLoading(false);
