@@ -53,15 +53,20 @@ async function bootstrap() {
 }
 
 export default async (req, res) => {
-  console.log('[FUNC HANDLER] request received', req.method, req.url);
+  const method = req.method ? req.method.toUpperCase().trim() : 'UNKNOWN';
+  console.log('[FUNC HANDLER] request received', `method="${method}"`, `url="${req.url}"`);
   try {
-    if (req.method === 'OPTIONS') {
+    console.log('[HANDLER CHECK] Checking if method is OPTIONS...', method === 'OPTIONS');
+    if (method === 'OPTIONS') {
       console.log('[OPTIONS HANDLER] processing CORS preflight');
-      res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL || 'http://localhost:3000');
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+      console.log('[OPTIONS HANDLER] setting CORS origin to:', frontendUrl);
+      res.setHeader('Access-Control-Allow-Origin', frontendUrl);
       res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
       res.statusCode = 204;
       res.end();
+      console.log('[OPTIONS HANDLER] preflight response sent');
       return;
     }
 
