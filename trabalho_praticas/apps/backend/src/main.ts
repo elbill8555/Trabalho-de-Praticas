@@ -54,28 +54,35 @@ async function bootstrap() {
 
 export default async (req, res) => {
   const method = req.method ? req.method.toUpperCase().trim() : 'UNKNOWN';
-  console.log('[FUNC HANDLER] request received', `method="${method}"`, `url="${req.url}"`);
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  
+  // Set CORS headers for ALL requests
   try {
-    console.log('[HANDLER CHECK] Checking if method is OPTIONS...', method === 'OPTIONS');
-    if (method === 'OPTIONS') {
-      console.log('[OPTIONS HANDLER] processing CORS preflight');
-      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-      console.log('[OPTIONS HANDLER] setting CORS origin to:', frontendUrl);
-      res.setHeader('Access-Control-Allow-Origin', frontendUrl);
-      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-      res.statusCode = 204;
-      res.end();
-      console.log('[OPTIONS HANDLER] preflight response sent');
-      return;
-    }
+    res.setHeader('Access-Control-Allow-Origin', frontendUrl);
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.setHeader('Access-Control-Max-Age', '86400');
+  } catch (headerError) {
+    console.error('[CORS HEADER ERROR]', headerError);
+  }
 
+  console.log('[FUNC HANDLER] request received', `method="${method}"`, `url="${req.url}"`, `origin="${frontendUrl}"`);
+  
+  // Handle OPTIONS preflight
+  if (method === 'OPTIONS') {
+    console.log('[OPTIONS HANDLER] responding to CORS preflight');
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
+  try {
     const instance = await bootstrap();
     console.log('[FUNC HANDLER] instance ready, forwarding request');
     return instance(req, res);
   } catch (error) {
     console.error('[FUNC CRASH] error in handler:', error);
     res.statusCode = 500;
-    res.end('Internal Server Error');
+    res.json?.({ error: 'Internal Server Error' }) || res.end('Internal Server Error');
   }
 };
