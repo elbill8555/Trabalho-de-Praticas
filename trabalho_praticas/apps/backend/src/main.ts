@@ -54,13 +54,13 @@ async function bootstrap() {
 
 export default async (req, res) => {
   const method = (req.method || 'GET').toUpperCase();
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:3000').trim();
   
   console.log('[FUNC HANDLER] OPTIONS check:', { method, url: req.url, frontend: frontendUrl });
 
   // Handle OPTIONS preflight
   if (method === 'OPTIONS') {
-    console.log('[OPTIONS HANDLER] processing preflight');
+    console.log('[OPTIONS HANDLER] processing preflight, frontend=', frontendUrl);
     try {
       res.setHeader('Access-Control-Allow-Origin', frontendUrl);
       res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
