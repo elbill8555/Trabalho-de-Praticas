@@ -22,12 +22,20 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
-  findAll(
+  async findAll(
     @Request() req,
     @Query('status') status?: TaskStatus,
     @Query('priority') priority?: Priority,
   ) {
-    return this.tasksService.findAll(req.user.id, { status, priority });
+    try {
+      console.log('[TASKS CONTROLLER] findAll called. User ID:', req.user?.id);
+      const result = await this.tasksService.findAll(req.user.id, { status, priority });
+      console.log('[TASKS CONTROLLER] findAll success. Tasks count:', result?.length || 0);
+      return result;
+    } catch (error) {
+      console.error('[TASKS CONTROLLER] findAll error:', error);
+      throw error;
+    }
   }
 
   @Post()

@@ -80,10 +80,27 @@ export default async (req, res) => {
   try {
     const instance = await bootstrap();
     console.log('[FUNC HANDLER] forwarding to NestJS');
+    
+    // Wrap response to catch any errors during processing
+    const originalJson = res.json;
+    res.json = function(data) {
+      console.log('[RESPONSE] sending JSON:', data);
+      return originalJson.call(this, data);
+    };
+    
     return instance(req, res);
   } catch (error) {
     console.error('[BOOTSTRAP ERROR]', error);
-    res.statusCode = 500;
-    return res.end(JSON.stringify({ error: 'Internal Server Error' }));
+    console.error('[BOOTSTRAP ERROR STACK]', (error as any)?.stack);
+    
+    // Only try to set status if headers haven't been sent
+    if (!res.headersSent) {
+      res.statusCode = 500;
+    }
+    return res.end(JSON.stringify({ 
+      error: 'Internal Server Error',
+      message: (error as any)?.message || String(error),
+      timestamp: new Date().toISOString(),
+    }));
   }
 };

@@ -20,8 +20,16 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Get()
-  findAll(@Request() req) {
-    return this.projectsService.findAll(req.user.id);
+  async findAll(@Request() req) {
+    try {
+      console.log('[PROJECTS CONTROLLER] findAll called. User ID:', req.user?.id);
+      const result = await this.projectsService.findAll(req.user.id);
+      console.log('[PROJECTS CONTROLLER] findAll success. Projects count:', result?.length || 0);
+      return result;
+    } catch (error) {
+      console.error('[PROJECTS CONTROLLER] findAll error:', error);
+      throw error;
+    }
   }
 
   @Get(':id')
