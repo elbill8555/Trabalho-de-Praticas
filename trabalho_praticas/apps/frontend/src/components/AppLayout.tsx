@@ -6,16 +6,15 @@ import Link from 'next/link';
 import { getToken, getUser, clearAuth } from '@/lib/auth';
 
 const NAV = [
-  { href: '/dashboard', label: 'Dashboard',  icon: '◈' },
-  { href: '/tasks',     label: 'Tarefas',     icon: '✓' },
-  { href: '/projects',  label: 'Projetos',    icon: '◉' },
-  { href: '/profile',   label: 'Perfil',      icon: '◎' },
+  { href: '/dashboard', label: 'Minhas Tarefas', icon: 'task_alt' },
+  { href: '/tasks', label: 'Inbox', icon: 'inbox' },
+  { href: '/projects', label: 'Projetos', icon: 'work' },
 ];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
-  const router   = useRouter();
+  const router = useRouter();
   const pathname = usePathname();
-  const user     = getUser();
+  const user = getUser();
 
   useEffect(() => {
     if (!getToken()) router.replace('/login');
@@ -29,61 +28,86 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   if (!getToken()) return null;
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div className="flex h-screen bg-surface">
       {/* Sidebar */}
-      <aside style={{
-        width: 'var(--sidebar-w)', flexShrink: 0,
-        background: 'var(--color-surface)',
-        borderRight: '1px solid var(--color-border)',
-        boxShadow: 'var(--shadow-sidebar)',
-        display: 'flex', flexDirection: 'column',
-        position: 'sticky', top: 0, height: '100vh', overflowY: 'auto',
-      }}>
-        {/* Brand */}
-        <div style={{ padding: '1.5rem 1.25rem 1rem', borderBottom: '1px solid var(--color-border)' }}>
-          <span style={{
-            fontFamily: 'var(--font-heading)', fontSize: '1.25rem',
-            fontWeight: 800, color: 'var(--color-primary)',
-          }}>Tarefas</span>
+      <aside className="w-64 flex-shrink-0 fixed left-0 top-0 h-screen bg-surface-container-lowest border-r border-outline-variant/10 flex flex-col overflow-y-auto z-40 shadow-sm">
+        {/* Workspace Header */}
+        <div className="p-6 border-b border-outline-variant/10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+              <span className="material-symbols-outlined text-white text-xl">architecture</span>
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-on-surface">The Fluid Architect</h2>
+              <p className="text-xs text-on-surface-variant">{user?.email ?? ''}</p>
+            </div>
+          </div>
         </div>
 
-        {/* Nav */}
-        <nav style={{ flex: 1, padding: '1rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-6 space-y-1">
           {NAV.map(({ href, label, icon }) => {
-            const active = pathname === href || pathname.startsWith(href + '/');
+            const active =
+              pathname === href || pathname.startsWith(href + '/');
             return (
-              <Link key={href} href={href} style={{
-                display: 'flex', alignItems: 'center', gap: '0.75rem',
-                padding: '0.625rem 0.875rem', borderRadius: 'var(--radius-md)',
-                fontSize: '0.9rem', fontWeight: active ? 600 : 400,
-                color: active ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-                background: active ? 'var(--color-primary-container)' : 'transparent',
-                transition: 'all 0.15s',
-              }}>
-                <span style={{ fontSize: '1rem', opacity: 0.8 }}>{icon}</span>
-                {label}
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-3 px-4 py-3 rounded-full transition-all text-sm font-medium ${
+                  active
+                    ? 'bg-primary-container text-primary'
+                    : 'text-on-surface-variant hover:bg-surface-container-high'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[20px]">
+                  {icon}
+                </span>
+                <span>{label}</span>
               </Link>
             );
           })}
+
+          {/* Starred Section */}
+          <div className="mt-8 pt-6 border-t border-outline-variant/10">
+            <p className="px-4 text-xs font-bold text-on-surface-variant mb-3">
+              ESSENCIAL
+            </p>
+            <Link
+              href="#"
+              className="flex items-center gap-3 px-4 py-3 rounded-full transition-all text-sm font-medium text-on-surface-variant hover:bg-surface-container-high"
+            >
+              <span className="material-symbols-outlined text-[20px]">
+                star
+              </span>
+              <span>Favoritos</span>
+            </Link>
+          </div>
         </nav>
 
-        {/* User */}
-        <div style={{ padding: '1rem', borderTop: '1px solid var(--color-border)' }}>
-          <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.25rem' }}>
-            {user?.name ?? ''}
+        {/* User Profile and Logout */}
+        <div className="border-t border-outline-variant/10 p-4 space-y-3">
+          <div className="px-3">
+            <p className="text-xs font-bold text-on-surface mb-1">
+              {user?.name ?? 'User'}
+            </p>
+            <p className="text-xs text-on-surface-variant">
+              {user?.email ?? ''}
+            </p>
           </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
-            {user?.email ?? ''}
-          </div>
-          <button className="btn-ghost" onClick={handleLogout}
-            style={{ width: '100%', justifyContent: 'flex-start', fontSize: '0.8125rem', color: 'var(--color-error)' }}>
-            ↩ Sair
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-2 rounded-full text-error hover:bg-error/10 transition-all text-sm font-medium"
+          >
+            <span className="material-symbols-outlined text-[18px]">
+              logout
+            </span>
+            Sair
           </button>
         </div>
       </aside>
 
-      {/* Main */}
-      <main style={{ flex: 1, overflow: 'auto', background: 'var(--color-bg)' }}>
+      {/* Main Content */}
+      <main className="ml-64 flex-1 overflow-auto">
         {children}
       </main>
     </div>

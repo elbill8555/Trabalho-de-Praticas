@@ -10,30 +10,24 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
-    console.log('[LOGIN] form submitted with email:', email);
     setLoading(true);
+
     try {
-      console.log('[LOGIN] calling apiFetch');
       const data = await apiFetch<{ token: string; user: AuthUser }>(
         '/api/v1/auth/login',
         { method: 'POST', body: JSON.stringify({ email, password }) },
       );
-      console.log('[LOGIN] success, received token and user:', data.user);
       setToken(data.token);
       setUser(data.user);
-      if (rememberMe) {
-        localStorage.setItem('rememberMe', email);
-      }
       router.push('/dashboard');
     } catch (err: any) {
-      console.error('[LOGIN] error:', err);
       setError(err.message ?? 'Falha no login. Verifique suas credenciais.');
     } finally {
       setLoading(false);
@@ -41,14 +35,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Background Decorative Elements */}
+    <div className="bg-surface text-on-surface min-h-screen flex items-center justify-center p-6">
+      {/* Background Decorative Element */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]"></div>
         <div className="absolute bottom-[5%] right-[5%] w-[30%] h-[30%] rounded-full bg-secondary-container/10 blur-[100px]"></div>
       </div>
 
-      {/* Main Login Card */}
       <main className="w-full max-w-[440px]">
         {/* Branding Header */}
         <div className="mb-12 text-center">
@@ -56,14 +49,14 @@ export default function LoginPage() {
             <span className="material-symbols-outlined text-white text-2xl">architecture</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface mb-2">The Fluid Architect</h1>
-          <p className="text-on-surface-variant font-medium tracking-tight">Your digital sanctuary for productivity.</p>
+          <p className="text-on-surface-variant font-medium tracking-tight">O seu santuário digital de produtividade.</p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-surface-container-lowest rounded-[2rem] p-10 shadow-lg shadow-primary/10 border border-outline-variant/20">
+        <div className="bg-surface-container-lowest rounded-[2rem] p-10 shadow-[0px_20px_40px_rgba(0,63,135,0.06)] border border-outline-variant/10">
           {error && (
-            <div className="mb-6 p-4 bg-error-container rounded-lg border border-error/30">
-              <p className="text-error text-sm font-medium">{error}</p>
+            <div className="mb-6 p-3 bg-error-container rounded-lg text-error text-sm font-medium">
+              {error}
             </div>
           )}
 
@@ -81,10 +74,9 @@ export default function LoginPage() {
                   id="email"
                   className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
                   name="email"
-                  placeholder="name@example.com"
+                  placeholder="nome@exemplo.com"
                   type="email"
                   required
-                  autoFocus
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -95,10 +87,10 @@ export default function LoginPage() {
             <div className="space-y-2">
               <div className="flex justify-between items-center px-1">
                 <label className="block text-sm font-semibold text-on-surface-variant" htmlFor="password">
-                  Password
+                  Senha
                 </label>
                 <a className="text-xs font-bold text-primary hover:text-primary-container transition-colors" href="#">
-                  Forgot password?
+                  Esqueci minha senha
                 </a>
               </div>
               <div className="relative group">
@@ -119,8 +111,11 @@ export default function LoginPage() {
                   className="absolute inset-y-0 right-4 flex items-center text-outline hover:text-on-surface-variant transition-colors"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
                 >
-                  <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                  <span className="material-symbols-outlined text-[20px]">
+                    {showPassword ? 'visibility_off' : 'visibility'}
+                  </span>
                 </button>
               </div>
             </div>
@@ -135,17 +130,17 @@ export default function LoginPage() {
                 onChange={(e) => setRememberMe(e.target.checked)}
               />
               <label className="text-sm font-medium text-on-surface-variant cursor-pointer" htmlFor="remember">
-                Keep me signed in
+                Manter conectado
               </label>
             </div>
 
             {/* Primary Action */}
             <button
-              className="w-full bg-gradient-to-br from-primary to-primary-container text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-br from-primary to-primary-container text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg shadow-primary/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-70"
               type="submit"
               disabled={loading}
             >
-              <span>{loading ? 'Signing in...' : 'Sign in'}</span>
+              <span>{loading ? 'Entrando...' : 'Entrar'}</span>
               {!loading && (
                 <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">
                   arrow_forward
@@ -159,18 +154,57 @@ export default function LoginPage() {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-outline-variant/20"></div>
             </div>
-            <div className="relative flex justify-center text-xs uppercase tracking-widest font-bold text-outline-variant/60">
-              <span className="bg-surface-container-lowest px-2">Or</span>
+            <div className="relative flex justify-center text-xs uppercase tracking-widest font-bold">
+              <span className="bg-surface-container-lowest px-4 text-outline">Ou continue com</span>
             </div>
           </div>
 
-          {/* Sign Up Link */}
-          <div className="text-center text-sm text-on-surface-variant">
-            Don't have an account?{' '}
-            <Link href="/register" className="text-primary font-bold hover:text-primary-container transition-colors">
-              Create one
-            </Link>
+          {/* Social Login */}
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-outline-variant/30 hover:bg-surface-container-low transition-colors font-semibold text-on-surface-variant text-sm"
+              type="button"
+            >
+              <img
+                alt="Google Logo"
+                className="w-5 h-5"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCojqE86zty8fyQWHrdNDI6TTZkC6DyYPrvDIOG-EHrLbbr2uouADkWiTiJBMpB0R91uoI8jl6EHENTQSdTB7Xva98G0jBtI9hhpl8Q8n9FUZxPZ3hez3ULOqpQ9cLnxTlwtxpnPyDBq-1J84XLHR7kOZjTQD8S0Db7g0zoRkoY_t864S_SwmxNAO9XKHmPbVS_RVRrtorrudkTmFvTxS2y2W4FgfhS_npXv4fqwRVc7tTXg71Ya6oeATX4OfQN1UbHEwaspLs63TeU"
+              />
+              Google
+            </button>
+            <button
+              className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-outline-variant/30 hover:bg-surface-container-low transition-colors font-semibold text-on-surface-variant text-sm"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-xl text-[#191c1d]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                ios
+              </span>
+              Apple
+            </button>
           </div>
+        </div>
+
+        {/* Footer Action */}
+        <p className="text-center mt-10 text-on-surface-variant font-medium">
+          Ainda não tem uma conta?{' '}
+          <Link className="text-primary font-bold hover:underline decoration-2 underline-offset-4 ml-1" href="/register">
+            Criar conta
+          </Link>
+        </p>
+
+        {/* Terms */}
+        <div className="mt-16 text-center">
+          <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-outline opacity-60 px-8 leading-relaxed">
+            Ao continuar, você concorda com nossos <br />
+            <a className="hover:text-on-surface transition-colors" href="#">
+              Termos de Serviço
+            </a>{' '}
+            e{' '}
+            <a className="hover:text-on-surface transition-colors" href="#">
+              Política de Privacidade
+            </a>
+            .
+          </p>
         </div>
       </main>
     </div>
