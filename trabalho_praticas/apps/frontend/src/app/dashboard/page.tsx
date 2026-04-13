@@ -3,162 +3,261 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import AppLayout from '@/components/AppLayout';
-import { apiFetch, getUser } from '@/lib/auth';
+import Layout from '@/components/Layout';
+import { apiFetch, getUser, getToken } from '@/lib/auth';
 
 interface Task {
-  id: string; title: string; status: string;
-  priority: string; dueDate?: string;
+  id: string;
+  title: string;
+  description?: string;
+  status: string;
+  priority?: string;
+  dueDate?: string;
+  projectId?: string;
   project?: { id: string; name: string; color: string } | null;
 }
+
 interface Project {
-  id: string; name: string; color: string; description?: string;
+  id: string;
+  name: string;
+  color: string;
+  description?: string;
   _count?: { tasks: number };
   tasks?: { id: string; status: string }[];
 }
 
-const STATUS_LABEL: Record<string, string> = {
-  PENDING: 'Pendente', IN_PROGRESS: 'Em andamento', DONE: 'Concluída',
-};
-const PRIORITY_LABEL: Record<string, string> = {
-  LOW: 'Baixa', MEDIUM: 'Média', HIGH: 'Alta', URGENT: 'Urgente',
-};
-
 export default function DashboardPage() {
-  const router  = useRouter();
-  const user    = getUser();
-  const [tasks, setTasks]       = useState<Task[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading]   = useState(true);
+  const router = useRouter();
+  const user = getUser();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    Promise.all([
-      apiFetch<Task[]>('/api/v1/tasks'),
-      apiFetch<Project[]>('/api/v1/projects'),
-    ]).then(([t, p]) => { setTasks(t); setProjects(p); })
-      .catch(() => router.push('/login'))
-      .finally(() => setLoading(false));
+    const token = getToken();
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+    loadTasks();
   }, [router]);
 
-  const pending   = tasks.filter(t => t.status === 'PENDING').length;
-  const inProg    = tasks.filter(t => t.status === 'IN_PROGRESS').length;
-  const done      = tasks.filter(t => t.status === 'DONE').length;
-  const total     = tasks.length;
-  const pct       = total ? Math.round((done / total) * 100) : 0;
+  async function loadTasks() {
+    try {
+      setLoading(true);
+      const data = await apiFetch<Task[]>('/api/v1/tasks');
+      setTasks(data || []);
+      setError('');
+    } catch (err: any) {
+      console.error('[DASHBOARD] Failed to load tasks:', err);
+      setError(err.message || 'Failed to load tasks');
+    } finally {
+      setLoading(false);
+    }
+  }
 
-  const upcoming  = tasks
-    .filter(t => t.dueDate && t.status !== 'DONE')
-    .sort((a, b) => new Date(a.dueDate!).getTime() - new Date(b.dueDate!).getTime())
-    .slice(0, 5);
+  async function handleAddTask() {
+    if (!newTaskTitle.trim()) return;
+    try {
+      const newTask = await apiFetch<Task>('/api/v1/tasks', {
+        method: 'POST',
+        body: JSON.stringify({ title: newTaskTitle, status: 'PENDING', priority: 'MEDIUM' }),
+      });
+      setTasks([newTask, ...tasks]);
+      setNewTaskTitle('');
+    } catch (err: any) {
+      setError(err.message || 'Failed to create task');
+    }
+  }
+
+  async function toggleTask(taskId: string, currentStatus: string) {
+    try {
+      const newStatus = currentStatus === 'PENDING' ? 'DONE' : 'PENDING';
+      const updated = await apiFetch<Task>(`/api/v1/tasks/${taskId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: newStatus }),
+      });
+      setTasks(tasks.map((t) => (t.id === taskId ? updated : t)));
+    } catch (err: any) {
+      setError(err.message || 'Failed to update task');
+    }
+  }
+
+  const completedCount = tasks.filter((t) => t.status === 'DONE').length;
+  const pendingCount = tasks.filter((t) => t.status !== 'DONE').length;
+  const highPriorityCount = tasks.filter((t) => t.priority === 'HIGH').length;
 
   return (
-    <AppLayout>
-      <div style={{ padding: '2rem', maxWidth: 960, margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-text)' }}>
-            Olá, {user?.name?.split(' ')[0]} 👋
-          </h1>
-          <p style={{ color: 'var(--color-text-muted)', marginTop: '0.25rem', fontSize: '0.9rem' }}>
-            Aqui está o resumo da sua semana.
-          </p>
-        </div>
+    <Layout>
+      <header className="mb-12">
+        <h1 className="text-5xl font-extrabold tracking-tight text-on-surface mb-2">My Tasks</h1>
+        <p className="text-on-surface-variant font-medium">
+          {pendingCount} {pendingCount === 1 ? 'task' : 'tasks'} pending today.
+        </p>
+      </header>
 
+      {error && (
+        <div className="mb-8 p-4 bg-error-container rounded-lg border border-error/30">
+          <p className="text-error text-sm">{error}</p>
+        </div>
+      )}
+
+      {/* Input Section */}
+      <section className="mb-16">
+        <div className="relative group">
+          <div className="absolute -top-1 left-0 w-full h-1 bg-primary-fixed">
+            <div className="w-1/3 h-full bg-primary"></div>
+          </div>
+          <div className="flex items-center gap-4 bg-surface-container-low p-6 rounded-b-xl shadow-sm transition-all focus-within:shadow-md">
+            <div className="flex-1 flex items-center gap-4">
+              <span className="material-symbols-outlined text-primary">add_task</span>
+              <input
+                className="w-full bg-transparent border-none focus:ring-0 text-lg font-medium placeholder:text-outline p-0 outline-none"
+                placeholder="Add a new task..."
+                type="text"
+                value={newTaskTitle}
+                onChange={(e) => setNewTaskTitle(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
+              />
+            </div>
+            <button
+              onClick={handleAddTask}
+              className="bg-primary text-white w-12 h-12 rounded-xl flex items-center justify-center hover:bg-primary-container transition-colors active:scale-95"
+              disabled={loading}
+            >
+              <span className="material-symbols-outlined">add</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Task List */}
+      <section className="space-y-4 mb-20">
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--color-text-muted)' }}>
-            Carregando...
+          <div className="text-center py-12 text-on-surface-variant">
+            <p>Loading tasks...</p>
+          </div>
+        ) : tasks.length === 0 ? (
+          <div className="text-center py-12 text-on-surface-variant">
+            <p>No tasks yet. Create one to get started!</p>
           </div>
         ) : (
-          <>
-            {/* Stats cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-              {[
-                { label: 'Total de tarefas',    value: total,   color: '#003f87', bg: '#d6e4ff' },
-                { label: 'Pendentes',           value: pending, color: '#92400e', bg: '#fef3c7' },
-                { label: 'Em andamento',        value: inProg,  color: '#1e40af', bg: '#dbeafe' },
-                { label: 'Concluídas',          value: done,    color: '#065f46', bg: '#d1fae5' },
-              ].map(s => (
-                <div key={s.label} className="card" style={{ padding: '1.25rem' }}>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: s.color, fontFamily: 'var(--font-heading)' }}>
-                    {s.value}
-                  </div>
-                  <div style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', marginTop: '0.25rem' }}>{s.label}</div>
-                  <div style={{ marginTop: '0.75rem', height: 4, borderRadius: 9999, background: 'var(--color-surface-high)' }}>
-                    <div style={{ height: '100%', borderRadius: 9999, background: s.color, width: total ? `${Math.round((s.value / total) * 100)}%` : '0%', transition: 'width 0.5s' }} />
-                  </div>
+          tasks.map((task) => (
+            <div
+              key={task.id}
+              className={`flex items-center justify-between p-5 rounded-lg transition-all group cursor-pointer ${
+                task.status === 'DONE'
+                  ? 'bg-surface-container-lowest/50 hover:bg-surface-container-low/50'
+                  : 'bg-surface-container-lowest hover:bg-surface-container-low'
+              }`}
+            >
+              <div className="flex items-center gap-6 flex-1">
+                <input
+                  type="checkbox"
+                  checked={task.status === 'DONE'}
+                  onChange={() => toggleTask(task.id, task.status)}
+                  className="w-6 h-6 rounded-md border-outline-variant text-primary focus:ring-primary/20 cursor-pointer"
+                />
+                <div className="flex-1">
+                  <h3
+                    className={`text-lg font-semibold ${
+                      task.status === 'DONE'
+                        ? 'text-on-surface-variant line-through'
+                        : 'text-on-surface'
+                    }`}
+                  >
+                    {task.title}
+                  </h3>
+                  {task.description && (
+                    <p className="text-sm text-on-surface-variant mt-1">{task.description}</p>
+                  )}
+                  {task.dueDate && (
+                    <p className="text-xs text-on-surface-variant mt-2">
+                      Due: {new Date(task.dueDate).toLocaleDateString()}
+                    </p>
+                  )}
                 </div>
-              ))}
-            </div>
+              </div>
 
-            {/* Completion progress */}
-            <div className="card" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <span style={{ fontWeight: 600, fontSize: '0.9375rem' }}>Progresso geral</span>
-                <span style={{ fontWeight: 700, fontSize: '1.125rem', color: 'var(--color-primary)' }}>{pct}%</span>
+              <div className="flex items-center gap-4">
+                {task.priority && (
+                  <span
+                    className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                      task.priority === 'HIGH'
+                        ? 'bg-tertiary-fixed text-on-tertiary-fixed'
+                        : task.priority === 'MEDIUM'
+                          ? 'bg-secondary-fixed text-on-secondary-fixed'
+                          : 'bg-primary-fixed text-on-primary-fixed'
+                    }`}
+                  >
+                    {task.priority}
+                  </span>
+                )}
+                <span className="material-symbols-outlined text-outline opacity-0 group-hover:opacity-100 transition-opacity">
+                  more_vert
+                </span>
               </div>
-              <div style={{ height: 10, borderRadius: 9999, background: 'var(--color-surface-high)' }}>
-                <div style={{ height: '100%', borderRadius: 9999, background: 'var(--color-primary)', width: `${pct}%`, transition: 'width 0.6s ease' }} />
+            </div>
+          ))
+        )}
+      </section>
+
+      {/* Stats Cards */}
+      {tasks.length > 0 && (
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="col-span-2 bg-primary p-8 rounded-3xl text-white relative overflow-hidden">
+            <div className="relative z-10">
+              <h4 className="text-2xl font-bold mb-4">Productivity Overview</h4>
+              <p className="text-primary-fixed mb-8 max-w-xs">
+                {completedCount} tasks completed. Keep the momentum!
+              </p>
+              <div className="flex items-end gap-2 h-20">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-3 bg-white/40 rounded-t-full flex-1"
+                    style={{
+                      height: `${30 + Math.random() * 70}%`,
+                    }}
+                  ></div>
+                ))}
               </div>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', marginTop: '0.625rem' }}>
-                {done} de {total} tarefa{total !== 1 ? 's' : ''} concluída{done !== 1 ? 's' : ''}
+            </div>
+            <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-primary-container rounded-full opacity-50 blur-3xl"></div>
+          </div>
+
+          <div className="bg-surface-container-high p-8 rounded-3xl flex flex-col justify-between">
+            <span className="material-symbols-outlined text-tertiary text-4xl">trending_up</span>
+            <div>
+              <p className="text-4xl font-black text-on-surface">{completedCount}</p>
+              <p className="text-sm font-semibold text-on-surface-variant uppercase tracking-tighter">
+                Tasks Completed
               </p>
             </div>
+          </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              {/* Upcoming tasks */}
-              <div className="card" style={{ padding: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Próximas tarefas</h2>
-                  <Link href="/tasks" style={{ fontSize: '0.8125rem', color: 'var(--color-primary)', fontWeight: 600 }}>Ver todas →</Link>
-                </div>
-                {upcoming.length === 0 ? (
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Nenhuma tarefa com prazo definido.</p>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {upcoming.map(t => (
-                      <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.625rem', borderRadius: 'var(--radius-md)', background: 'var(--color-bg)' }}>
-                        <span className={`badge badge-${t.priority.toLowerCase()}`}>{PRIORITY_LABEL[t.priority]}</span>
-                        <span style={{ flex: 1, fontSize: '0.875rem', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.title}</span>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
-                          {new Date(t.dueDate!).toLocaleDateString('pt-BR')}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Projects */}
-              <div className="card" style={{ padding: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Projetos ativos</h2>
-                  <Link href="/projects" style={{ fontSize: '0.8125rem', color: 'var(--color-primary)', fontWeight: 600 }}>Ver todos →</Link>
-                </div>
-                {projects.length === 0 ? (
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Nenhum projeto criado ainda.</p>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {projects.slice(0, 4).map(p => {
-                      const doneCount = (p.tasks ?? []).filter(t => t.status === 'DONE').length;
-                      const totalP    = p._count?.tasks ?? 0;
-                      const ppcT      = totalP ? Math.round((doneCount / totalP) * 100) : 0;
-                      return (
-                        <Link key={p.id} href={`/projects/${p.id}`} style={{ display: 'block' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.625rem', borderRadius: 'var(--radius-md)', background: 'var(--color-bg)', transition: 'background 0.15s' }}>
-                            <span style={{ width: 10, height: 10, borderRadius: '50%', background: p.color, flexShrink: 0 }} />
-                            <span style={{ flex: 1, fontSize: '0.875rem', fontWeight: 500 }}>{p.name}</span>
-                            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{doneCount}/{totalP}</span>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+          <div className="bg-surface-container-high p-8 rounded-3xl flex flex-col justify-between">
+            <span className="material-symbols-outlined text-secondary text-4xl">assignment</span>
+            <div>
+              <p className="text-4xl font-black text-on-surface">{highPriorityCount}</p>
+              <p className="text-sm font-semibold text-on-surface-variant uppercase tracking-tighter">
+                High Priority
+              </p>
             </div>
-          </>
-        )}
-      </div>
-    </AppLayout>
+          </div>
+
+          <div className="bg-surface-container-high p-8 rounded-3xl flex flex-col justify-between">
+            <span className="material-symbols-outlined text-primary text-4xl">checklist</span>
+            <div>
+              <p className="text-4xl font-black text-on-surface">{tasks.length}</p>
+              <p className="text-sm font-semibold text-on-surface-variant uppercase tracking-tighter">
+                Total Tasks
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+    </Layout>
   );
 }

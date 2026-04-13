@@ -7,26 +7,27 @@ import { apiFetch, setToken, setUser, AuthUser } from '@/lib/auth';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [name, setName]             = useState('');
-  const [email, setEmail]           = useState('');
-  const [password, setPassword]     = useState('');
-  const [confirm, setConfirm]       = useState('');
-  const [loading, setLoading]       = useState(false);
-  const [error, setError]           = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
     console.log('[REGISTER] form submitted with:', { name, email });
-    if (password !== confirm) { 
-      setError('As senhas não coincidem.'); 
+    if (password !== confirm) {
+      setError('Passwords do not match.');
       console.log('[REGISTER] passwords do not match');
-      return; 
+      return;
     }
-    if (password.length < 8)  { 
-      setError('A senha deve ter ao menos 8 caracteres.'); 
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
       console.log('[REGISTER] password too short');
-      return; 
+      return;
     }
 
     setLoading(true);
@@ -42,82 +43,161 @@ export default function RegisterPage() {
       router.push('/dashboard');
     } catch (err: any) {
       console.error('[REGISTER] error:', err);
-      setError(err.message ?? 'Erro ao criar conta.');
+      setError(err.message ?? 'Error creating account.');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div style={{
-      minHeight: '100vh', display: 'flex', alignItems: 'center',
-      justifyContent: 'center', padding: '2rem',
-      background: 'linear-gradient(135deg, #f4f6fb 0%, #e8edf8 100%)',
-    }}>
-      <div className="card" style={{ width: '100%', maxWidth: 440, padding: '2.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '1.625rem', color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontWeight: 800 }}>
-            Criar conta
-          </h1>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
-            Comece a organizar sua produtividade
-          </p>
-        </div>
-
-        {error && (
-          <div style={{
-            background: 'var(--color-error-bg)', border: '1px solid #fecaca',
-            color: 'var(--color-error)', borderRadius: 'var(--radius-md)',
-            padding: '0.75rem 1rem', fontSize: '0.875rem', marginBottom: '1.25rem',
-          }}>
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.125rem' }}>
-          <div>
-            <label className="label" htmlFor="name">Nome</label>
-            <input id="name" className="input-field" type="text"
-              placeholder="Seu nome completo" required autoFocus
-              value={name} onChange={e => setName(e.target.value)} />
-          </div>
-          <div>
-            <label className="label" htmlFor="email">E-mail</label>
-            <input id="email" className="input-field" type="email"
-              placeholder="seu@email.com" required
-              value={email} onChange={e => setEmail(e.target.value)} />
-          </div>
-          <div>
-            <label className="label" htmlFor="password">Senha</label>
-            <input id="password" className="input-field" type="password"
-              placeholder="Mínimo 8 caracteres" required minLength={8}
-              value={password} onChange={e => setPassword(e.target.value)} />
-          </div>
-          <div>
-            <label className="label" htmlFor="confirm">Confirmar senha</label>
-            <input id="confirm" className="input-field" type="password"
-              placeholder="Repita a senha" required
-              value={confirm} onChange={e => setConfirm(e.target.value)} />
-          </div>
-
-          <button
-            type="submit" className="btn-primary"
-            style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem', padding: '0.75rem' }}
-            disabled={loading}
-          >
-            {loading ? (
-              <span style={{ width: 18, height: 18, border: '2px solid rgba(255,255,255,.4)', borderTopColor: '#fff', borderRadius: '50%' }} className="animate-spin" />
-            ) : 'Criar conta'}
-          </button>
-        </form>
-
-        <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-          Já tem conta?{' '}
-          <Link href="/login" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
-            Entrar
-          </Link>
-        </div>
+    <div className="min-h-screen bg-surface text-on-surface flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]"></div>
+        <div className="absolute bottom-[5%] right-[5%] w-[30%] h-[30%] rounded-full bg-secondary-container/10 blur-[100px]"></div>
       </div>
+
+      {/* Main Register Card */}
+      <main className="w-full max-w-[440px]">
+        {/* Branding Header */}
+        <div className="mb-12 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary mb-6">
+            <span className="material-symbols-outlined text-white text-2xl">architecture</span>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface mb-2">The Fluid Architect</h1>
+          <p className="text-on-surface-variant font-medium tracking-tight">Create your account to get started.</p>
+        </div>
+
+        {/* Register Card */}
+        <div className="bg-surface-container-lowest rounded-[2rem] p-10 shadow-lg shadow-primary/10 border border-outline-variant/20">
+          {error && (
+            <div className="mb-6 p-4 bg-error-container rounded-lg border border-error/30">
+              <p className="text-error text-sm font-medium">{error}</p>
+            </div>
+          )}
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Name Field */}
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-on-surface-variant ml-1" htmlFor="name">
+                Full Name
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+                  <span className="material-symbols-outlined text-[20px]">person</span>
+                </div>
+                <input
+                  id="name"
+                  className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
+                  name="name"
+                  placeholder="Your full name"
+                  type="text"
+                  required
+                  autoFocus
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Email Field */}
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-on-surface-variant ml-1" htmlFor="email">
+                Email
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+                  <span className="material-symbols-outlined text-[20px]">mail</span>
+                </div>
+                <input
+                  id="email"
+                  className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
+                  name="email"
+                  placeholder="name@example.com"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-on-surface-variant ml-1" htmlFor="password">
+                Password
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+                  <span className="material-symbols-outlined text-[20px]">lock</span>
+                </div>
+                <input
+                  id="password"
+                  className="w-full pl-12 pr-12 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
+                  name="password"
+                  placeholder="Minimum 8 characters"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  minLength={8}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  className="absolute inset-y-0 right-4 flex items-center text-outline hover:text-on-surface-variant transition-colors"
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Confirm Password Field */}
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-on-surface-variant ml-1" htmlFor="confirm">
+                Confirm Password
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+                  <span className="material-symbols-outlined text-[20px]">lock_check</span>
+                </div>
+                <input
+                  id="confirm"
+                  className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
+                  name="confirm"
+                  placeholder="Repeat your password"
+                  type="password"
+                  required
+                  value={confirm}
+                  onChange={(e) => setConfirm(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Primary Action */}
+            <button
+              className="w-full bg-gradient-to-br from-primary to-primary-container text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
+              type="submit"
+              disabled={loading}
+            >
+              <span>{loading ? 'Creating account...' : 'Create account'}</span>
+              {!loading && (
+                <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">
+                  arrow_forward
+                </span>
+              )}
+            </button>
+          </form>
+
+          {/* Sign In Link */}
+          <div className="text-center text-sm text-on-surface-variant mt-8">
+            Already have an account?{' '}
+            <Link href="/login" className="text-primary font-bold hover:text-primary-container transition-colors">
+              Sign in
+            </Link>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
