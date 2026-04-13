@@ -56,23 +56,25 @@ export default async (req, res) => {
   const method = (req.method || 'GET').toUpperCase();
   const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:3000').trim();
   
-  console.log('[FUNC HANDLER] OPTIONS check:', { method, url: req.url, frontend: frontendUrl });
+  console.log('[FUNC HANDLER] method=', method, 'url=', req.url, 'frontend=', frontendUrl);
 
-  // Handle OPTIONS preflight
-  if (method === 'OPTIONS') {
-    console.log('[OPTIONS HANDLER] processing preflight, frontend=', frontendUrl);
-    try {
+  // Add CORS headers to ALL responses
+  const originalEnd = res.end;
+  res.end = function(...args) {
+    if (!res.getHeader('Access-Control-Allow-Origin')) {
       res.setHeader('Access-Control-Allow-Origin', frontendUrl);
       res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
       res.setHeader('Access-Control-Credentials', 'true');
-      res.statusCode = 204;
-      return res.end();
-    } catch (err) {
-      console.error('[OPTIONS ERROR]', err);
-      res.statusCode = 204;
-      return res.end();
     }
+    return originalEnd.apply(res, args);
+  };
+
+  // Handle OPTIONS preflight
+  if (method === 'OPTIONS') {
+    console.log('[OPTIONS HANDLER] responding to preflight');
+    res.statusCode = 204;
+    return res.end();
   }
 
   try {
@@ -82,6 +84,6 @@ export default async (req, res) => {
   } catch (error) {
     console.error('[BOOTSTRAP ERROR]', error);
     res.statusCode = 500;
-    return res.end('Error');
+    return res.end(JSON.stringify({ error: 'Internal Server Error' }));
   }
 };
