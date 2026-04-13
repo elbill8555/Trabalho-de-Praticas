@@ -81,10 +81,17 @@ export default async (req, res) => {
     const instance = await bootstrap();
     console.log('[FUNC HANDLER] forwarding to NestJS');
     
-    // Wrap response to catch any errors during processing
+    // Wrap response to catch errors AND ensure we log status codes
+    const originalEnd = res.end;
     const originalJson = res.json;
+    
+    res.end = function(...args) {
+      console.error('[RESPONSE END] status:', res.statusCode, 'headers sent:', res.headersSent);
+      return originalEnd.apply(res, args);
+    };
+    
     res.json = function(data) {
-      console.log('[RESPONSE] sending JSON:', data);
+      console.log('[RESPONSE JSON] status:', res.statusCode, 'data:', data);
       return originalJson.call(this, data);
     };
     

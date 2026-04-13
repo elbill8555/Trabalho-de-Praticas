@@ -28,12 +28,23 @@ export class TasksController {
     @Query('priority') priority?: Priority,
   ) {
     try {
-      console.log('[TASKS CONTROLLER] findAll called. User ID:', req.user?.id);
+      const msg1 = `[TASKS CONTROLLER] findAll called. User: ${JSON.stringify(req.user)}`;
+      console.log(msg1);
+      console.error(msg1); // Also log to error stream
+      
+      if (!req.user?.id) {
+        const errMsg = 'req.user or req.user.id is undefined';
+        console.error('[TASKS CONTROLLER ERROR]', errMsg);
+        throw new Error(errMsg);
+      }
+      
       const result = await this.tasksService.findAll(req.user.id, { status, priority });
-      console.log('[TASKS CONTROLLER] findAll success. Tasks count:', result?.length || 0);
+      console.log(`[TASKS CONTROLLER] success: ${result?.length || 0} tasks`);
       return result;
     } catch (error) {
-      console.error('[TASKS CONTROLLER] findAll error:', error);
+      const errorMsg = `[TASKS CONTROLLER] error: ${(error as any)?.message} | ${String(error)}`;
+      console.error(errorMsg);
+      console.error((error as any)?.stack);
       throw error;
     }
   }
