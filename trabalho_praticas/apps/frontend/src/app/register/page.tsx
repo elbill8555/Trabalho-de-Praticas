@@ -18,42 +18,46 @@ export default function RegisterPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
-
+    console.log('[REGISTER] form submitted with:', { name, email });
     if (password !== confirm) {
-      setError('As senhas não coincidem.');
+      setError('Passwords do not match.');
+      console.log('[REGISTER] passwords do not match');
       return;
     }
-
     if (password.length < 8) {
-      setError('A senha deve ter ao menos 8 caracteres.');
+      setError('Password must be at least 8 characters.');
+      console.log('[REGISTER] password too short');
       return;
     }
 
     setLoading(true);
-
     try {
+      console.log('[REGISTER] calling apiFetch for registration');
       const data = await apiFetch<{ token: string; user: AuthUser }>(
         '/api/v1/auth/register',
         { method: 'POST', body: JSON.stringify({ name, email, password }) },
       );
+      console.log('[REGISTER] success, received token and user:', data.user);
       setToken(data.token);
       setUser(data.user);
       router.push('/dashboard');
     } catch (err: any) {
-      setError(err.message ?? 'Erro ao criar conta.');
+      console.error('[REGISTER] error:', err);
+      setError(err.message ?? 'Error creating account.');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="bg-surface text-on-surface min-h-screen flex items-center justify-center p-6">
-      {/* Background Decorative Element */}
+    <div className="min-h-screen bg-surface text-on-surface flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Decorative Elements */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]"></div>
         <div className="absolute bottom-[5%] right-[5%] w-[30%] h-[30%] rounded-full bg-secondary-container/10 blur-[100px]"></div>
       </div>
 
+      {/* Main Register Card */}
       <main className="w-full max-w-[440px]">
         {/* Branding Header */}
         <div className="mb-12 text-center">
@@ -61,14 +65,14 @@ export default function RegisterPage() {
             <span className="material-symbols-outlined text-white text-2xl">architecture</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tighter text-on-surface mb-2">The Fluid Architect</h1>
-          <p className="text-on-surface-variant font-medium tracking-tight">Comece a organizar sua produtividade.</p>
+          <p className="text-on-surface-variant font-medium tracking-tight">Create your account to get started.</p>
         </div>
 
         {/* Register Card */}
-        <div className="bg-surface-container-lowest rounded-[2rem] p-10 shadow-[0px_20px_40px_rgba(0,63,135,0.06)] border border-outline-variant/10">
+        <div className="bg-surface-container-lowest rounded-[2rem] p-10 shadow-lg shadow-primary/10 border border-outline-variant/20">
           {error && (
-            <div className="mb-6 p-3 bg-error-container rounded-lg text-error text-sm font-medium">
-              {error}
+            <div className="mb-6 p-4 bg-error-container rounded-lg border border-error/30">
+              <p className="text-error text-sm font-medium">{error}</p>
             </div>
           )}
 
@@ -76,7 +80,7 @@ export default function RegisterPage() {
             {/* Name Field */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-on-surface-variant ml-1" htmlFor="name">
-                Nome
+                Full Name
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
@@ -86,9 +90,10 @@ export default function RegisterPage() {
                   id="name"
                   className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
                   name="name"
-                  placeholder="Seu nome completo"
+                  placeholder="Your full name"
                   type="text"
                   required
+                  autoFocus
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -108,7 +113,7 @@ export default function RegisterPage() {
                   id="email"
                   className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
                   name="email"
-                  placeholder="seu@email.com"
+                  placeholder="name@example.com"
                   type="email"
                   required
                   value={email}
@@ -120,7 +125,7 @@ export default function RegisterPage() {
             {/* Password Field */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-on-surface-variant ml-1" htmlFor="password">
-                Senha
+                Password
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
@@ -130,7 +135,7 @@ export default function RegisterPage() {
                   id="password"
                   className="w-full pl-12 pr-12 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
                   name="password"
-                  placeholder="Mínimo 8 caracteres"
+                  placeholder="Minimum 8 characters"
                   type={showPassword ? 'text' : 'password'}
                   required
                   minLength={8}
@@ -141,11 +146,8 @@ export default function RegisterPage() {
                   className="absolute inset-y-0 right-4 flex items-center text-outline hover:text-on-surface-variant transition-colors"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  tabIndex={-1}
                 >
-                  <span className="material-symbols-outlined text-[20px]">
-                    {showPassword ? 'visibility_off' : 'visibility'}
-                  </span>
+                  <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
                 </button>
               </div>
             </div>
@@ -153,7 +155,7 @@ export default function RegisterPage() {
             {/* Confirm Password Field */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-on-surface-variant ml-1" htmlFor="confirm">
-                Confirmar senha
+                Confirm Password
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
@@ -163,7 +165,7 @@ export default function RegisterPage() {
                   id="confirm"
                   className="w-full pl-12 pr-4 py-4 bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl text-on-surface placeholder:text-outline/60 transition-all outline-none"
                   name="confirm"
-                  placeholder="Repita a senha"
+                  placeholder="Repeat your password"
                   type="password"
                   required
                   value={confirm}
@@ -174,11 +176,11 @@ export default function RegisterPage() {
 
             {/* Primary Action */}
             <button
-              className="w-full bg-gradient-to-br from-primary to-primary-container text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg shadow-primary/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-70 mt-4"
+              className="w-full bg-gradient-to-br from-primary to-primary-container text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
               type="submit"
               disabled={loading}
             >
-              <span>{loading ? 'Criando conta...' : 'Criar conta'}</span>
+              <span>{loading ? 'Creating account...' : 'Create account'}</span>
               {!loading && (
                 <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">
                   arrow_forward
@@ -187,62 +189,13 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="relative my-10">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-outline-variant/20"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase tracking-widest font-bold">
-              <span className="bg-surface-container-lowest px-4 text-outline">Ou continue com</span>
-            </div>
+          {/* Sign In Link */}
+          <div className="text-center text-sm text-on-surface-variant mt-8">
+            Already have an account?{' '}
+            <Link href="/login" className="text-primary font-bold hover:text-primary-container transition-colors">
+              Sign in
+            </Link>
           </div>
-
-          {/* Social Login */}
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-outline-variant/30 hover:bg-surface-container-low transition-colors font-semibold text-on-surface-variant text-sm"
-              type="button"
-            >
-              <img
-                alt="Google Logo"
-                className="w-5 h-5"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCojqE86zty8fyQWHrdNDI6TTZkC6DyYPrvDIOG-EHrLbbr2uouADkWiTiJBMpB0R91uoI8jl6EHENTQSdTB7Xva98G0jBtI9hhpl8Q8n9FUZxPZ3hez3ULOqpQ9cLnxTlwtxpnPyDBq-1J84XLHR7kOZjTQD8S0Db7g0zoRkoY_t864S_SwmxNAO9XKHmPbVS_RVRrtorrudkTmFvTxS2y2W4FgfhS_npXv4fqwRVc7tTXg71Ya6oeATX4OfQN1UbHEwaspLs63TeU"
-              />
-              Google
-            </button>
-            <button
-              className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-outline-variant/30 hover:bg-surface-container-low transition-colors font-semibold text-on-surface-variant text-sm"
-              type="button"
-            >
-              <span className="material-symbols-outlined text-xl text-[#191c1d]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                ios
-              </span>
-              Apple
-            </button>
-          </div>
-        </div>
-
-        {/* Footer Action */}
-        <p className="text-center mt-10 text-on-surface-variant font-medium">
-          Já tem uma conta?{' '}
-          <Link className="text-primary font-bold hover:underline decoration-2 underline-offset-4 ml-1" href="/login">
-            Entrar
-          </Link>
-        </p>
-
-        {/* Terms */}
-        <div className="mt-16 text-center">
-          <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-outline opacity-60 px-8 leading-relaxed">
-            Ao continuar, você concorda com nossos <br />
-            <a className="hover:text-on-surface transition-colors" href="#">
-              Termos de Serviço
-            </a>{' '}
-            e{' '}
-            <a className="hover:text-on-surface transition-colors" href="#">
-              Política de Privacidade
-            </a>
-            .
-          </p>
         </div>
       </main>
     </div>
