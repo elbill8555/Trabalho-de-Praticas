@@ -17,148 +17,348 @@ interface Project {
   tasks?: { id: string; status: string }[];
 }
 
-const STATUS_LABEL: Record<string, string> = {
-  PENDING: 'Pendente', IN_PROGRESS: 'Em andamento', DONE: 'Concluída',
-};
 const PRIORITY_LABEL: Record<string, string> = {
-  LOW: 'Baixa', MEDIUM: 'Média', HIGH: 'Alta', URGENT: 'Urgente',
+  LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High Priority', URGENT: 'Urgent',
+};
+
+/* Colors matching Stitch prototype badge backgrounds */
+const PRIORITY_STYLE: Record<string, { bg: string; color: string }> = {
+  HIGH:   { bg: '#ffdbcc', color: '#351000' },  /* tertiary-fixed */
+  URGENT: { bg: '#ffdbcc', color: '#351000' },
+  MEDIUM: { bg: '#d7e2ff', color: '#041b3c' },  /* secondary-fixed */
+  LOW:    { bg: '#edeeef', color: '#424752' },  /* surface-variant */
 };
 
 export default function DashboardPage() {
   const router  = useRouter();
   const user    = getUser();
-  const [tasks, setTasks]       = useState<Task[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading]   = useState(true);
+  const [tasks,     setTasks]     = useState<Task[]>([]);
+  const [projects,  setProjects]  = useState<Project[]>([]);
+  const [loading,   setLoading]   = useState(true);
+  const [newTitle,  setNewTitle]  = useState('');
+  const [checked,   setChecked]   = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     Promise.all([
       apiFetch<Task[]>('/api/v1/tasks'),
       apiFetch<Project[]>('/api/v1/projects'),
-    ]).then(([t, p]) => { setTasks(t); setProjects(p); })
+    ]).then(([t, p]) => {
+      setTasks(t);
+      setProjects(p);
+      /* Pre-check tasks already done */
+      const init: Record<string, boolean> = {};
+      t.forEach(task => { if (task.status === 'DONE') init[task.id] = true; });
+      setChecked(init);
+    })
       .catch(() => router.push('/login'))
       .finally(() => setLoading(false));
   }, [router]);
 
-  const pending   = tasks.filter(t => t.status === 'PENDING').length;
-  const inProg    = tasks.filter(t => t.status === 'IN_PROGRESS').length;
-  const done      = tasks.filter(t => t.status === 'DONE').length;
-  const total     = tasks.length;
-  const pct       = total ? Math.round((done / total) * 100) : 0;
+  const pending = tasks.filter(t => t.status === 'PENDING').length;
+  const done    = tasks.filter(t => t.status === 'DONE').length;
+  const total   = tasks.length;
+  const pct     = total ? Math.round((done / total) * 100) : 0;
 
-  const upcoming  = tasks
-    .filter(t => t.dueDate && t.status !== 'DONE')
-    .sort((a, b) => new Date(a.dueDate!).getTime() - new Date(b.dueDate!).getTime())
-    .slice(0, 5);
+  /* Quick-add handler (visual only — calls API) */
+  async function handleAddTask(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+    try {
+      const t = await apiFetch<Task>('/api/v1/tasks', {
+        method: 'POST',
+        body: JSON.stringify({ title: newTitle.trim(), status: 'PENDING', priority: 'MEDIUM' }),
+      });
+      setTasks(prev => [t, ...prev]);
+      setNewTitle('');
+    } catch { /* silently fail — user can go to /tasks for full form */ }
+  }
+
+  /* Toggle check (visual feedback only) */
+  function toggleCheck(id: string) {
+    setChecked(prev => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  if (loading) return (
+    <AppLayout>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
+        <span style={{ color: 'var(--color-on-surface-variant)', fontSize: '0.9375rem' }}>Carregando...</span>
+      </div>
+    </AppLayout>
+  );
+
+  const displayTasks = tasks.slice(0, 6);
+  const tasksClosedMonth = done;
 
   return (
     <AppLayout>
-      <div style={{ padding: '2rem', maxWidth: 960, margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-text)' }}>
-            Olá, {user?.name?.split(' ')[0]} 👋
-          </h1>
-          <p style={{ color: 'var(--color-text-muted)', marginTop: '0.25rem', fontSize: '0.9rem' }}>
-            Aqui está o resumo da sua semana.
-          </p>
-        </div>
+      {/* ── Stitch Dashboard Layout ─────────────────────────────────
+          ml-64 p-10, max-w-5xl
+          ─────────────────────────────────────────────────────────── */}
+      <div style={{ padding: '2.5rem', maxWidth: '64rem', margin: '0 auto' }}>
 
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--color-text-muted)' }}>
-            Carregando...
-          </div>
-        ) : (
-          <>
-            {/* Stats cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-              {[
-                { label: 'Total de tarefas',    value: total,   color: '#003f87', bg: '#d6e4ff' },
-                { label: 'Pendentes',           value: pending, color: '#92400e', bg: '#fef3c7' },
-                { label: 'Em andamento',        value: inProg,  color: '#1e40af', bg: '#dbeafe' },
-                { label: 'Concluídas',          value: done,    color: '#065f46', bg: '#d1fae5' },
-              ].map(s => (
-                <div key={s.label} className="card" style={{ padding: '1.25rem' }}>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: s.color, fontFamily: 'var(--font-heading)' }}>
-                    {s.value}
+        {/* ── Header — Dramatic Typography (text-5xl, font-extrabold) ── */}
+        <header style={{ marginBottom: '3rem' }}>
+          <h1 style={{
+            fontFamily: 'var(--font-heading)',
+            fontSize: '3rem', fontWeight: 800,
+            letterSpacing: '-0.03em', color: '#191c1d',
+            marginBottom: '0.5rem',
+          }}>
+            My Tasks
+          </h1>
+          <p style={{ color: '#424752', fontWeight: 500 }}>
+            {pending > 0
+              ? `You have ${pending} task${pending !== 1 ? 's' : ''} pending for today.`
+              : 'All caught up! Great work.'}
+          </p>
+        </header>
+
+        {/* ── Architectural Input Section ─────────────────────────── */}
+        <section style={{ marginBottom: '4rem' }}>
+          <form onSubmit={handleAddTask}>
+            <div style={{ position: 'relative' }}>
+              {/* Progress bar top — Stitch "Signature Component" */}
+              <div style={{ position: 'absolute', top: -4, left: 0, right: 0, height: 4, background: '#d7e2ff', borderRadius: '9999px 9999px 0 0' }}>
+                <div style={{
+                  height: '100%', background: '#003f87', borderRadius: 'inherit',
+                  width: `${pct}%`, transition: 'width 0.6s ease',
+                }} />
+              </div>
+
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '1rem',
+                background: '#f3f4f5',
+                padding: '1.5rem',
+                borderRadius: '0 0 0.75rem 0.75rem',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                transition: 'box-shadow 0.15s',
+              }}>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <span className="material-symbols-outlined" style={{ color: '#003f87', fontSize: '24px' }}>
+                    add_task
+                  </span>
+                  <input
+                    className="input-field-bare"
+                    placeholder="Adicionar nova tarefa..."
+                    value={newTitle}
+                    onChange={e => setNewTitle(e.target.value)}
+                    style={{ background: 'transparent', borderBottom: 'none', padding: '0', fontSize: '1.0625rem', fontWeight: 500 }}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  style={{
+                    background: '#003f87', color: '#ffffff',
+                    width: 48, height: 48, borderRadius: '0.75rem',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0, border: 'none', cursor: 'pointer',
+                    transition: 'background 0.15s, transform 0.1s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.background = '#0056b3'}
+                  onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = '#003f87'}
+                  onMouseDown={e  => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.95)'}
+                  onMouseUp={e    => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '22px' }}>add</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        {/* ── Task List ──────────────────────────────────────────── */}
+        <section style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '5rem' }}>
+          {tasks.length === 0 ? (
+            <div style={{
+              textAlign: 'center', padding: '3rem',
+              color: '#727784', fontSize: '0.9375rem',
+            }}>
+              Nenhuma tarefa ainda. Adicione uma acima!
+            </div>
+          ) : (
+            displayTasks.map(task => {
+              const done    = checked[task.id] ?? false;
+              const pStyle  = PRIORITY_STYLE[task.priority] ?? PRIORITY_STYLE.LOW;
+              const pLabel  = PRIORITY_LABEL[task.priority] ?? task.priority;
+              const dateStr = task.dueDate
+                ? new Date(task.dueDate).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+                : null;
+
+              return (
+                <div
+                  key={task.id}
+                  style={{
+                    display: 'flex', alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '1.25rem',
+                    background: done ? 'rgba(255,255,255,0.5)' : '#ffffff',
+                    borderRadius: '0.5rem',
+                    cursor: 'pointer',
+                    transition: 'background 0.15s, border-radius 0.15s',
+                    /* hover handled via onMouse */
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLDivElement).style.background = '#f3f4f5';
+                    (e.currentTarget as HTMLDivElement).style.borderRadius = '0.75rem';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLDivElement).style.background = done ? 'rgba(255,255,255,0.5)' : '#ffffff';
+                    (e.currentTarget as HTMLDivElement).style.borderRadius = '0.5rem';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                    {/* Checkbox */}
+                    <input
+                      type="checkbox"
+                      checked={done}
+                      onChange={() => toggleCheck(task.id)}
+                      onClick={e => e.stopPropagation()}
+                      style={{ width: 24, height: 24, borderRadius: '0.375rem', cursor: 'pointer', accentColor: '#003f87' }}
+                    />
+                    <div>
+                      <h3 style={{
+                        fontSize: '1.0625rem', fontWeight: 600,
+                        color: done ? '#727784' : '#191c1d',
+                        textDecoration: done ? 'line-through' : 'none',
+                        fontFamily: 'var(--font-heading)',
+                      }}>
+                        {task.title}
+                      </h3>
+                      <p style={{ fontSize: '0.8125rem', color: '#727784', marginTop: '0.125rem' }}>
+                        {dateStr ? `${dateStr} • ` : ''}{task.project?.name ?? task.status}
+                      </p>
+                    </div>
                   </div>
-                  <div style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', marginTop: '0.25rem' }}>{s.label}</div>
-                  <div style={{ marginTop: '0.75rem', height: 4, borderRadius: 9999, background: 'var(--color-surface-high)' }}>
-                    <div style={{ height: '100%', borderRadius: 9999, background: s.color, width: total ? `${Math.round((s.value / total) * 100)}%` : '0%', transition: 'width 0.5s' }} />
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    {/* Priority badge — rounded-full, Stitch colors */}
+                    <span style={{
+                      padding: '0.2rem 0.875rem',
+                      borderRadius: '9999px',
+                      background: done ? '#edeeef' : pStyle.bg,
+                      color: done ? '#424752' : pStyle.color,
+                      fontSize: '0.6875rem', fontWeight: 700,
+                      textTransform: 'uppercase', letterSpacing: '0.06em',
+                      whiteSpace: 'nowrap',
+                    }}>
+                      {done ? 'Done' : pLabel}
+                    </span>
+                    {/* More — visible on hover via parent group */}
+                    <span className="material-symbols-outlined" style={{ color: '#727784', fontSize: '22px', opacity: 0.6 }}>
+                      more_vert
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })
+          )}
+          {tasks.length > 6 && (
+            <Link href="/tasks" style={{
+              textAlign: 'center', padding: '0.75rem',
+              color: '#003f87', fontWeight: 600, fontSize: '0.875rem',
+              borderRadius: '0.75rem', background: '#f3f4f5',
+              display: 'block', textDecoration: 'none',
+            }}>
+              Ver todas as {tasks.length} tarefas →
+            </Link>
+          )}
+        </section>
 
-            {/* Completion progress */}
-            <div className="card" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <span style={{ fontWeight: 600, fontSize: '0.9375rem' }}>Progresso geral</span>
-                <span style={{ fontWeight: 700, fontSize: '1.125rem', color: 'var(--color-primary)' }}>{pct}%</span>
+        {/* ── Bento Grid — Project Velocity + Stats ────────────────── */}
+        <section style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
+          {/* Wide card — Project Velocity */}
+          <div style={{
+            background: '#003f87',
+            padding: '2rem',
+            borderRadius: '1.5rem',
+            color: '#ffffff',
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <h4 style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '1.5rem', fontWeight: 700,
+                marginBottom: '1rem', color: '#fff',
+              }}>
+                Project Velocity
+              </h4>
+              <p style={{ color: '#d7e2ff', marginBottom: '2rem', maxWidth: '18rem', lineHeight: 1.5 }}>
+                {pct > 0
+                  ? `You've completed ${pct}% of your tasks. Keep the momentum!`
+                  : 'Add tasks and start building momentum!'}
+              </p>
+              {/* Mini bar chart */}
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.5rem', height: 80 }}>
+                {[0.5, 0.75, 0.33, 1, 0.66].map((h, i) => (
+                  <div key={i} style={{
+                    width: 12, borderRadius: '9999px 9999px 0 0',
+                    background: i === 3 ? 'rgba(255,255,255,1)' : `rgba(255,255,255,${0.2 + h * 0.4})`,
+                    height: `${Math.round(h * 100)}%`,
+                  }} />
+                ))}
               </div>
-              <div style={{ height: 10, borderRadius: 9999, background: 'var(--color-surface-high)' }}>
-                <div style={{ height: '100%', borderRadius: 9999, background: 'var(--color-primary)', width: `${pct}%`, transition: 'width 0.6s ease' }} />
-              </div>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', marginTop: '0.625rem' }}>
-                {done} de {total} tarefa{total !== 1 ? 's' : ''} concluída{done !== 1 ? 's' : ''}
+            </div>
+            {/* Glow blob */}
+            <div style={{
+              position: 'absolute', right: -40, bottom: -40,
+              width: 192, height: 192, borderRadius: '9999px',
+              background: '#0056b3', opacity: 0.5, filter: 'blur(48px)',
+            }} />
+          </div>
+
+          {/* Narrow card — Tasks closed */}
+          <div style={{
+            background: '#e7e8e9',
+            padding: '2rem', borderRadius: '1.5rem',
+            display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+          }}>
+            <span className="material-symbols-outlined" style={{ color: '#722b00', fontSize: '40px' }}>
+              trending_up
+            </span>
+            <div>
+              <p style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '2.5rem', fontWeight: 900,
+                color: '#191c1d', lineHeight: 1,
+              }}>
+                {tasksClosedMonth}
+              </p>
+              <p style={{
+                fontSize: '0.75rem', fontWeight: 700,
+                color: '#424752', textTransform: 'uppercase',
+                letterSpacing: '-0.01em', marginTop: '0.25rem',
+              }}>
+                Tasks Closed this month
               </p>
             </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              {/* Upcoming tasks */}
-              <div className="card" style={{ padding: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Próximas tarefas</h2>
-                  <Link href="/tasks" style={{ fontSize: '0.8125rem', color: 'var(--color-primary)', fontWeight: 600 }}>Ver todas →</Link>
-                </div>
-                {upcoming.length === 0 ? (
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Nenhuma tarefa com prazo definido.</p>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {upcoming.map(t => (
-                      <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.625rem', borderRadius: 'var(--radius-md)', background: 'var(--color-bg)' }}>
-                        <span className={`badge badge-${t.priority.toLowerCase()}`}>{PRIORITY_LABEL[t.priority]}</span>
-                        <span style={{ flex: 1, fontSize: '0.875rem', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.title}</span>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
-                          {new Date(t.dueDate!).toLocaleDateString('pt-BR')}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Projects */}
-              <div className="card" style={{ padding: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Projetos ativos</h2>
-                  <Link href="/projects" style={{ fontSize: '0.8125rem', color: 'var(--color-primary)', fontWeight: 600 }}>Ver todos →</Link>
-                </div>
-                {projects.length === 0 ? (
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Nenhum projeto criado ainda.</p>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {projects.slice(0, 4).map(p => {
-                      const doneCount = (p.tasks ?? []).filter(t => t.status === 'DONE').length;
-                      const totalP    = p._count?.tasks ?? 0;
-                      const ppcT      = totalP ? Math.round((doneCount / totalP) * 100) : 0;
-                      return (
-                        <Link key={p.id} href={`/projects/${p.id}`} style={{ display: 'block' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.625rem', borderRadius: 'var(--radius-md)', background: 'var(--color-bg)', transition: 'background 0.15s' }}>
-                            <span style={{ width: 10, height: 10, borderRadius: '50%', background: p.color, flexShrink: 0 }} />
-                            <span style={{ flex: 1, fontSize: '0.875rem', fontWeight: 500 }}>{p.name}</span>
-                            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{doneCount}/{totalP}</span>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
-          </>
-        )}
+          </div>
+        </section>
       </div>
+
+      {/* ── FAB — Contextual Floating Action Button ──────────────── */}
+      <Link href="/tasks" aria-label="Nova tarefa" style={{
+        position: 'fixed', bottom: '2.5rem', right: '2.5rem',
+        background: '#003f87', color: '#ffffff',
+        width: 64, height: 64, borderRadius: '9999px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: '0px 20px 40px rgba(0,63,135,0.15)',
+        zIndex: 50, textDecoration: 'none',
+        transition: 'background 0.15s, transform 0.15s',
+      }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLAnchorElement).style.background = '#0056b3';
+          (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.10)';
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLAnchorElement).style.background = '#003f87';
+          (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)';
+        }}
+        onMouseDown={e  => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.92)'}
+        onMouseUp={e    => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.10)'}
+      >
+        <span className="material-symbols-outlined" style={{ fontSize: '30px' }}>add</span>
+      </Link>
     </AppLayout>
   );
 }

@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Tarefas — Gestão de Produtividade',
+  title: 'The Fluid Architect — Gestão de Tarefas',
   description: 'Plataforma centralizada de gestão de tarefas e produtividade.',
 };
 
@@ -26,7 +26,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={`${manrope.variable} ${inter.variable}`}>
-      <body className="font-body bg-surface text-on-surface antialiased">
+      <head>
+        {/* Material Symbols Outlined — required for icons across all pages */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+        />
+      </head>
+      <body style={{ fontFamily: 'var(--font-inter), sans-serif', background: '#f8f9fa', color: '#191c1d' }}>
         {children}
       </body>
     </html>

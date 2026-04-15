@@ -7,117 +7,181 @@ import { apiFetch, setToken, setUser, AuthUser } from '@/lib/auth';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [name, setName]             = useState('');
-  const [email, setEmail]           = useState('');
-  const [password, setPassword]     = useState('');
-  const [confirm, setConfirm]       = useState('');
-  const [loading, setLoading]       = useState(false);
-  const [error, setError]           = useState('');
+  const [name,     setName]     = useState('');
+  const [email,    setEmail]    = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm,  setConfirm]  = useState('');
+  const [loading,  setLoading]  = useState(false);
+  const [error,    setError]    = useState('');
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError('');
-    console.log('[REGISTER] form submitted with:', { name, email });
-    if (password !== confirm) { 
-      setError('As senhas não coincidem.'); 
-      console.log('[REGISTER] passwords do not match');
-      return; 
-    }
-    if (password.length < 8)  { 
-      setError('A senha deve ter ao menos 8 caracteres.'); 
-      console.log('[REGISTER] password too short');
-      return; 
-    }
-
+    if (password !== confirm) { setError('As senhas não coincidem.'); return; }
+    if (password.length < 8)  { setError('A senha deve ter ao menos 8 caracteres.'); return; }
     setLoading(true);
     try {
-      console.log('[REGISTER] calling apiFetch for registration');
       const data = await apiFetch<{ token: string; user: AuthUser }>(
         '/api/v1/auth/register',
         { method: 'POST', body: JSON.stringify({ name, email, password }) },
       );
-      console.log('[REGISTER] success, received token and user:', data.user);
       setToken(data.token);
       setUser(data.user);
       router.push('/dashboard');
     } catch (err: any) {
-      console.error('[REGISTER] error:', err);
       setError(err.message ?? 'Erro ao criar conta.');
     } finally {
       setLoading(false);
     }
   }
 
+  const fields: { id: string; label: string; type: string; placeholder: string; icon: string; value: string; set: (v: string) => void }[] = [
+    { id: 'name',     label: 'Nome',            type: 'text',     placeholder: 'Seu nome completo',   icon: 'person',   value: name,     set: setName },
+    { id: 'email',    label: 'Email',            type: 'email',    placeholder: 'nome@exemplo.com',    icon: 'mail',     value: email,    set: setEmail },
+    { id: 'password', label: 'Senha',            type: 'password', placeholder: 'Mínimo 8 caracteres', icon: 'lock',     value: password, set: setPassword },
+    { id: 'confirm',  label: 'Confirmar senha',  type: 'password', placeholder: 'Repita a senha',      icon: 'lock',     value: confirm,  set: setConfirm },
+  ];
+
   return (
     <div style={{
-      minHeight: '100vh', display: 'flex', alignItems: 'center',
-      justifyContent: 'center', padding: '2rem',
-      background: 'linear-gradient(135deg, #f4f6fb 0%, #e8edf8 100%)',
+      minHeight: '100vh', background: '#f8f9fa',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '1.5rem', position: 'relative', overflow: 'hidden',
     }}>
-      <div className="card" style={{ width: '100%', maxWidth: 440, padding: '2.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '1.625rem', color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontWeight: 800 }}>
+      {/* Decorative blurs */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', top: '-10%', right: '-5%',
+          width: '35%', height: '35%', borderRadius: '9999px',
+          background: 'rgba(0,63,135,0.05)', filter: 'blur(120px)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: '5%', left: '5%',
+          width: '30%', height: '30%', borderRadius: '9999px',
+          background: 'rgba(191,210,253,0.10)', filter: 'blur(100px)',
+        }} />
+      </div>
+
+      <main style={{ width: '100%', maxWidth: 440, position: 'relative', zIndex: 1 }}>
+        {/* Branding */}
+        <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 48, height: 48, borderRadius: '0.75rem',
+            background: '#003f87', marginBottom: '1.5rem',
+          }}>
+            <span className="material-symbols-outlined" style={{ color: '#fff', fontSize: '24px' }}>architecture</span>
+          </div>
+          <h1 style={{
+            fontFamily: 'var(--font-heading)', fontSize: '1.875rem',
+            fontWeight: 800, letterSpacing: '-0.03em',
+            color: '#191c1d', marginBottom: '0.5rem',
+          }}>
             Criar conta
           </h1>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
-            Comece a organizar sua produtividade
+          <p style={{ color: '#424752', fontWeight: 500, letterSpacing: '-0.01em' }}>
+            Comece sua jornada de produtividade.
           </p>
         </div>
 
-        {error && (
-          <div style={{
-            background: 'var(--color-error-bg)', border: '1px solid #fecaca',
-            color: 'var(--color-error)', borderRadius: 'var(--radius-md)',
-            padding: '0.75rem 1rem', fontSize: '0.875rem', marginBottom: '1.25rem',
-          }}>
-            {error}
-          </div>
-        )}
+        {/* Card */}
+        <div style={{
+          background: '#ffffff', borderRadius: '2rem', padding: '2.5rem',
+          boxShadow: '0px 20px 40px rgba(0,63,135,0.06)',
+          border: '1px solid rgba(194,198,212,0.10)',
+        }}>
+          {error && (
+            <div style={{
+              background: '#ffdad6', color: '#ba1a1a',
+              borderRadius: '0.75rem', padding: '0.75rem 1rem',
+              fontSize: '0.875rem', marginBottom: '1.5rem',
+            }}>
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.125rem' }}>
-          <div>
-            <label className="label" htmlFor="name">Nome</label>
-            <input id="name" className="input-field" type="text"
-              placeholder="Seu nome completo" required autoFocus
-              value={name} onChange={e => setName(e.target.value)} />
-          </div>
-          <div>
-            <label className="label" htmlFor="email">E-mail</label>
-            <input id="email" className="input-field" type="email"
-              placeholder="seu@email.com" required
-              value={email} onChange={e => setEmail(e.target.value)} />
-          </div>
-          <div>
-            <label className="label" htmlFor="password">Senha</label>
-            <input id="password" className="input-field" type="password"
-              placeholder="Mínimo 8 caracteres" required minLength={8}
-              value={password} onChange={e => setPassword(e.target.value)} />
-          </div>
-          <div>
-            <label className="label" htmlFor="confirm">Confirmar senha</label>
-            <input id="confirm" className="input-field" type="password"
-              placeholder="Repita a senha" required
-              value={confirm} onChange={e => setConfirm(e.target.value)} />
-          </div>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {fields.map(({ id, label, type, placeholder, icon, value, set }, i) => (
+              <div key={id} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <label className="label" htmlFor={id}>{label}</label>
+                <div style={{ position: 'relative' }}>
+                  <div style={{
+                    position: 'absolute', top: 0, bottom: 0, left: '1rem',
+                    display: 'flex', alignItems: 'center', pointerEvents: 'none',
+                    color: '#727784',
+                  }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>{icon}</span>
+                  </div>
+                  <input
+                    id={id}
+                    className="input-field"
+                    type={type}
+                    placeholder={placeholder}
+                    required
+                    autoFocus={i === 0}
+                    minLength={id === 'password' || id === 'confirm' ? 8 : undefined}
+                    value={value}
+                    onChange={e => set(e.target.value)}
+                  />
+                </div>
+              </div>
+            ))}
 
-          <button
-            type="submit" className="btn-primary"
-            style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem', padding: '0.75rem' }}
-            disabled={loading}
-          >
-            {loading ? (
-              <span style={{ width: 18, height: 18, border: '2px solid rgba(255,255,255,.4)', borderTopColor: '#fff', borderRadius: '50%' }} className="animate-spin" />
-            ) : 'Criar conta'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%', marginTop: '0.5rem',
+                background: 'linear-gradient(135deg, #003f87 0%, #0056b3 100%)',
+                color: '#ffffff', fontWeight: 700, fontSize: '1.0625rem',
+                padding: '1rem 1.5rem', borderRadius: '9999px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1,
+                transition: 'opacity 0.15s, transform 0.1s',
+                boxShadow: '0 8px 24px rgba(0,63,135,0.10)',
+              }}
+              onMouseEnter={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.opacity = '0.90'; }}
+              onMouseLeave={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
+              onMouseDown={e  => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.98)'; }}
+              onMouseUp={e    => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'; }}
+            >
+              {loading ? (
+                <span style={{
+                  width: 20, height: 20,
+                  border: '2px solid rgba(255,255,255,.35)', borderTopColor: '#fff',
+                  borderRadius: '50%',
+                }} className="animate-spin" />
+              ) : (
+                <>
+                  <span>Criar conta</span>
+                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>arrow_forward</span>
+                </>
+              )}
+            </button>
+          </form>
+        </div>
 
-        <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-          Já tem conta?{' '}
-          <Link href="/login" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+        <p style={{ textAlign: 'center', marginTop: '2.5rem', color: '#424752', fontWeight: 500 }}>
+          Já tem uma conta?{' '}
+          <Link href="/login" style={{ color: '#003f87', fontWeight: 700, textDecoration: 'underline', textUnderlineOffset: '4px', textDecorationThickness: '2px' }}>
             Entrar
           </Link>
+        </p>
+
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <p style={{
+            fontSize: '0.625rem', textTransform: 'uppercase',
+            letterSpacing: '0.2em', fontWeight: 700,
+            color: 'rgba(114,119,132,0.6)',
+            lineHeight: 1.6, padding: '0 2rem',
+          }}>
+            Ao continuar, você concorda com nossos{' '}
+            <a href="#" style={{ color: 'inherit' }}>Termos de Serviço</a> e{' '}
+            <a href="#" style={{ color: 'inherit' }}>Política de Privacidade</a>.
+          </p>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
