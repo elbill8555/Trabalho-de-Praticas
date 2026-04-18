@@ -4,6 +4,7 @@ import { useEffect, ReactNode } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { getToken, getUser, clearAuth } from '@/lib/auth';
+import AiChat from './AiChat';
 
 /* ── Navigation items — matches Stitch dashboard prototype ── */
 const NAV_ITEMS = [
@@ -261,6 +262,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       }}>
         {children}
       </main>
+
+      <AiChat />
     </div>
   );
 }
