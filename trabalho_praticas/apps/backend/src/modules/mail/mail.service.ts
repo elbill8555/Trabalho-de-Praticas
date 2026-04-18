@@ -10,10 +10,17 @@ export class MailService {
 
   constructor(private readonly config: ConfigService) {
     const apiKey = this.config.get<string>('RESEND_API_KEY');
+    const from = this.config.get<string>('RESEND_FROM_EMAIL');
+    
+    if (from) {
+      this.fromEmail = from;
+    }
+
     if (apiKey) {
+      this.logger.log(`RESEND_API_KEY detected (starts with: ${apiKey.substring(0, 5)}...)`);
       this.resend = new Resend(apiKey);
     } else {
-      this.logger.warn('RESEND_API_KEY is not defined. Email sends will be mocked.');
+      this.logger.error('RESEND_API_KEY IS MISSING! Check your .env file.');
     }
   }
 
@@ -23,16 +30,20 @@ export class MailService {
       return;
     }
 
+    // Force redirection if in test mode
+    const testRecipient = this.config.get<string>('MAIL_TEST_MODE_RECIPIENT');
+    const finalTo = testRecipient || to;
+
     try {
       const data = await this.resend.emails.send({
         from: `Task Manager <${this.fromEmail}>`,
-        to: [to],
-        subject,
+        to: [finalTo],
+        subject: testRecipient ? `[TESTE -> ${to}] ${subject}` : subject,
         html,
       });
-      this.logger.log(`Email sent successfully to ${to}. ID: ${data.data?.id}`);
+      this.logger.log(`Email sent successfully to ${finalTo} (Original: ${to}). ID: ${data.data?.id}`);
     } catch (error) {
-      this.logger.error(`Failed to send email to ${to}: ${error.message}`);
+      this.logger.error(`Failed to send email to ${finalTo}: ${error.message}`);
     }
   }
 

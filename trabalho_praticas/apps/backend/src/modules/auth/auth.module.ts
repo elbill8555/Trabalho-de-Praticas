@@ -12,6 +12,7 @@ import { PrismaService } from '../../database/prisma.service';
   imports: [
     PassportModule,
     ConfigModule,
+    MailModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
