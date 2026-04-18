@@ -5,7 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
 import { TasksService } from '../tasks/tasks.service';
 import { ProjectsService } from '../projects/projects.service';
 import { PrismaService } from '../../database/prisma.service';
@@ -13,7 +13,7 @@ import { TaskStatus, Priority } from '@prisma/client';
 
 // ─── Tipos internos ───────────────────────────────────────────────────────────
 
-type AiAction = 'create' | 'read' | 'update' | 'delete';
+type AiAction = 'create' | 'read' | 'update' | 'delete' | 'clarify';
 type AiEntity = 'task' | 'project';
 
 interface AiCommand {
@@ -21,62 +21,38 @@ interface AiCommand {
   entity: AiEntity;
   data?: Record<string, any>;
   filters?: Record<string, any>;
+  friendly_message?: string;
 }
 
 // ─── Prompt de sistema ────────────────────────────────────────────────────────
 
 const SYSTEM_PROMPT = `
-Você é um assistente de gerenciamento de tarefas. O usuário pode pedir para criar, listar, atualizar ou apagar tarefas e projetos.
+Você é um assistente de gerenciamento de tarefas especializado em JSON.
+Sua única saída possível deve ser um objeto JSON.
 
-Você deve SEMPRE responder com um JSON estruturado no seguinte formato, sem nenhum texto antes ou depois:
-
+FORMATO:
 {
-  "action": "create | read | update | delete",
-  "entity": "task | project",
-  "data": { ... },
-  "filters": { ... },
-  "friendly_message": "Mensagem amigável para o usuário"
+  "action": "create" | "read" | "update" | "delete" | "clarify",
+  "entity": "task" | "project",
+  "data": { "title": "...", "description": "...", "status": "...", "priority": "...", "name": "...", "color": "..." },
+  "filters": { "title": "...", "name": "...", "projectName": "...", "status": "..." },
+  "friendly_message": "Resposta curta confirmando a ação."
 }
 
-Regras obrigatórias:
-1. O campo "action" deve ser um dos valores: create, read, update, delete.
-2. O campo "entity" deve ser: task ou project.
-3. O campo "data" contém os dados para criação ou atualização.
-4. O campo "filters" contém os filtros para busca, atualização ou deleção.
-5. O campo "friendly_message" é a resposta amigável ao usuário APÓS a execução da ação.
-6. Para tasks, os valores de "status" devem ser: PENDING, IN_PROGRESS, DONE.
-7. Para tasks, os valores de "priority" devem ser: LOW, MEDIUM, HIGH, URGENT.
-8. Se faltar informação obrigatória (ex: título da tarefa), retorne:
-   { "action": "clarify", "entity": "task", "data": {}, "filters": {}, "friendly_message": "Qual é o título da tarefa?" }
-9. NUNCA retorne texto fora do JSON. Somente JSON válido.
-10. Nunca invente dados. Se não souber um campo, omita-o.
+MAPEAMENTO DE INTENÇÕES:
+- "Apagar tudo do projeto X" ou "Limpar projeto X": action="delete", entity="task", filters={"projectName": "X"}
+- "Crie tarefas no app 1": action="create", entity="task", data={"projectId": "...", "projectName": "app 1"}
 
-Campos das entidades:
-- Task: title (string, obrigatório), description (string), status (enum), priority (enum), dueDate (ISO date), projectId (string UUID)
-- Project: name (string, obrigatório), description (string), color (string hex)
-
-Exemplos de entrada e saída:
-
-Entrada: "Crie uma tarefa chamada estudar IA com prioridade alta"
-Saída: { "action": "create", "entity": "task", "data": { "title": "Estudar IA", "priority": "HIGH" }, "filters": {}, "friendly_message": "Tarefa 'Estudar IA' criada com prioridade alta!" }
-
-Entrada: "Liste minhas tarefas pendentes"
-Saída: { "action": "read", "entity": "task", "data": {}, "filters": { "status": "PENDING" }, "friendly_message": "Aqui estão suas tarefas pendentes:" }
-
-Entrada: "Marque a tarefa Estudar IA como concluída"
-Saída: { "action": "update", "entity": "task", "data": { "status": "DONE" }, "filters": { "title": "Estudar IA" }, "friendly_message": "Tarefa 'Estudar IA' marcada como concluída!" }
-
-Entrada: "Apague o projeto Marketing"
-Saída: { "action": "delete", "entity": "project", "data": {}, "filters": { "name": "Marketing" }, "friendly_message": "Projeto 'Marketing' apagado com sucesso!" }
+REGRAS:
+- Nunca use markdown.
+- Nunca adicione texto fora das chaves.
 `.trim();
-
-// ─── Service ──────────────────────────────────────────────────────────────────
 
 @Injectable()
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
-  private readonly genai: GoogleGenAI;
-  private readonly model = 'gemini-1.5-flash';
+  private readonly genAI: GoogleGenerativeAI;
+  private readonly models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
 
   constructor(
     private readonly config: ConfigService,
@@ -85,80 +61,63 @@ export class ChatService {
     private readonly prisma: PrismaService,
   ) {
     const apiKey = this.config.get<string>('GEMINI_API_KEY');
-    if (!apiKey) {
-      this.logger.error('GEMINI_API_KEY não encontrada nas variáveis de ambiente');
-      throw new InternalServerErrorException('Configuração incompleta: GEMINI_API_KEY ausente.');
-    }
-    this.genai = new GoogleGenAI({ apiKey });
+    this.genAI = new GoogleGenerativeAI(apiKey || 'INVALID');
   }
-
-  // ─── Método principal ────────────────────────────────────────────────────
 
   async processMessage(userId: string, message: string): Promise<{ reply: string; data?: any }> {
-    this.logger.log(`Processando mensagem do usuário ${userId}: "${message}"`);
+    this.logger.log(`[CHAT] User ${userId}: ${message}`);
     
-    const command = await this.callGemini(message);
-
-    if (command.action === ('clarify' as any)) {
-      return { reply: command['friendly_message'] ?? 'Pode fornecer mais detalhes?' };
-    }
-
     try {
+      const command = await this.callGeminiWithFallback(message);
+      this.logger.debug(`[CHAT] Command parsed: ${JSON.stringify(command)}`);
+
+      if (command.action === 'clarify') {
+        return { reply: command.friendly_message || 'Pode ser mais específico?' };
+      }
+
       this.validateCommand(command);
+      const result = await this.executeCommand(userId, command);
+
+      return {
+        reply: command.friendly_message || 'OK, feito!',
+        data: result,
+      };
     } catch (err) {
-      this.logger.warn(`Comando inválido de ${userId}: ${err.message}`);
+      this.logger.error(`[CHAT ERROR] ${err.message}`);
       throw err;
     }
-
-    const result = await this.executeCommand(userId, command);
-
-    return {
-      reply: command['friendly_message'] ?? 'Ação executada com sucesso.',
-      data: result,
-    };
   }
 
-  // ─── Gemini ──────────────────────────────────────────────────────────────
+  private async callGeminiWithFallback(userMessage: string): Promise<AiCommand> {
+    const prompt = `${SYSTEM_PROMPT}\n\nUsuário: "${userMessage}"`;
+    let lastError: Error | null = null;
 
-  private async callGemini(userMessage: string): Promise<AiCommand & { friendly_message?: string }> {
-    let rawText = '';
-    try {
-      // Usando generateContent ao invés de stream para simplificar o recebimento e log
-      const response = await this.genai.models.generateContent({
-        model: this.model,
-        contents: `${SYSTEM_PROMPT}\n\nMensagem do usuário: "${userMessage}"`,
-        config: {
-          temperature: 0.1, // Mais determinístico para JSON
-        }
-      });
-
-      rawText = response.text || '';
-      this.logger.debug(`Resposta bruta do Gemini: ${rawText}`);
-      
-      if (!rawText) {
-        throw new Error('Gemini retornou uma resposta vazia.');
+    for (const modelName of this.models) {
+      try {
+        const model = this.genAI.getGenerativeModel({ model: modelName });
+        const result = await model.generateContent(prompt);
+        const text = result.response.text();
+        this.logger.debug(`[GEMINI] Success with ${modelName}`);
+        return this.parseJson(text);
+      } catch (err) {
+        this.logger.warn(`[GEMINI] Failed with ${modelName}: ${err.message}`);
+        lastError = err;
       }
-    } catch (err) {
-      this.logger.error('Erro ao chamar a API do Gemini', err);
-      throw new InternalServerErrorException('Falha na comunicação com a IA. Tente novamente.');
     }
 
-    return this.parseJson(rawText.trim());
+    throw new InternalServerErrorException(`Falha em todos os modelos de IA: ${lastError?.message}`);
   }
 
-  private parseJson(raw: string): AiCommand & { friendly_message?: string } {
-    // Tenta extrair JSON se estiver dentro de blocos de código markdown
+  private parseJson(raw: string): AiCommand {
+    // Regex robusta para pegar qualquer coisa entre chaves
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     const cleaned = jsonMatch ? jsonMatch[0] : raw;
 
     try {
-      const parsed = JSON.parse(cleaned);
-      return parsed;
+      return JSON.parse(cleaned);
     } catch (err) {
-      this.logger.error(`Erro ao parsear JSON. Texto limpo: ${cleaned}`, err);
-      throw new BadRequestException(
-        'A IA gerou uma resposta em formato inválido. Tente reformular o pedido.',
-      );
+      this.logger.error(`Invalid JSON from AI: ${cleaned}`);
+      throw new BadRequestException('Não consegui entender o comando gerado pela IA. Tente ser mais específico.');
     }
   }
 
@@ -260,10 +219,22 @@ export class ChatService {
   }
 
   private async deleteTask(userId: string, filters: Record<string, any>) {
+    // Caso especial: deletar todas as tarefas de um projeto
+    if (filters.projectName) {
+      const projectId = await this.resolveProjectId(userId, filters.projectName);
+      if (projectId) {
+        const deleted = await this.prisma.task.deleteMany({
+          where: { userId, projectId },
+        });
+        return { message: `${deleted.count} tarefas removidas do projeto ${filters.projectName}.` };
+      }
+    }
+
     const taskId = filters.id ?? (await this.resolveTaskId(userId, filters.title));
     if (!taskId) {
+      const filterDesc = filters.title || filters.projectName || JSON.stringify(filters);
       throw new BadRequestException(
-        `Não encontrei uma tarefa com o título "${filters.title}".`,
+        `Não encontrei tarefas para remover usando o filtro: ${filterDesc}.`,
       );
     }
     return this.tasksService.remove(userId, taskId);

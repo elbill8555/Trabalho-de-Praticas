@@ -49,7 +49,8 @@ export default function AiChat() {
       });
 
       if (!response.ok) {
-        throw new Error('Falha ao processar comando.');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Falha ao processar comando no servidor.');
       }
 
       const data = await response.json();

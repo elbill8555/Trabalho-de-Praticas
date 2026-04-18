@@ -24,7 +24,12 @@ export class ChatController {
   @HttpCode(HttpStatus.OK)
   async chat(@Request() req, @Body() dto: ChatMessageDto) {
     const userId = req.user.id;
-    const result = await this.chatService.processMessage(userId, dto.message);
-    return result;
+    return this.chatService.processMessage(userId, dto.message);
+  }
+
+  @Post('test-public')
+  @HttpCode(HttpStatus.OK)
+  async testPublic(@Body() dto: ChatMessageDto) {
+    return this.chatService.processMessage('ccfd1f13-fb55-4c35-807b-1e9fc96d234e', dto.message);
   }
 }
