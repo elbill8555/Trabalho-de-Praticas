@@ -76,7 +76,7 @@ Saída: { "action": "delete", "entity": "project", "data": {}, "filters": { "nam
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
   private readonly genai: GoogleGenAI;
-  private readonly model = 'gemini-2.0-flash';
+  private readonly model = 'gemini-1.5-flash';
 
   constructor(
     private readonly config: ConfigService,
@@ -86,7 +86,8 @@ export class ChatService {
   ) {
     const apiKey = this.config.get<string>('GEMINI_API_KEY');
     if (!apiKey) {
-      throw new InternalServerErrorException('GEMINI_API_KEY não configurada.');
+      this.logger.error('GEMINI_API_KEY não encontrada nas variáveis de ambiente');
+      throw new InternalServerErrorException('Configuração incompleta: GEMINI_API_KEY ausente.');
     }
     this.genai = new GoogleGenAI({ apiKey });
   }
@@ -94,13 +95,20 @@ export class ChatService {
   // ─── Método principal ────────────────────────────────────────────────────
 
   async processMessage(userId: string, message: string): Promise<{ reply: string; data?: any }> {
+    this.logger.log(`Processando mensagem do usuário ${userId}: "${message}"`);
+    
     const command = await this.callGemini(message);
 
     if (command.action === ('clarify' as any)) {
       return { reply: command['friendly_message'] ?? 'Pode fornecer mais detalhes?' };
     }
 
-    this.validateCommand(command);
+    try {
+      this.validateCommand(command);
+    } catch (err) {
+      this.logger.warn(`Comando inválido de ${userId}: ${err.message}`);
+      throw err;
+    }
 
     const result = await this.executeCommand(userId, command);
 
@@ -113,22 +121,22 @@ export class ChatService {
   // ─── Gemini ──────────────────────────────────────────────────────────────
 
   private async callGemini(userMessage: string): Promise<AiCommand & { friendly_message?: string }> {
-    const contents = [
-      {
-        role: 'user' as const,
-        parts: [{ text: `${SYSTEM_PROMPT}\n\nMensagem do usuário: "${userMessage}"` }],
-      },
-    ];
-
     let rawText = '';
     try {
-      const response = await this.genai.models.generateContentStream({
+      // Usando generateContent ao invés de stream para simplificar o recebimento e log
+      const response = await this.genai.models.generateContent({
         model: this.model,
-        contents,
+        contents: `${SYSTEM_PROMPT}\n\nMensagem do usuário: "${userMessage}"`,
+        config: {
+          temperature: 0.1, // Mais determinístico para JSON
+        }
       });
 
-      for await (const chunk of response) {
-        if (chunk.text) rawText += chunk.text;
+      rawText = response.text || '';
+      this.logger.debug(`Resposta bruta do Gemini: ${rawText}`);
+      
+      if (!rawText) {
+        throw new Error('Gemini retornou uma resposta vazia.');
       }
     } catch (err) {
       this.logger.error('Erro ao chamar a API do Gemini', err);
@@ -139,16 +147,17 @@ export class ChatService {
   }
 
   private parseJson(raw: string): AiCommand & { friendly_message?: string } {
-    // Remove blocos ```json ... ``` se existirem
-    const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+    // Tenta extrair JSON se estiver dentro de blocos de código markdown
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    const cleaned = jsonMatch ? jsonMatch[0] : raw;
 
     try {
       const parsed = JSON.parse(cleaned);
       return parsed;
-    } catch {
-      this.logger.error('JSON inválido retornado pelo Gemini:', raw);
+    } catch (err) {
+      this.logger.error(`Erro ao parsear JSON. Texto limpo: ${cleaned}`, err);
       throw new BadRequestException(
-        'Não consegui entender seu comando. Tente reformular com mais clareza.',
+        'A IA gerou uma resposta em formato inválido. Tente reformular o pedido.',
       );
     }
   }
