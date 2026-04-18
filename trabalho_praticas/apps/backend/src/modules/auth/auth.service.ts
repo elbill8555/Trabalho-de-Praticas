@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../database/prisma.service';
+import { MailService } from '../mail/mail.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -16,6 +17,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -35,6 +37,9 @@ export class AuthService {
       data: { name: dto.name, email: dto.email, passwordHash },
     });
     console.log('[REGISTER SERVICE] user created:', user.id);
+
+    // Send Welcome Email asynchronously
+    this.mailService.sendWelcomeEmail(user.email, user.name || 'Usuário');
 
     const token = this.jwtService.sign({ sub: user.id, email: user.email });
     return {

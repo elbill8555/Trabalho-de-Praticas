@@ -1,12 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
+import { MailService } from '../mail/mail.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskStatus, Priority } from '@prisma/client';
 
 @Injectable()
 export class TasksService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly mailService: MailService,
+  ) {}
 
   async findAll(
     userId: string,
@@ -24,7 +28,7 @@ export class TasksService {
   }
 
   async create(userId: string, dto: CreateTaskDto) {
-    return this.prisma.task.create({
+    const task = await this.prisma.task.create({
       data: {
         title: dto.title,
         description: dto.description,
@@ -36,6 +40,22 @@ export class TasksService {
       },
       include: { project: { select: { id: true, name: true, color: true } } },
     });
+
+    try {
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (user && user.email) {
+        this.mailService.sendTaskCreatedEmail(
+          user.email,
+          user.name || 'Usuário',
+          task.title,
+          task.project?.name,
+        );
+      }
+    } catch (error) {
+      console.error('Error sending task creation email', error);
+    }
+
+    return task;
   }
 
   async update(userId: string, id: string, dto: UpdateTaskDto) {
@@ -51,8 +71,22 @@ export class TasksService {
   }
 
   async remove(userId: string, id: string) {
-    await this.findOneOrFail(userId, id);
+    const task = await this.findOneOrFail(userId, id);
     await this.prisma.task.delete({ where: { id } });
+
+    try {
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (user && user.email) {
+        this.mailService.sendTaskDeletedEmail(
+          user.email,
+          user.name || 'Usuário',
+          task.title,
+        );
+      }
+    } catch (error) {
+      console.error('Error sending task deletion email', error);
+    }
+
     return { message: 'Task deleted' };
   }
 
