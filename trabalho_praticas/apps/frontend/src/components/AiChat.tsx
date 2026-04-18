@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { getToken } from '@/lib/auth';
 
@@ -17,6 +18,7 @@ export default function AiChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // Persistence
   useEffect(() => {
@@ -71,15 +73,20 @@ export default function AiChat() {
       const aiMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'ai',
-        content: data.reply || 'Comando executado, mas sem mensagem de resposta.',
+        content: data.reply || 'Comando executado com sucesso.',
         timestamp: new Date(),
       };
       
       setMessages((prev) => [...prev, aiMessage]);
       
-      // Dispatch event to refresh data (tarefas, projetos) se for sucesso
+      // Dispatch event to refresh data (tarefas, projetos) se houve alguma alteração
       if (data.data) {
         window.dispatchEvent(new Event('refresh-data'));
+      }
+
+      // Navegação automática se a IA sugerir
+      if (data.redirectTo) {
+        router.push(data.redirectTo);
       }
       
     } catch (error: any) {

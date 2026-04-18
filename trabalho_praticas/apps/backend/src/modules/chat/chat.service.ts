@@ -13,7 +13,7 @@ import { TaskStatus, Priority } from '@prisma/client';
 
 // ─── Tipos internos ───────────────────────────────────────────────────────────
 
-type AiAction = 'create' | 'read' | 'update' | 'delete' | 'clarify';
+type AiAction = 'create' | 'read' | 'update' | 'delete' | 'clarify' | 'navigate';
 type AiEntity = 'task' | 'project';
 
 interface AiCommand {
@@ -21,38 +21,61 @@ interface AiCommand {
   entity: AiEntity;
   data?: Record<string, any>;
   filters?: Record<string, any>;
-  friendly_message?: string;
+}
+
+interface AiResponse {
+  commands: AiCommand[];
+  friendly_message: string;
+  redirectTo?: string; // Ex: '/tasks', '/projects'
 }
 
 // ─── Prompt de sistema ────────────────────────────────────────────────────────
 
 const SYSTEM_PROMPT = `
-Você é um assistente de gerenciamento de tarefas especializado em JSON.
-Sua única saída possível deve ser um objeto JSON.
+Você é um assistente de gerenciamento de tarefas especializado em comandos JSON.
+Sua única saída possível deve ser um objeto JSON seguindo estritamente o formato abaixo.
 
-FORMATO:
+REGRAS CRÍTICAS:
+1. Se o usuário pedir múltiplas coisas (ex: "Crie 3 tarefas"), retorne múltiplos objetos no array "commands".
+2. Se a ação envolver tarefas, sugira "redirectTo": "/tasks".
+3. Se a ação envolver projetos, sugira "redirectTo": "/projects".
+4. Se o usuário quiser apenas navegar para uma página, use action="navigate".
+5. Mantenha a "friendly_message" amigável e informativa.
+
+FORMATO DE RESPOSTA:
 {
-  "action": "create" | "read" | "update" | "delete" | "clarify",
-  "entity": "task" | "project",
-  "data": { "title": "...", "description": "...", "status": "...", "priority": "...", "name": "...", "color": "..." },
-  "filters": { "title": "...", "name": "...", "projectName": "...", "status": "..." },
-  "friendly_message": "Resposta curta confirmando a ação."
+  "commands": [
+    {
+      "action": "create" | "read" | "update" | "delete" | "clarify" | "navigate",
+      "entity": "task" | "project",
+      "data": { ... },
+      "filters": { ... }
+    }
+  ],
+  "friendly_message": "Resposta confirmando todas as ações.",
+  "redirectTo": "/tasks" | "/projects" | "/dashboard"
 }
 
-MAPEAMENTO DE INTENÇÕES:
-- "Apagar tudo do projeto X" ou "Limpar projeto X": action="delete", entity="task", filters={"projectName": "X"}
-- "Crie tarefas no app 1": action="create", entity="task", data={"projectId": "...", "projectName": "app 1"}
+MAPEAMENTO DE ENTIDADES:
+- Task fields: title, description, status (TODO, IN_PROGRESS, DONE), priority (LOW, MEDIUM, HIGH), dueDate, projectId.
+- Project fields: name, description, color.
 
-REGRAS:
-- Nunca use markdown.
-- Nunca adicione texto fora das chaves.
+EXEMPLO DE MÚLTIPLOS:
+Usuário: "Crie uma tarefa Comprar Pão e outra Lavar Carro no projeto Casa"
+Resposta: {
+  "commands": [
+    { "action": "create", "entity": "task", "data": { "title": "Comprar Pão", "projectName": "Casa" } },
+    { "action": "create", "entity": "task", "data": { "title": "Lavar Carro", "projectName": "Casa" } }
+  ],
+  "friendly_message": "Com certeza! Criei as duas tarefas no projeto Casa.",
+  "redirectTo": "/tasks"
+}
 `.trim();
 
 @Injectable()
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
   private readonly genAI: GoogleGenerativeAI;
-  // Modelos detectados como disponíveis para esta chave específica
   private readonly models = [
     'gemini-2.0-flash',
     'gemini-2.0-flash-lite',
@@ -70,23 +93,35 @@ export class ChatService {
     this.genAI = new GoogleGenerativeAI(apiKey || 'INVALID');
   }
 
-  async processMessage(userId: string, message: string): Promise<{ reply: string; data?: any }> {
+  async processMessage(userId: string, message: string): Promise<{ reply: string; data?: any; redirectTo?: string }> {
     this.logger.log(`[CHAT] User ${userId}: ${message}`);
     
     try {
-      const command = await this.callGeminiWithFallback(message);
-      this.logger.debug(`[CHAT] Command parsed: ${JSON.stringify(command)}`);
+      const aiResponse = await this.callGeminiWithFallback(message);
+      this.logger.debug(`[CHAT] Commands parsed: ${JSON.stringify(aiResponse)}`);
 
-      if (command.action === 'clarify') {
-        return { reply: command.friendly_message || 'Pode ser mais específico?' };
+      const results = [];
+      
+      // Processa cada comando individualmente
+      for (const command of aiResponse.commands) {
+        if (command.action === 'clarify' || command.action === 'navigate') {
+          continue;
+        }
+
+        try {
+          this.validateCommand(command);
+          const result = await this.executeCommand(userId, command);
+          results.push(result);
+        } catch (cmdErr) {
+          this.logger.warn(`[CHAT] Failed to execute sub-command: ${cmdErr.message}`);
+          // Continua processando os outros comandos se um falhar
+        }
       }
 
-      this.validateCommand(command);
-      const result = await this.executeCommand(userId, command);
-
       return {
-        reply: command.friendly_message || 'OK, feito!',
-        data: result,
+        reply: aiResponse.friendly_message || 'OK, processado!',
+        data: results,
+        redirectTo: aiResponse.redirectTo
       };
     } catch (err) {
       this.logger.error(`[CHAT ERROR] ${err.message}`);
@@ -94,7 +129,7 @@ export class ChatService {
     }
   }
 
-  private async callGeminiWithFallback(userMessage: string): Promise<AiCommand> {
+  private async callGeminiWithFallback(userMessage: string): Promise<AiResponse> {
     const prompt = `${SYSTEM_PROMPT}\n\nUsuário: "${userMessage}"`;
     let lastError: Error | null = null;
 
@@ -103,7 +138,6 @@ export class ChatService {
         const model = this.genAI.getGenerativeModel({ model: modelName });
         const result = await model.generateContent(prompt);
         const text = result.response.text();
-        this.logger.debug(`[GEMINI] Success with ${modelName}`);
         return this.parseJson(text);
       } catch (err) {
         this.logger.warn(`[GEMINI] Failed with ${modelName}: ${err.message}`);
@@ -114,13 +148,16 @@ export class ChatService {
     throw new InternalServerErrorException(`Falha em todos os modelos de IA: ${lastError?.message}`);
   }
 
-  private parseJson(raw: string): AiCommand {
-    // Regex robusta para pegar qualquer coisa entre chaves
+  private parseJson(raw: string): AiResponse {
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     const cleaned = jsonMatch ? jsonMatch[0] : raw;
 
     try {
-      return JSON.parse(cleaned);
+      const parsed = JSON.parse(cleaned);
+      // Garante que commands seja sempre um array
+      if (!parsed.commands) parsed.commands = [];
+      if (!Array.isArray(parsed.commands)) parsed.commands = [parsed.commands];
+      return parsed;
     } catch (err) {
       this.logger.error(`Invalid JSON from AI: ${cleaned}`);
       throw new BadRequestException('Não consegui entender o comando gerado pela IA. Tente ser mais específico.');
@@ -189,13 +226,20 @@ export class ChatService {
   // ─── Task actions ────────────────────────────────────────────────────────
 
   private async createTask(userId: string, data: Record<string, any>) {
+    let projectId = data.projectId;
+    
+    // Se não tem ID mas tem nome do projeto, tenta resolver
+    if (!projectId && data.projectName) {
+      projectId = await this.resolveProjectId(userId, data.projectName);
+    }
+
     return this.tasksService.create(userId, {
       title: data.title,
       description: data.description,
       status: data.status as TaskStatus,
       priority: data.priority as Priority,
       dueDate: data.dueDate,
-      projectId: data.projectId,
+      projectId: projectId || undefined,
     });
   }
 
@@ -214,13 +258,19 @@ export class ChatService {
         `Não encontrei uma tarefa com o título "${filters.title}". Verifique o nome e tente novamente.`,
       );
     }
+
+    let projectId = data.projectId;
+    if (!projectId && data.projectName) {
+      projectId = await this.resolveProjectId(userId, data.projectName);
+    }
+
     return this.tasksService.update(userId, taskId, {
       title: data.title,
       description: data.description,
       status: data.status as TaskStatus,
       priority: data.priority as Priority,
       dueDate: data.dueDate,
-      projectId: data.projectId,
+      projectId: projectId || undefined,
     });
   }
 
