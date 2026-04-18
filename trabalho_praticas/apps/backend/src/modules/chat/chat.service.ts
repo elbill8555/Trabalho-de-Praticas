@@ -52,7 +52,13 @@ REGRAS:
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
   private readonly genAI: GoogleGenerativeAI;
-  private readonly models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+  // Modelos detectados como disponíveis para esta chave específica
+  private readonly models = [
+    'gemini-2.0-flash',
+    'gemini-2.0-flash-lite',
+    'gemini-flash-latest',
+    'gemini-pro-latest'
+  ];
 
   constructor(
     private readonly config: ConfigService,
@@ -60,7 +66,7 @@ export class ChatService {
     private readonly projectsService: ProjectsService,
     private readonly prisma: PrismaService,
   ) {
-    const apiKey = this.config.get<string>('GEMINI_API_KEY');
+    const apiKey = this.config.get<string>('GEMINI_API_KEY')?.trim();
     this.genAI = new GoogleGenerativeAI(apiKey || 'INVALID');
   }
 
