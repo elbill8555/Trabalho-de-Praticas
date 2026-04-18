@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AppLayout from '@/components/AppLayout';
@@ -38,21 +38,29 @@ export default function DashboardPage() {
   const [newTitle,  setNewTitle]  = useState('');
   const [checked,   setChecked]   = useState<Record<string, boolean>>({});
 
-  useEffect(() => {
-    Promise.all([
-      apiFetch<Task[]>('/api/v1/tasks'),
-      apiFetch<Project[]>('/api/v1/projects'),
-    ]).then(([t, p]) => {
+  const load = useCallback(async () => {
+    try {
+      const [t, p] = await Promise.all([
+        apiFetch<Task[]>('/api/v1/tasks'),
+        apiFetch<Project[]>('/api/v1/projects'),
+      ]);
       setTasks(t);
       setProjects(p);
-      /* Pre-check tasks already done */
       const init: Record<string, boolean> = {};
       t.forEach(task => { if (task.status === 'DONE') init[task.id] = true; });
       setChecked(init);
-    })
-      .catch(() => router.push('/login'))
-      .finally(() => setLoading(false));
+    } catch {
+      router.push('/login');
+    } finally {
+      setLoading(false);
+    }
   }, [router]);
+
+  useEffect(() => {
+    load();
+    window.addEventListener('refresh-data', load);
+    return () => window.removeEventListener('refresh-data', load);
+  }, [load]);
 
   const pending = tasks.filter(t => t.status === 'PENDING').length;
   const done    = tasks.filter(t => t.status === 'DONE').length;
@@ -177,7 +185,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             displayTasks.map(task => {
-              const done    = checked[task.id] ?? false;
+              const taskDone    = checked[task.id] ?? false;
               const pStyle  = PRIORITY_STYLE[task.priority] ?? PRIORITY_STYLE.LOW;
               const pLabel  = PRIORITY_LABEL[task.priority] ?? task.priority;
               const dateStr = task.dueDate
@@ -191,18 +199,17 @@ export default function DashboardPage() {
                     display: 'flex', alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '1.25rem',
-                    background: done ? 'rgba(255,255,255,0.5)' : '#ffffff',
+                    background: taskDone ? 'rgba(255,255,255,0.5)' : '#ffffff',
                     borderRadius: '0.5rem',
                     cursor: 'pointer',
                     transition: 'background 0.15s, border-radius 0.15s',
-                    /* hover handled via onMouse */
                   }}
                   onMouseEnter={e => {
                     (e.currentTarget as HTMLDivElement).style.background = '#f3f4f5';
                     (e.currentTarget as HTMLDivElement).style.borderRadius = '0.75rem';
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLDivElement).style.background = done ? 'rgba(255,255,255,0.5)' : '#ffffff';
+                    (e.currentTarget as HTMLDivElement).style.background = taskDone ? 'rgba(255,255,255,0.5)' : '#ffffff';
                     (e.currentTarget as HTMLDivElement).style.borderRadius = '0.5rem';
                   }}
                 >
@@ -210,7 +217,7 @@ export default function DashboardPage() {
                     {/* Checkbox */}
                     <input
                       type="checkbox"
-                      checked={done}
+                      checked={taskDone}
                       onChange={() => toggleCheck(task.id)}
                       onClick={e => e.stopPropagation()}
                       style={{ width: 24, height: 24, borderRadius: '0.375rem', cursor: 'pointer', accentColor: '#003f87' }}
@@ -218,8 +225,8 @@ export default function DashboardPage() {
                     <div>
                       <h3 style={{
                         fontSize: '1.0625rem', fontWeight: 600,
-                        color: done ? '#727784' : '#191c1d',
-                        textDecoration: done ? 'line-through' : 'none',
+                        color: taskDone ? '#727784' : '#191c1d',
+                        textDecoration: taskDone ? 'line-through' : 'none',
                         fontFamily: 'var(--font-heading)',
                       }}>
                         {task.title}
@@ -231,19 +238,17 @@ export default function DashboardPage() {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    {/* Priority badge — rounded-full, Stitch colors */}
                     <span style={{
                       padding: '0.2rem 0.875rem',
                       borderRadius: '9999px',
-                      background: done ? '#edeeef' : pStyle.bg,
-                      color: done ? '#424752' : pStyle.color,
+                      background: taskDone ? '#edeeef' : pStyle.bg,
+                      color: taskDone ? '#424752' : pStyle.color,
                       fontSize: '0.6875rem', fontWeight: 700,
                       textTransform: 'uppercase', letterSpacing: '0.06em',
                       whiteSpace: 'nowrap',
                     }}>
-                      {done ? 'Done' : pLabel}
+                      {taskDone ? 'Done' : pLabel}
                     </span>
-                    {/* More — visible on hover via parent group */}
                     <span className="material-symbols-outlined" style={{ color: '#727784', fontSize: '22px', opacity: 0.6 }}>
                       more_vert
                     </span>

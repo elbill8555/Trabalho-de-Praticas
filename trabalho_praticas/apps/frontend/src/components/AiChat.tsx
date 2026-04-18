@@ -18,6 +18,19 @@ export default function AiChat() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Persistence
+  useEffect(() => {
+    const savedMessages = localStorage.getItem('chat-history');
+    const savedOpen     = localStorage.getItem('chat-is-open');
+    if (savedMessages) setMessages(JSON.parse(savedMessages));
+    if (savedOpen)     setIsOpen(savedOpen === 'true');
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('chat-history', JSON.stringify(messages));
+    localStorage.setItem('chat-is-open', String(isOpen));
+  }, [messages, isOpen]);
+
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -136,17 +149,41 @@ export default function AiChat() {
           {/* Header */}
           <div style={{
             background: 'linear-gradient(135deg, #003f87 0%, #0056b3 100%)',
-            padding: '1rem',
+            padding: '0.75rem 1rem',
             color: '#fff',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.75rem',
+            justifyContent: 'space-between',
           }}>
-            <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>smart_toy</span>
-            <div>
-              <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Fluid AI Assistant</h3>
-              <p style={{ margin: 0, fontSize: '0.75rem', opacity: 0.8 }}>Gerencie tarefas com comandos de texto</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '24px' }}>smart_toy</span>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>Fluid AI</h3>
+                <p style={{ margin: 0, fontSize: '0.70rem', opacity: 0.8 }}>Assistente Virtual</p>
+              </div>
             </div>
+            <button 
+              onClick={() => {
+                if (confirm('Limpar histórico do chat?')) {
+                  setMessages([]);
+                  localStorage.removeItem('chat-history');
+                }
+              }}
+              style={{
+                background: 'rgba(255,255,255,0.1)',
+                border: 'none',
+                color: '#fff',
+                borderRadius: '4px',
+                padding: '4px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              title="Limpar conversa"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>delete_sweep</span>
+            </button>
           </div>
 
           {/* Mensagens */}

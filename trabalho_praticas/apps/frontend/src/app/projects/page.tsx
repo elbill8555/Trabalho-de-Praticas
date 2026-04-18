@@ -40,7 +40,11 @@ export default function ProjectsPage() {
     finally { setLoading(false); }
   }, [router]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+    window.addEventListener('refresh-data', load);
+    return () => window.removeEventListener('refresh-data', load);
+  }, [load]);
 
   function openCreate() {
     setEditing(null); setName(''); setDesc(''); setColor(PROJECT_COLORS[0]);

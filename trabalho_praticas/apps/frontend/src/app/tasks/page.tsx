@@ -39,7 +39,11 @@ export default function TasksPage() {
     finally { setLoading(false); }
   }, [router]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+    window.addEventListener('refresh-data', load);
+    return () => window.removeEventListener('refresh-data', load);
+  }, [load]);
 
   async function handleDelete(id: string) {
     await apiFetch(`/api/v1/tasks/${id}`, { method: 'DELETE' });

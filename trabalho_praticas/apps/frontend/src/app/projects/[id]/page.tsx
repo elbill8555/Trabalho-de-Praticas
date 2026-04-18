@@ -36,7 +36,11 @@ export default function ProjectDetailPage() {
     finally { setLoading(false); }
   }, [id, router]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+    window.addEventListener('refresh-data', load);
+    return () => window.removeEventListener('refresh-data', load);
+  }, [load]);
 
   function handleSaved(saved: Task) {
     setProject(prev => {
