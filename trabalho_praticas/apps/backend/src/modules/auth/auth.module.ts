@@ -7,6 +7,7 @@ import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { ClerkStrategy } from './clerk.strategy';
 import { PrismaService } from '../../database/prisma.service';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
