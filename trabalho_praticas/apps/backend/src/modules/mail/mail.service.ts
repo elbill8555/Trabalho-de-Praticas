@@ -6,7 +6,7 @@ import { Resend } from 'resend';
 export class MailService {
   private resend: Resend;
   private readonly logger = new Logger(MailService.name);
-  private readonly fromEmail = 'onboarding@resend.dev'; // Resend testing domain
+  private fromEmail: string = 'onboarding@resend.dev'; // Resend testing domain
 
   constructor(private readonly config: ConfigService) {
     const apiKey = this.config.get<string>('RESEND_API_KEY');

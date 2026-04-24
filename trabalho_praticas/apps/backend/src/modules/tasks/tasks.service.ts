@@ -46,7 +46,6 @@ export class TasksService {
       if (user && user.email) {
         this.mailService.sendTaskCreatedEmail(
           user.email,
-          user.name || 'Usuário',
           task.title,
           task.project?.name,
         );
@@ -79,7 +78,6 @@ export class TasksService {
       if (user && user.email) {
         this.mailService.sendTaskDeletedEmail(
           user.email,
-          user.name || 'Usuário',
           task.title,
         );
       }

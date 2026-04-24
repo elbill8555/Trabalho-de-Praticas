@@ -1,5 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { WinstonModule } from 'nest-winston';
+import { winstonConfig } from './common/logger/winston.config';
 
 console.log('[FUNC LOAD] Backend function module loaded. NODE_ENV=', process.env.NODE_ENV);
 
@@ -22,7 +24,9 @@ async function bootstrap() {
       console.log('[BOOT 0] DATABASE_URL defined=', !!process.env.DATABASE_URL);
 
       console.log('[BOOT 1] Iniciando criação do NestFactory...');
-      app = await NestFactory.create(AppModule);
+      app = await NestFactory.create(AppModule, {
+        logger: WinstonModule.createLogger(winstonConfig),
+      });
       console.log('[BOOT 2] NestFactory criado com sucesso.');
 
       app.setGlobalPrefix('api/v1');

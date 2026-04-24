@@ -53,7 +53,6 @@ export class ProjectsService {
       if (user && user.email) {
         this.mailService.sendProjectCreatedEmail(
           user.email,
-          user.name || 'Usuário',
           project.name,
         );
       }

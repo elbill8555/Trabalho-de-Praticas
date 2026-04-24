@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1777068998972" clover="3.2.0">
+  <project timestamp="1777068998972" name="All files">
+    <metrics statements="597" coveredstatements="99" conditionals="210" coveredconditionals="37" methods="84" coveredmethods="20" elements="891" coveredelements="156" complexity="0" loc="597" ncloc="597" packages="17" files="37" classes="37"/>
+    <package name="src">
+      <metrics statements="76" coveredstatements="0" conditionals="18" coveredconditionals="0" methods="9" coveredmethods="0"/>
+      <file name="app.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\app.module.ts">
+        <metrics statements="14" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+      </file>
+      <file name="main.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\main.ts">
+        <metrics statements="62" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="68" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="78" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="109" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.common.interceptors">
+      <metrics statements="18" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="logging.interceptor.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\common\interceptors\logging.interceptor.ts">
+        <metrics statements="18" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.common.logger">
+      <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="winston.config.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\common\logger\winston.config.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.common.middlewares">
+      <metrics statements="8" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="correlation-id.middleware.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\common\middlewares\correlation-id.middleware.ts">
+        <metrics statements="8" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.database">
+      <metrics statements="14" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="prisma.service.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\database\prisma.service.ts">
+        <metrics statements="14" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.auth">
+      <metrics statements="128" coveredstatements="35" conditionals="34" coveredconditionals="11" methods="15" coveredmethods="4"/>
+      <file name="auth.controller.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\auth.controller.ts">
+        <metrics statements="32" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+      </file>
+      <file name="auth.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\auth.module.ts">
+        <metrics statements="12" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+      </file>
+      <file name="auth.service.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\auth.service.ts">
+        <metrics statements="35" coveredstatements="35" conditionals="12" coveredconditionals="11" methods="4" coveredmethods="4"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="19" count="8" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="28" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="42" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="52" count="3" type="stmt"/>
+        <line num="55" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="58" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="68" count="3" type="stmt"/>
+        <line num="69" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="71" count="2" type="stmt"/>
+        <line num="72" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="75" count="1" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+      </file>
+      <file name="clerk.strategy.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\clerk.strategy.ts">
+        <metrics statements="33" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="43" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="53" count="0" type="cond" truecount="0" falsecount="6"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="75" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+      </file>
+      <file name="jwt.guard.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\jwt.guard.ts">
+        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+      </file>
+      <file name="jwt.strategy.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\jwt.strategy.ts">
+        <metrics statements="10" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="21" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.auth.dto">
+      <metrics statements="13" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="login.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\dto\login.dto.ts">
+        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+      </file>
+      <file name="register.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\dto\register.dto.ts">
+        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+      </file>
+      <file name="update-password.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\auth\dto\update-password.dto.ts">
+        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.chat">
+      <metrics statements="130" coveredstatements="0" conditionals="100" coveredconditionals="0" methods="19" coveredmethods="0"/>
+      <file name="chat.controller.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\chat\chat.controller.ts">
+        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+      </file>
+      <file name="chat.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\chat\chat.module.ts">
+        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+      </file>
+      <file name="chat.service.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\chat\chat.service.ts">
+        <metrics statements="112" coveredstatements="0" conditionals="100" coveredconditionals="0" methods="16" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="77" count="0" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="93" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="100" count="0" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="107" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="108" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="112" count="0" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="138" count="0" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="141" count="0" type="stmt"/>
+        <line num="143" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
+        <line num="148" count="0" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
+        <line num="153" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="156" count="0" type="stmt"/>
+        <line num="158" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="159" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="160" count="0" type="stmt"/>
+        <line num="162" count="0" type="stmt"/>
+        <line num="163" count="0" type="stmt"/>
+        <line num="170" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="173" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="174" count="0" type="stmt"/>
+        <line num="176" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="177" count="0" type="stmt"/>
+        <line num="181" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="182" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="183" count="0" type="stmt"/>
+        <line num="186" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="187" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="188" count="0" type="stmt"/>
+        <line num="196" count="0" type="cond" truecount="0" falsecount="9"/>
+        <line num="198" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="201" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="204" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="207" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="210" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="213" count="0" type="stmt"/>
+        <line num="216" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="219" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="222" count="0" type="stmt"/>
+        <line num="229" count="0" type="stmt"/>
+        <line num="232" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="233" count="0" type="stmt"/>
+        <line num="236" count="0" type="stmt"/>
+        <line num="247" count="0" type="stmt"/>
+        <line num="255" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="256" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="257" count="0" type="stmt"/>
+        <line num="262" count="0" type="stmt"/>
+        <line num="263" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="264" count="0" type="stmt"/>
+        <line num="267" count="0" type="stmt"/>
+        <line num="279" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="280" count="0" type="stmt"/>
+        <line num="281" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="282" count="0" type="stmt"/>
+        <line num="285" count="0" type="stmt"/>
+        <line num="289" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="290" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="291" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="292" count="0" type="stmt"/>
+        <line num="296" count="0" type="stmt"/>
+        <line num="300" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="301" count="0" type="stmt"/>
+        <line num="308" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="314" count="0" type="stmt"/>
+        <line num="322" count="0" type="stmt"/>
+        <line num="326" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="327" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="328" count="0" type="stmt"/>
+        <line num="332" count="0" type="stmt"/>
+        <line num="340" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="341" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="342" count="0" type="stmt"/>
+        <line num="346" count="0" type="stmt"/>
+        <line num="350" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="351" count="0" type="stmt"/>
+        <line num="358" count="0" type="cond" truecount="0" falsecount="2"/>
+      </file>
+    </package>
+    <package name="src.modules.chat.dto">
+      <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="chat-message.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\chat\dto\chat-message.dto.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.health">
+      <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="health.controller.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\health\health.controller.ts">
+        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="health.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\health\health.module.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.mail">
+      <metrics statements="35" coveredstatements="4" conditionals="12" coveredconditionals="0" methods="6" coveredmethods="0"/>
+      <file name="mail.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\mail\mail.module.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+      </file>
+      <file name="mail.service.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\mail\mail.service.ts">
+        <metrics statements="32" coveredstatements="4" conditionals="12" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="109" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.projects">
+      <metrics statements="62" coveredstatements="24" conditionals="14" coveredconditionals="9" methods="13" coveredmethods="7"/>
+      <file name="projects.controller.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\projects\projects.controller.ts">
+        <metrics statements="31" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="29" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+      </file>
+      <file name="projects.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\projects\projects.module.ts">
+        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+      </file>
+      <file name="projects.service.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\projects\projects.service.ts">
+        <metrics statements="25" coveredstatements="24" conditionals="10" coveredconditionals="9" methods="7" coveredmethods="7"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="8" type="stmt"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="37" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="81" count="4" type="stmt"/>
+        <line num="82" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="83" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.projects.dto">
+      <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="create-project.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\projects\dto\create-project.dto.ts">
+        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+      </file>
+      <file name="update-project.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\projects\dto\update-project.dto.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.tasks">
+      <metrics statements="63" coveredstatements="25" conditionals="24" coveredconditionals="15" methods="11" coveredmethods="6"/>
+      <file name="tasks.controller.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\tasks\tasks.controller.ts">
+        <metrics statements="30" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+      </file>
+      <file name="tasks.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\tasks\tasks.module.ts">
+        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+      </file>
+      <file name="tasks.service.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\tasks\tasks.service.ts">
+        <metrics statements="27" coveredstatements="25" conditionals="20" coveredconditionals="15" methods="6" coveredmethods="6"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="46" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="78" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="92" count="4" type="stmt"/>
+        <line num="93" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="94" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.tasks.dto">
+      <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="create-task.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\tasks\dto\create-task.dto.ts">
+        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+      </file>
+      <file name="update-task.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\tasks\dto\update-task.dto.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.users">
+      <metrics statements="15" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+      <file name="users.controller.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\users\users.controller.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+      <file name="users.module.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\users\users.module.ts">
+        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+      </file>
+      <file name="users.service.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\users\users.service.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="14" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.modules.users.dto">
+      <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="update-user.dto.ts" path="C:\Users\billa\OneDrive\Área de Trabalho\TrabalhoPraticas\Trabalho de Praticas\trabalho_praticas\apps\backend\src\modules\users\dto\update-user.dto.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
