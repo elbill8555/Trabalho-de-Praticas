@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────
 # Stage 1: Install dependencies
 # ─────────────────────────────────────────────
-FROM node:lts-alpine AS deps
+FROM node:20-bookworm-slim AS deps
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN npm ci --workspace=apps/backend --ignore-scripts
 # ─────────────────────────────────────────────
 # Stage 2: Build
 # ─────────────────────────────────────────────
-FROM node:lts-alpine AS build
+FROM node:20-bookworm-slim AS build
 
 WORKDIR /app
 
@@ -30,10 +30,12 @@ RUN npm run build --workspace=apps/backend
 # ─────────────────────────────────────────────
 # Stage 3: Runtime
 # ─────────────────────────────────────────────
-FROM node:lts-alpine AS runtime
+FROM node:20-bookworm-slim AS runtime
 
-RUN apk add --no-cache openssl
-RUN addgroup -g 1001 -S nodejs && adduser -S nestjs -u 1001
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends openssl ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
+RUN groupadd --gid 1001 nodejs && useradd --uid 1001 --gid nodejs --create-home nestjs
 
 WORKDIR /app
 

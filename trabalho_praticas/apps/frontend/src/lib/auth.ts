@@ -78,6 +78,9 @@ export async function apiFetch<T = unknown>(
     return res.json() as Promise<T>;
   } catch (error) {
     console.error('[APIFETCH] fetch error:', error);
+    if (error instanceof TypeError && /fetch/i.test(error.message)) {
+      throw new Error('Nao foi possivel conectar ao backend. Confirme se a API esta online e a URL configurada.');
+    }
     throw error;
   }
 }
