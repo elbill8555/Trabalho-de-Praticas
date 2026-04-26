@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    defaults:
+      run:
+        working-directory: ./trabalho_praticas
+
     strategy:
       matrix:
         node-version: [20]
@@ -51,7 +55,7 @@ jobs:
       - name: 📈 Upload Coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./apps/backend/coverage/lcov.info
+          files: ./trabalho_praticas/apps/backend/coverage/lcov.info
           flags: unittests
           name: backend-coverage
           fail_ci_if_error: false

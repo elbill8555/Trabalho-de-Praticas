@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    defaults:
+      run:
+        working-directory: ./trabalho_praticas
+
     strategy:
       matrix:
         node-version: [20]
