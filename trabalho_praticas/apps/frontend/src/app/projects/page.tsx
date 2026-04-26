@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AppLayout from '@/components/AppLayout';
+import ProjectMembersModal from '@/components/ProjectMembersModal';
 import { apiFetch } from '@/lib/auth';
 
 interface Project {
@@ -24,6 +25,8 @@ export default function ProjectsPage() {
   const [showForm, setShowForm]   = useState(false);
   const [editing, setEditing]     = useState<Project | null>(null);
   const [deleteId, setDeleteId]   = useState<string | null>(null);
+  const [memberModalProject, setMemberModalProject] = useState<Project | null>(null);
+  const [token, setToken] = useState<string>('');
 
   // form state
   const [name, setName]         = useState('');
@@ -36,6 +39,9 @@ export default function ProjectsPage() {
     try {
       const data = await apiFetch<Project[]>('/api/v1/projects');
       setProjects(data);
+      // Get token from localStorage
+      const storedToken = localStorage.getItem('token') || '';
+      setToken(storedToken);
     } catch { router.push('/login'); }
     finally { setLoading(false); }
   }, [router]);
@@ -135,6 +141,9 @@ export default function ProjectsPage() {
                     <Link href={`/projects/${p.id}`} className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}>
                       Ver tarefas
                     </Link>
+                    <button className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }} onClick={() => setMemberModalProject(p)}>
+                      👥 Membros
+                    </button>
                     <button className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }} onClick={() => openEdit(p)}>
                       Editar
                     </button>
@@ -210,6 +219,16 @@ export default function ProjectsPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Members modal */}
+      {memberModalProject && token && (
+        <ProjectMembersModal
+          projectId={memberModalProject.id}
+          projectName={memberModalProject.name}
+          token={token}
+          onClose={() => setMemberModalProject(null)}
+        />
       )}
     </AppLayout>
   );

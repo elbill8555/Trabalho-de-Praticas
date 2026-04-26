@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AppLayout from '@/components/AppLayout';
 import TaskModal, { Task } from '@/components/TaskModal';
+import TaskAssigneeModal from '@/components/TaskAssigneeModal';
 import { apiFetch } from '@/lib/auth';
 
 interface Project { id: string; name: string; color: string; }
@@ -26,6 +27,8 @@ export default function TasksPage() {
   const [filterPriority, setFilterPriority] = useState('');
   const [search, setSearch]     = useState('');
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [assigneeModalTask, setAssigneeModalTask] = useState<Task | null>(null);
+  const [token, setToken] = useState<string>('');
 
   const load = useCallback(async () => {
     try {
@@ -35,6 +38,9 @@ export default function TasksPage() {
       ]);
       setTasks(t);
       setProjects(p);
+      // Get token from localStorage
+      const storedToken = localStorage.getItem('token') || '';
+      setToken(storedToken);
     } catch { router.push('/login'); }
     finally { setLoading(false); }
   }, [router]);
@@ -57,6 +63,11 @@ export default function TasksPage() {
       if (idx >= 0) { const next = [...prev]; next[idx] = saved; return next; }
       return [saved, ...prev];
     });
+  }
+
+  function handleTaskAssigned(assignedTask: Task) {
+    handleSaved(assignedTask);
+    setAssigneeModalTask(null);
   }
 
   // Filters
@@ -170,6 +181,10 @@ export default function TasksPage() {
                     </td>
                     <td style={{ padding: '0.875rem 1rem' }}>
                       <div style={{ display: 'flex', gap: '0.375rem', justifyContent: 'flex-end' }}>
+                        {t.project && (
+                          <button className="btn-ghost" style={{ padding: '0.275rem 0.625rem', fontSize: '0.8125rem' }}
+                            onClick={() => setAssigneeModalTask(t)}>👤 Atribuir</button>
+                        )}
                         <button className="btn-ghost" style={{ padding: '0.275rem 0.625rem', fontSize: '0.8125rem' }}
                           onClick={() => { setEditing(t); setShowModal(true); }}>Editar</button>
                         <button className="btn-danger" style={{ padding: '0.275rem 0.625rem', fontSize: '0.8125rem' }}
@@ -208,6 +223,17 @@ export default function TasksPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Assignee modal */}
+      {assigneeModalTask && token && (
+        <TaskAssigneeModal
+          task={assigneeModalTask}
+          projectId={assigneeModalTask.project?.id || ''}
+          token={token}
+          onClose={() => setAssigneeModalTask(null)}
+          onAssign={handleTaskAssigned}
+        />
       )}
     </AppLayout>
   );
