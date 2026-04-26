@@ -18,7 +18,7 @@ interface Project {
 }
 
 const PRIORITY_LABEL: Record<string, string> = {
-  LOW: 'Low', MEDIUM: 'Medium', HIGH: 'High Priority', URGENT: 'Urgent',
+  LOW: 'Baixa', MEDIUM: 'Média', HIGH: 'Alta', URGENT: 'Urgente',
 };
 
 /* Colors matching Stitch prototype badge backgrounds */
@@ -112,12 +112,12 @@ export default function DashboardPage() {
             letterSpacing: '-0.03em', color: '#191c1d',
             marginBottom: '0.5rem',
           }}>
-            My Tasks
+            Minhas Tarefas
           </h1>
           <p style={{ color: '#424752', fontWeight: 500 }}>
             {pending > 0
-              ? `You have ${pending} task${pending !== 1 ? 's' : ''} pending for today.`
-              : 'All caught up! Great work.'}
+              ? `Você tem ${pending} tarefa${pending !== 1 ? 's' : ''} pendente${pending !== 1 ? 's' : ''} para hoje.`
+              : 'Tudo em dia! Ótimo trabalho.'}
           </p>
         </header>
 
@@ -247,7 +247,7 @@ export default function DashboardPage() {
                       textTransform: 'uppercase', letterSpacing: '0.06em',
                       whiteSpace: 'nowrap',
                     }}>
-                      {taskDone ? 'Done' : pLabel}
+                    {taskDone ? 'Concluída' : pLabel}
                     </span>
                     <span className="material-symbols-outlined" style={{ color: '#727784', fontSize: '22px', opacity: 0.6 }}>
                       more_vert
@@ -334,36 +334,14 @@ export default function DashboardPage() {
                 color: '#424752', textTransform: 'uppercase',
                 letterSpacing: '-0.01em', marginTop: '0.25rem',
               }}>
-                Tasks Closed this month
+                Tarefas fechadas neste mês
               </p>
             </div>
           </div>
         </section>
       </div>
 
-      {/* ── FAB — Contextual Floating Action Button ──────────────── */}
-      <Link href="/tasks" aria-label="Nova tarefa" style={{
-        position: 'fixed', bottom: '2.5rem', right: '2.5rem',
-        background: '#003f87', color: '#ffffff',
-        width: 64, height: 64, borderRadius: '9999px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        boxShadow: '0px 20px 40px rgba(0,63,135,0.15)',
-        zIndex: 50, textDecoration: 'none',
-        transition: 'background 0.15s, transform 0.15s',
-      }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLAnchorElement).style.background = '#0056b3';
-          (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.10)';
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLAnchorElement).style.background = '#003f87';
-          (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)';
-        }}
-        onMouseDown={e  => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.92)'}
-        onMouseUp={e    => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.10)'}
-      >
-        <span className="material-symbols-outlined" style={{ fontSize: '30px' }}>add</span>
-      </Link>
+      {/* FAB removido: O botão de Nova Tarefa está na top nav */}
     </AppLayout>
   );
 }

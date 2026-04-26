@@ -8,16 +8,16 @@ import AiChat from './AiChat';
 
 /* ── Navigation items — matches Stitch dashboard prototype ── */
 const NAV_ITEMS = [
-  { href: '/dashboard', label: 'My Tasks',  icon: 'assignment' },
-  { href: '/tasks',     label: 'Inbox',      icon: 'inbox' },
-  { href: '/projects',  label: 'Projects',   icon: 'folder_open' },
-  { href: '/profile',   label: 'Profile',    icon: 'person' },
+  { href: '/dashboard', label: 'Minhas Tarefas',  icon: 'assignment' },
+  { href: '/tasks',     label: 'Caixa de Entrada',      icon: 'inbox' },
+  { href: '/projects',  label: 'Projetos',   icon: 'folder_open' },
+  { href: '/profile',   label: 'Perfil',    icon: 'person' },
 ];
 
 const TOP_NAV = [
-  { href: '/dashboard', label: 'Dashboard' },
-  { href: '/projects',  label: 'Projects' },
-  { href: '/tasks',     label: 'My Tasks' },
+  { href: '/dashboard', label: 'Painel' },
+  { href: '/projects',  label: 'Projetos' },
+  { href: '/tasks',     label: 'Minhas Tarefas' },
 ];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
@@ -36,7 +36,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   if (!getToken()) return null;
 
-  const firstName = user?.name?.split(' ')[0] ?? 'User';
+  const firstName = user?.name?.split(' ')[0] ?? 'Usuário';
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-surface)' }}>
@@ -97,7 +97,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             transition: 'opacity 0.15s',
           }} onMouseEnter={e => (e.currentTarget.style.opacity = '0.88')}
              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
-            New Task
+            Nova Tarefa
           </Link>
 
           {/* Notification */}
@@ -165,9 +165,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               <p style={{
                 fontSize: '1.0625rem', fontWeight: 900,
                 color: 'var(--color-on-surface)', letterSpacing: '-0.02em', lineHeight: 1.2,
-              }}>Workspace</p>
+              }}>Espaço de Trabalho</p>
               <p style={{ fontSize: '0.75rem', color: 'var(--color-on-surface-variant)', fontWeight: 500 }}>
-                {user?.email ?? 'Fluid Architect'}
+                {user?.email ?? 'Arquiteto Fluido'}
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {/* Bottom: Upgrade + Help + Logout */}
         <div style={{ padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <button className="btn-secondary" style={{ width: '100%', justifyContent: 'center', borderRadius: '0.75rem' }}>
-            Upgrade Plan
+            Plano Premium
           </button>
           <div style={{ borderTop: '1px solid rgba(194,198,212,0.15)', paddingTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <Link href="/profile" style={{
@@ -229,7 +229,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-surface-low)')}
               onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
               <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>help</span>
-              <span>Help Center</span>
+              <span>Central de Ajuda</span>
             </Link>
             <button onClick={handleLogout} style={{
               display: 'flex', alignItems: 'center', gap: '0.75rem',
@@ -245,7 +245,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                 (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
               }}>
               <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>logout</span>
-              <span>Log Out</span>
+              <span>Sair</span>
             </button>
           </div>
         </div>

@@ -167,7 +167,7 @@ export default function TasksPage() {
                     <td style={{ padding: '0.875rem 1rem', fontSize: '0.8125rem', color: 'var(--color-text-secondary)', whiteSpace: 'nowrap' }}>
                       {t.dueDate ? new Date(t.dueDate).toLocaleDateString('pt-BR') : '—'}
                     </td>
-                    <td style={{ padding: '0.875rem 1rem' }}>
+                    <td style={{ padding: '0.875rem 1rem', minWidth: 220, whiteSpace: 'normal' }}>
                       {t.project ? (
                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8125rem' }}>
                           <span style={{ width: 8, height: 8, borderRadius: '50%', background: t.project.color, flexShrink: 0 }} />
