@@ -134,50 +134,67 @@ export default function TaskAssigneeModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-96 max-h-[80vh] overflow-y-auto p-6">
-        <h2 className="text-xl font-bold mb-2">{task.title}</h2>
-        <p className="text-sm text-gray-600 mb-4">Atribuir responsável</p>
+    <div className="overlay">
+      <div className="modal" style={{ maxWidth: 500 }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.25rem' }}>{task.title}</h2>
+        <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)', marginBottom: '1rem' }}>Atribuir responsável</p>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div style={{ background: '#fee', border: '1px solid #fcc', color: '#c33', padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem' }}>
             {error}
           </div>
         )}
 
         {task.assignedTo && (
-          <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
-            <p className="text-sm font-semibold">Atualmente atribuído a:</p>
-            <p className="text-sm">{task.assignedTo.name}</p>
-            <p className="text-xs text-gray-600">{task.assignedTo.email}</p>
+          <div style={{ background: 'var(--color-surface-low)', border: '1px solid var(--color-border)', borderRadius: '0.5rem', padding: '0.75rem 1rem', marginBottom: '1rem' }}>
+            <p style={{ fontSize: '0.8125rem', fontWeight: 700, marginBottom: '0.25rem' }}>Atualmente atribuído a:</p>
+            <p style={{ fontSize: '0.875rem', marginBottom: '0.25rem' }}>{task.assignedTo.name}</p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', marginBottom: '0.75rem' }}>{task.assignedTo.email}</p>
             <button
               onClick={handleRemoveAssignee}
               disabled={assigning}
-              className="mt-2 text-sm text-red-600 hover:text-red-800 underline disabled:opacity-50"
+              style={{ fontSize: '0.8125rem', color: 'var(--color-danger)', cursor: 'pointer', textDecoration: 'underline', background: 'none', border: 'none', padding: 0, opacity: assigning ? 0.5 : 1 }}
             >
               Remover atribuição
             </button>
           </div>
         )}
 
-        <h3 className="font-semibold mb-3">Selecionar novo responsável</h3>
+        <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.95rem' }}>Selecionar novo responsável</h3>
 
         {loading ? (
-          <p className="text-gray-500">Carregando membros...</p>
+          <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: '1rem' }}>Carregando membros...</p>
         ) : projectMembers.length === 0 ? (
-          <p className="text-gray-500">Nenhum membro disponível neste projeto</p>
+          <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: '1rem' }}>Nenhum membro disponível neste projeto</p>
         ) : (
-          <div className="space-y-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
             {projectMembers.map((member) => (
               <button
                 key={member.user.id}
                 onClick={() => handleAssign(member.user.id)}
                 disabled={assigning || task.assignedTo?.id === member.user.id}
-                className="w-full text-left p-3 border rounded-md hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  textAlign: 'left',
+                  padding: '0.75rem 1rem',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '0.5rem',
+                  background: 'var(--color-surface-low)',
+                  cursor: assigning || task.assignedTo?.id === member.user.id ? 'not-allowed' : 'pointer',
+                  opacity: assigning || task.assignedTo?.id === member.user.id ? 0.5 : 1,
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  if (!assigning && task.assignedTo?.id !== member.user.id) {
+                    (e.target as HTMLElement).style.background = 'var(--color-surface-high)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLElement).style.background = 'var(--color-surface-low)';
+                }}
               >
-                <div className="font-semibold">{member.user.name}</div>
-                <div className="text-sm text-gray-600">{member.user.email}</div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{member.user.name}</div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)' }}>{member.user.email}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.375rem' }}>
                   {member.role === 'VIEWER' && 'Visualizador'}
                   {member.role === 'MEMBER' && 'Membro'}
                   {member.role === 'ADMIN' && 'Admin'}
@@ -188,12 +205,14 @@ export default function TaskAssigneeModal({
           </div>
         )}
 
-        <button
-          onClick={onClose}
-          className="w-full mt-6 bg-gray-300 text-gray-800 py-2 rounded-md hover:bg-gray-400"
-        >
-          Fechar
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
+          <button
+            onClick={onClose}
+            className="btn-ghost"
+          >
+            Fechar
+          </button>
+        </div>
       </div>
     </div>
   );

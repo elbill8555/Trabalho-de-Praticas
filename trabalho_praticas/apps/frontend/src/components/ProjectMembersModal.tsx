@@ -103,32 +103,32 @@ export default function ProjectMembersModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-96 max-h-[80vh] overflow-y-auto p-6">
-        <h2 className="text-xl font-bold mb-4">Membros de {projectName}</h2>
+    <div className="overlay">
+      <div className="modal" style={{ maxWidth: 500 }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1rem' }}>Membros de {projectName}</h2>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div style={{ background: '#fee', border: '1px solid #fcc', color: '#c33', padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem' }}>
             {error}
           </div>
         )}
 
         {/* Formulário para adicionar novo membro */}
-        <form onSubmit={handleAddMember} className="mb-6 pb-6 border-b">
-          <h3 className="font-semibold mb-3">Adicionar novo membro</h3>
-          <div className="space-y-3">
+        <form onSubmit={handleAddMember} style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--color-border)' }}>
+          <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.95rem' }}>Adicionar novo membro</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <input
               type="email"
               placeholder="Email do novo membro"
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md"
+              className="input-field"
               disabled={adding}
             />
             <select
               value={newRole}
               onChange={(e) => setNewRole(e.target.value as any)}
-              className="w-full px-3 py-2 border rounded-md"
+              className="input-field"
               disabled={adding}
             >
               <option value="VIEWER">Visualizador</option>
@@ -139,7 +139,8 @@ export default function ProjectMembersModal({
             <button
               type="submit"
               disabled={adding || !newEmail.trim()}
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="btn-primary"
+              style={{ width: '100%' }}
             >
               {adding ? 'Adicionando...' : 'Adicionar Membro'}
             </button>
@@ -148,24 +149,25 @@ export default function ProjectMembersModal({
 
         {/* Lista de membros */}
         <div>
-          <h3 className="font-semibold mb-3">Membros atuais ({members.length})</h3>
+          <h3 style={{ fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.95rem' }}>Membros atuais ({members.length})</h3>
           {loading ? (
-            <p className="text-gray-500">Carregando membros...</p>
+            <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: '1rem' }}>Carregando membros...</p>
           ) : members.length === 0 ? (
-            <p className="text-gray-500">Nenhum membro adicionado</p>
+            <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: '1rem' }}>Nenhum membro adicionado</p>
           ) : (
-            <div className="space-y-3">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {members.map((member) => (
-                <div key={member.id} className="border rounded-md p-3 bg-gray-50">
-                  <div className="font-semibold">{member.user.name}</div>
-                  <div className="text-sm text-gray-600 mb-2">{member.user.email}</div>
-                  <div className="flex gap-2">
+                <div key={member.id} style={{ border: '1px solid var(--color-border)', borderRadius: '0.5rem', padding: '0.75rem', background: 'var(--color-surface-low)' }}>
+                  <div style={{ fontWeight: 700, marginBottom: '0.25rem' }}>{member.user.name}</div>
+                  <div style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', marginBottom: '0.75rem' }}>{member.user.email}</div>
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                     <select
                       value={member.role}
                       onChange={(e) =>
                         handleUpdateRole(member.id, member.user.id, e.target.value)
                       }
-                      className="flex-1 px-2 py-1 border rounded text-sm"
+                      className="input-field"
+                      style={{ flex: 1, fontSize: '0.8125rem' }}
                     >
                       <option value="VIEWER">Visualizador</option>
                       <option value="MEMBER">Membro</option>
@@ -174,9 +176,10 @@ export default function ProjectMembersModal({
                     </select>
                     <button
                       onClick={() => handleRemoveMember(member.user.id)}
-                      className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600"
+                      className="btn-danger"
+                      style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem', flexShrink: 0 }}
                     >
-                      Remover
+                      ✕
                     </button>
                   </div>
                 </div>
@@ -185,12 +188,14 @@ export default function ProjectMembersModal({
           )}
         </div>
 
-        <button
-          onClick={onClose}
-          className="w-full mt-6 bg-gray-300 text-gray-800 py-2 rounded-md hover:bg-gray-400"
-        >
-          Fechar
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
+          <button
+            onClick={onClose}
+            className="btn-ghost"
+          >
+            Fechar
+          </button>
+        </div>
       </div>
     </div>
   );
