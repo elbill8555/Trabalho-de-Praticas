@@ -40,13 +40,13 @@ describe('ProjectMembersController', () => {
 
   describe('addMember', () => {
     it('should call service.addMember', async () => {
-      const dto = { email: 'test@test.com', role: ProjectRole.MEMBER, projectId: 'p1' };
+      const dto = { email: 'test@test.com', role: ProjectRole.MEMBER };
       const user = { id: 'u1' };
       mockService.addMember.mockResolvedValue({ id: 'm1' });
 
-      const result = await controller.addMember({ user }, dto);
+      const result = await controller.addMember({ user }, 'p1', dto);
 
-      expect(service.addMember).toHaveBeenCalledWith('u1', dto);
+      expect(service.addMember).toHaveBeenCalledWith('u1', { ...dto, projectId: 'p1' });
       expect(result).toEqual({ id: 'm1' });
     });
   });

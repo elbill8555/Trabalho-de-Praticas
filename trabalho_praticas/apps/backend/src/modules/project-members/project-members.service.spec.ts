@@ -1,12 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectMembersService } from './project-members.service';
 import { PrismaService } from '../../database/prisma.service';
+import { MailService } from '../mail/mail.service';
 import { NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
 import { ProjectRole } from '@prisma/client';
 
 describe('ProjectMembersService', () => {
   let service: ProjectMembersService;
   let prisma: PrismaService;
+  let mail: MailService;
 
   const mockPrisma = {
     project: {
@@ -26,16 +28,22 @@ describe('ProjectMembersService', () => {
     },
   };
 
+  const mockMail = {
+    sendCustomEmail: jest.fn().mockResolvedValue(undefined),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProjectMembersService,
         { provide: PrismaService, useValue: mockPrisma },
+        { provide: MailService, useValue: mockMail },
       ],
     }).compile();
 
     service = module.get<ProjectMembersService>(ProjectMembersService);
     prisma = module.get<PrismaService>(PrismaService);
+    mail = module.get<MailService>(MailService);
   });
 
   afterEach(() => {

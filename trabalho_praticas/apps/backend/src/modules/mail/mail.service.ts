@@ -108,4 +108,8 @@ export class MailService {
     `;
     return this.sendEmail(to, `Tarefa Removida: ${taskTitle}`, html);
   }
+
+  async sendCustomEmail(to: string, subject: string, html: string) {
+    return this.sendEmail(to, subject, html);
+  }
 }

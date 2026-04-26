@@ -3,27 +3,72 @@ name: Backend CI
 on:
   push:
     branches: [ "*" ]
+    paths:
+      - 'apps/backend/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/backend-ci.yml'
   pull_request:
     branches: [ "*" ]
+    paths:
+      - 'apps/backend/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/backend-ci.yml'
 
 jobs:
-  test:
+  lint-and-test:
+    name: Lint & Test Backend
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      matrix:
+        node-version: [20]
 
     steps:
-    - uses: actions/checkout@v4
+      - name: 🛑 Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
+      - name: ⚙️ Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm install
+      - name: 📦 Install Dependencies
+        run: npm ci
+        env:
+          NODE_ENV: test
 
-    - name: Generate Prisma Client
-      run: npm run postinstall --workspace=apps/backend
+      - name: 🔧 Generate Prisma Client
+        run: npm run postinstall --workspace=apps/backend
 
-    - name: Run Backend Tests
-      run: npm test --workspace=apps/backend
+      - name: 🚨 Run Lint
+        run: npm run lint --workspace=apps/backend
+        continue-on-error: true
+
+      - name: ✅ Run Backend Unit Tests
+        run: npm test --workspace=apps/backend
+        env:
+          NODE_ENV: test
+
+      - name: 📊 Generate Coverage Report
+        run: npm test -- --coverage --workspace=apps/backend
+        continue-on-error: true
+        env:
+          NODE_ENV: test
+
+      - name: 📈 Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./apps/backend/coverage/lcov.info
+          flags: unittests
+          name: backend-coverage
+          fail_ci_if_error: false
+        continue-on-error: true
+
+      - name: ✨ Build Backend
+        run: npm run build --workspace=apps/backend
+        env:
+          NODE_ENV: test

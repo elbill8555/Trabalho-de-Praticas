@@ -1,12 +1,18 @@
-import { Injectable, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, ForbiddenException, Logger } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
+import { MailService } from '../mail/mail.service';
 import { AddMemberDto } from './dto/add-member.dto';
 import { UpdateMemberRoleDto } from './dto/update-member-role.dto';
 import { ProjectRole } from '@prisma/client';
 
 @Injectable()
 export class ProjectMembersService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(ProjectMembersService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly mailService: MailService,
+  ) {}
 
   async addMember(requesterId: string, dto: AddMemberDto) {
     // 1. Verificar se o projeto existe e se o solicitante tem permissão (OWNER ou ADMIN)
@@ -44,7 +50,7 @@ export class ProjectMembersService {
     if (existingMember) throw new ConflictException('User is already a member of this project');
 
     // 4. Adicionar membro
-    return this.prisma.projectMember.create({
+    const newMember = await this.prisma.projectMember.create({
       data: {
         userId: userToAdd.id,
         projectId: dto.projectId,
@@ -52,8 +58,24 @@ export class ProjectMembersService {
       },
       include: {
         user: { select: { id: true, name: true, email: true } },
+        project: { select: { name: true } },
       },
     });
+
+    // 5. Enviar email de notificação
+    try {
+      await this.sendMemberAddedEmail(
+        userToAdd.email,
+        userToAdd.name,
+        newMember.project.name,
+      );
+      this.logger.log(`Email sent to ${userToAdd.email} for project membership`);
+    } catch (error) {
+      this.logger.warn(`Failed to send email notification: ${(error as any).message}`);
+      // Não falhar a operação se o email não for enviado
+    }
+
+    return newMember;
   }
 
   async listMembers(projectId: string, userId: string) {
@@ -131,5 +153,29 @@ export class ProjectMembersService {
     if (!isOwnerByField && (!requesterMember || (requesterMember.role !== ProjectRole.OWNER && requesterMember.role !== ProjectRole.ADMIN))) {
       throw new ForbiddenException('Administrative privileges required');
     }
+  }
+
+  private async sendMemberAddedEmail(email: string, name: string, projectName: string) {
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <div style="background-color: #003f87; color: white; padding: 20px; text-align: center;">
+          <h1 style="margin: 0; font-size: 24px;">Adicionado ao Projeto!</h1>
+        </div>
+        <div style="padding: 20px; color: #333; line-height: 1.6;">
+          <p>Olá <strong>${name}</strong>,</p>
+          <p>Você foi adicionado como membro do projeto <strong>${projectName}</strong>.</p>
+          <p>Agora você pode colaborar, visualizar tarefas e trabalhar em conjunto com a equipe.</p>
+          <p style="margin-top: 20px;">Acesse o painel para começar a trabalhar no projeto.</p>
+          <br/>
+          <p>Abraços,<br/>Equipe Fluid</p>
+        </div>
+      </div>
+    `;
+
+    await this.mailService.sendCustomEmail(
+      email,
+      `Você foi adicionado ao projeto ${projectName}`,
+      html,
+    );
   }
 }

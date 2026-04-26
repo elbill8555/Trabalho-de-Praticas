@@ -1,0 +1,57 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [ "*" ]
+    paths:
+      - 'apps/frontend/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/frontend-ci.yml'
+  pull_request:
+    branches: [ "*" ]
+    paths:
+      - 'apps/frontend/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/frontend-ci.yml'
+
+jobs:
+  lint-and-test:
+    name: Lint & Test Frontend
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: 🛑 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+        env:
+          NODE_ENV: test
+
+      - name: 🚨 Run Lint
+        run: npm run lint --workspace=apps/frontend
+        continue-on-error: true
+
+      - name: 🏗️ Build Frontend
+        run: npm run build --workspace=apps/frontend
+        env:
+          NODE_ENV: test
+
+      - name: ✅ Run Frontend Tests
+        run: npm test --workspace=apps/frontend
+        continue-on-error: true
+        env:
+          NODE_ENV: test

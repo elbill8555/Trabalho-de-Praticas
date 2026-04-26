@@ -4,22 +4,29 @@ import { AddMemberDto } from './dto/add-member.dto';
 import { UpdateMemberRoleDto } from './dto/update-member-role.dto';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 
-@Controller('project-members')
 @UseGuards(JwtAuthGuard)
+@Controller('projects/:projectId/members')
 export class ProjectMembersController {
   constructor(private readonly service: ProjectMembersService) {}
 
   @Post()
-  async addMember(@Request() req, @Body() dto: AddMemberDto) {
-    return this.service.addMember(req.user.id, dto);
+  async addMember(
+    @Request() req,
+    @Param('projectId') projectId: string,
+    @Body() dto: Omit<AddMemberDto, 'projectId'>,
+  ) {
+    return this.service.addMember(req.user.id, { ...dto, projectId });
   }
 
-  @Get(':projectId')
-  async listMembers(@Request() req, @Param('projectId') projectId: string) {
+  @Get()
+  async listMembers(
+    @Request() req,
+    @Param('projectId') projectId: string,
+  ) {
     return this.service.listMembers(projectId, req.user.id);
   }
 
-  @Patch(':projectId/:userId')
+  @Patch(':userId')
   async updateRole(
     @Request() req,
     @Param('projectId') projectId: string,
@@ -29,7 +36,7 @@ export class ProjectMembersController {
     return this.service.updateMemberRole(req.user.id, projectId, userId, dto);
   }
 
-  @Delete(':projectId/:userId')
+  @Delete(':userId')
   async removeMember(
     @Request() req,
     @Param('projectId') projectId: string,
