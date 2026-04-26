@@ -28,7 +28,6 @@ export default function TasksPage() {
   const [search, setSearch]     = useState('');
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [assigneeModalTask, setAssigneeModalTask] = useState<Task | null>(null);
-  const [token, setToken] = useState<string>('');
 
   const load = useCallback(async () => {
     try {
@@ -38,9 +37,6 @@ export default function TasksPage() {
       ]);
       setTasks(t);
       setProjects(p);
-      // Get token from localStorage
-      const storedToken = localStorage.getItem('token') || '';
-      setToken(storedToken);
     } catch { router.push('/login'); }
     finally { setLoading(false); }
   }, [router]);
@@ -141,7 +137,7 @@ export default function TasksPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'var(--color-surface-low)', borderBottom: '1px solid var(--color-border)' }}>
-                  {['Tarefa', 'Status', 'Prioridade', 'Prazo', 'Projeto', ''].map(h => (
+                  {['Tarefa', 'Status', 'Prioridade', 'Prazo', 'Projeto', 'Responsável', ''].map(h => (
                     <th key={h} style={{ padding: '0.75rem 1rem', textAlign: 'left', fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
                       {h}
                     </th>
@@ -178,6 +174,13 @@ export default function TasksPage() {
                           {t.project.name}
                         </span>
                       ) : <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>—</span>}
+                    </td>
+                    <td style={{ padding: '0.875rem 1rem', fontSize: '0.8125rem' }}>
+                      {t.assignedTo ? (
+                        <span>{t.assignedTo.name}</span>
+                      ) : (
+                        <span style={{ color: 'var(--color-text-muted)' }}>—</span>
+                      )}
                     </td>
                     <td style={{ padding: '0.875rem 1rem' }}>
                       <div style={{ display: 'flex', gap: '0.375rem', justifyContent: 'flex-end' }}>
@@ -226,11 +229,10 @@ export default function TasksPage() {
       )}
 
       {/* Assignee modal */}
-      {assigneeModalTask && token && (
+      {assigneeModalTask && (
         <TaskAssigneeModal
           task={assigneeModalTask}
           projectId={assigneeModalTask.project?.id || ''}
-          token={token}
           onClose={() => setAssigneeModalTask(null)}
           onAssign={handleTaskAssigned}
         />

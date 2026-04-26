@@ -1,32 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
-
-interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  status: 'PENDING' | 'IN_PROGRESS' | 'DONE';
-  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-  dueDate?: string;
-  projectId?: string | null;
-  assignedTo?: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  project?: {
-    id: string;
-    name: string;
-    color: string;
-  } | null;
-}
+import type { Task } from '@/components/TaskModal';
+import { apiFetch } from '@/lib/auth';
+import { getProjectMembers, ProjectMember } from '@/lib/project-members';
 
 interface TaskAssigneeModalProps {
   task: Task;
   projectId: string;
-  token: string;
   onClose: () => void;
   onAssign: (task: Task) => void;
 }
@@ -34,11 +15,10 @@ interface TaskAssigneeModalProps {
 export default function TaskAssigneeModal({
   task,
   projectId,
-  token,
   onClose,
   onAssign,
 }: TaskAssigneeModalProps) {
-  const [projectMembers, setProjectMembers] = useState<any[]>([]);
+  const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [assigning, setAssigning] = useState(false);
@@ -48,17 +28,7 @@ export default function TaskAssigneeModal({
     const loadMembers = async () => {
       try {
         setLoading(true);
-        const response = await api(`/projects/${projectId}/members`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Falha ao carregar membros');
-        }
-
-        const data = await response.json();
+        const data = await getProjectMembers(projectId);
         setProjectMembers(data);
         setError(null);
       } catch (err) {
@@ -69,7 +39,7 @@ export default function TaskAssigneeModal({
     };
 
     loadMembers();
-  }, [projectId, token]);
+  }, [projectId]);
 
   // Atribuir tarefa a um usuário
   const handleAssign = async (userId: string) => {
@@ -77,22 +47,12 @@ export default function TaskAssigneeModal({
       setAssigning(true);
       setError(null);
 
-      const response = await api(`/tasks/${task.id}`, {
+      const updatedTask = await apiFetch<Task>(`/api/v1/tasks/${task.id}`, {
         method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           assignedToId: userId,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error('Falha ao atribuir tarefa');
-      }
-
-      const updatedTask = await response.json();
       onAssign(updatedTask);
       onClose();
     } catch (err) {
@@ -108,22 +68,12 @@ export default function TaskAssigneeModal({
       setAssigning(true);
       setError(null);
 
-      const response = await api(`/tasks/${task.id}`, {
+      const updatedTask = await apiFetch<Task>(`/api/v1/tasks/${task.id}`, {
         method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           assignedToId: null,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error('Falha ao remover atribuição');
-      }
-
-      const updatedTask = await response.json();
       onAssign(updatedTask);
       onClose();
     } catch (err) {

@@ -31,4 +31,8 @@ export class CreateTaskDto {
   @IsOptional()
   @IsString()
   projectId?: string;
+
+  @IsOptional()
+  @IsString()
+  assignedToId?: string | null;
 }

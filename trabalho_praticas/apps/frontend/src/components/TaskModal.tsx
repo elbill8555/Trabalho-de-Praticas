@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent } from 'react';
 import { apiFetch } from '@/lib/auth';
+import { getProjectMembers, ProjectMember } from '@/lib/project-members';
 
 export interface Task {
   id: string; title: string; description?: string;
@@ -9,6 +10,7 @@ export interface Task {
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
   dueDate?: string;
   projectId?: string | null;
+  assignedTo?: { id: string; name: string; email: string } | null;
   project?: { id: string; name: string; color: string } | null;
 }
 
@@ -29,6 +31,10 @@ export default function TaskModal({ task, projects, onClose, onSaved }: Props) {
   const [priority, setPriority] = useState<Task['priority']>(task?.priority ?? 'MEDIUM');
   const [dueDate, setDueDate]   = useState(task?.dueDate ? task.dueDate.slice(0, 10) : '');
   const [projectId, setProjectId] = useState<string>(task?.projectId ?? '');
+  const [assignedToId, setAssignedToId] = useState<string>(task?.assignedTo?.id ?? '');
+  const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]);
+  const [loadingMembers, setLoadingMembers] = useState(false);
+  const [membersError, setMembersError] = useState('');
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState('');
 
@@ -39,6 +45,41 @@ export default function TaskModal({ task, projects, onClose, onSaved }: Props) {
     return () => window.removeEventListener('keydown', handler);
   }, [onClose]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadMembers() {
+      if (!projectId) {
+        setProjectMembers([]);
+        setAssignedToId('');
+        setMembersError('');
+        return;
+      }
+
+      setLoadingMembers(true);
+      setMembersError('');
+      try {
+        const members = await getProjectMembers(projectId);
+        if (cancelled) return;
+        setProjectMembers(members);
+        setAssignedToId((prev) => (prev && !members.some((m) => m.user.id === prev) ? '' : prev));
+      } catch (err: any) {
+        if (cancelled) return;
+        setProjectMembers([]);
+        setAssignedToId('');
+        setMembersError(err?.message ?? 'Não foi possível carregar membros do projeto.');
+      } finally {
+        if (!cancelled) setLoadingMembers(false);
+      }
+    }
+
+    loadMembers();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId]);
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(''); setLoading(true);
@@ -47,6 +88,7 @@ export default function TaskModal({ task, projects, onClose, onSaved }: Props) {
       status, priority,
       dueDate: dueDate || undefined,
       projectId: projectId || null,
+      assignedToId: projectId ? (assignedToId || null) : null,
     };
     try {
       const saved = isEdit
@@ -127,6 +169,35 @@ export default function TaskModal({ task, projects, onClose, onSaved }: Props) {
                 {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
             </div>
+          </div>
+
+          <div>
+            <label className="label" htmlFor="task-assignee">Responsável</label>
+            <select
+              id="task-assignee"
+              className="input-field"
+              value={assignedToId}
+              onChange={e => setAssignedToId(e.target.value)}
+              disabled={!projectId || loadingMembers}
+            >
+              <option value="">
+                {!projectId
+                  ? 'Selecione um projeto primeiro'
+                  : loadingMembers
+                  ? 'Carregando membros...'
+                  : 'Sem responsável'}
+              </option>
+              {projectMembers.map((member) => (
+                <option key={member.user.id} value={member.user.id}>
+                  {member.user.name} ({member.role})
+                </option>
+              ))}
+            </select>
+            {membersError && (
+              <p style={{ marginTop: '0.35rem', fontSize: '0.75rem', color: 'var(--color-error)' }}>
+                {membersError}
+              </p>
+            )}
           </div>
 
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '0.5rem' }}>

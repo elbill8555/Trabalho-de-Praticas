@@ -12,14 +12,12 @@ import {
 interface ProjectMembersModalProps {
   projectId: string;
   projectName: string;
-  token: string;
   onClose: () => void;
 }
 
 export default function ProjectMembersModal({
   projectId,
   projectName,
-  token,
   onClose,
 }: ProjectMembersModalProps) {
   const [members, setMembers] = useState<ProjectMember[]>([]);
@@ -34,7 +32,7 @@ export default function ProjectMembersModal({
     const loadMembers = async () => {
       try {
         setLoading(true);
-        const data = await getProjectMembers(projectId, token);
+        const data = await getProjectMembers(projectId);
         setMembers(data);
         setError(null);
       } catch (err) {
@@ -45,7 +43,7 @@ export default function ProjectMembersModal({
     };
 
     loadMembers();
-  }, [projectId, token]);
+  }, [projectId]);
 
   // Adicionar novo membro
   const handleAddMember = async (e: React.FormEvent) => {
@@ -60,10 +58,9 @@ export default function ProjectMembersModal({
       setError(null);
       const newMember = await addProjectMember(
         projectId,
-        { email: newEmail, role: newRole },
-        token
+        { email: newEmail, role: newRole }
       );
-      setMembers([...members, newMember]);
+      setMembers((prev) => [...prev, newMember]);
       setNewEmail('');
       setNewRole('MEMBER');
     } catch (err) {
@@ -80,10 +77,9 @@ export default function ProjectMembersModal({
       const updatedMember = await updateMemberRole(
         projectId,
         currentUserId,
-        { role: newRoleValue as 'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER' },
-        token
+        { role: newRoleValue as 'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER' }
       );
-      setMembers(members.map((m) => (m.user.id === currentUserId ? updatedMember : m)));
+      setMembers((prev) => prev.map((m) => (m.user.id === currentUserId ? updatedMember : m)));
     } catch (err) {
       setError((err as Error).message);
     }
@@ -95,8 +91,8 @@ export default function ProjectMembersModal({
 
     try {
       setError(null);
-      await removeProjectMember(projectId, userId, token);
-      setMembers(members.filter((m) => m.user.id !== userId));
+      await removeProjectMember(projectId, userId);
+      setMembers((prev) => prev.filter((m) => m.user.id !== userId));
     } catch (err) {
       setError((err as Error).message);
     }

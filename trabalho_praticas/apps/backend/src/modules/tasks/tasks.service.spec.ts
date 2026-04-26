@@ -56,7 +56,9 @@ describe('TasksService', () => {
 
       expect(await service.findAll('userId', {})).toEqual(result);
       expect(prisma.task.findMany).toHaveBeenCalledWith(expect.objectContaining({
-        where: { userId: 'userId' },
+        where: {
+          OR: [{ userId: 'userId' }, { assignedToId: 'userId' }],
+        },
       }));
     });
   });

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AppLayout from '@/components/AppLayout';
 import ProjectMembersModal from '@/components/ProjectMembersModal';
+import { addProjectMember } from '@/lib/project-members';
 import { apiFetch } from '@/lib/auth';
 
 interface Project {
@@ -26,12 +27,13 @@ export default function ProjectsPage() {
   const [editing, setEditing]     = useState<Project | null>(null);
   const [deleteId, setDeleteId]   = useState<string | null>(null);
   const [memberModalProject, setMemberModalProject] = useState<Project | null>(null);
-  const [token, setToken] = useState<string>('');
 
   // form state
   const [name, setName]         = useState('');
   const [desc, setDesc]         = useState('');
   const [color, setColor]       = useState(PROJECT_COLORS[0]);
+  const [memberEmail, setMemberEmail] = useState('');
+  const [memberRole, setMemberRole] = useState<'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER'>('MEMBER');
   const [saving, setSaving]     = useState(false);
   const [formError, setFormError] = useState('');
 
@@ -39,9 +41,6 @@ export default function ProjectsPage() {
     try {
       const data = await apiFetch<Project[]>('/api/v1/projects');
       setProjects(data);
-      // Get token from localStorage
-      const storedToken = localStorage.getItem('token') || '';
-      setToken(storedToken);
     } catch { router.push('/login'); }
     finally { setLoading(false); }
   }, [router]);
@@ -54,10 +53,12 @@ export default function ProjectsPage() {
 
   function openCreate() {
     setEditing(null); setName(''); setDesc(''); setColor(PROJECT_COLORS[0]);
+    setMemberEmail(''); setMemberRole('MEMBER');
     setFormError(''); setShowForm(true);
   }
   function openEdit(p: Project) {
     setEditing(p); setName(p.name); setDesc(p.description ?? '');
+    setMemberEmail(''); setMemberRole('MEMBER');
     setColor(p.color); setFormError(''); setShowForm(true);
   }
 
@@ -69,12 +70,30 @@ export default function ProjectsPage() {
       const saved = editing
         ? await apiFetch<Project>(`/api/v1/projects/${editing.id}`, { method: 'PATCH', body: JSON.stringify(body) })
         : await apiFetch<Project>('/api/v1/projects', { method: 'POST', body: JSON.stringify(body) });
+
+      let memberErrorMessage = '';
+
+      if (memberEmail.trim()) {
+        try {
+          await addProjectMember(saved.id, { email: memberEmail.trim(), role: memberRole });
+          setMemberEmail('');
+          setMemberRole('MEMBER');
+        } catch (memberErr: any) {
+          setEditing(saved);
+          memberErrorMessage = `Projeto salvo, mas não foi possível adicionar o membro: ${memberErr?.message ?? 'erro desconhecido'}`;
+          setFormError(memberErrorMessage);
+        }
+      }
+
       setProjects(prev => {
         const idx = prev.findIndex(p => p.id === saved.id);
         if (idx >= 0) { const n = [...prev]; n[idx] = saved; return n; }
         return [saved, ...prev];
       });
-      setShowForm(false);
+
+      if (!memberErrorMessage) {
+        setShowForm(false);
+      }
     } catch (err: any) {
       setFormError(err.message ?? 'Erro ao salvar.');
     } finally { setSaving(false); }
@@ -194,6 +213,33 @@ export default function ProjectsPage() {
                   ))}
                 </div>
               </div>
+
+              <div>
+                <label className="label" htmlFor="proj-member-email">Adicionar membro por email (opcional)</label>
+                <input
+                  id="proj-member-email"
+                  className="input-field"
+                  type="email"
+                  placeholder="usuario@exemplo.com"
+                  value={memberEmail}
+                  onChange={e => setMemberEmail(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label className="label" htmlFor="proj-member-role">Papel do membro</label>
+                <select
+                  id="proj-member-role"
+                  className="input-field"
+                  value={memberRole}
+                  onChange={e => setMemberRole(e.target.value as 'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER')}
+                >
+                  <option value="VIEWER">Visualizador</option>
+                  <option value="MEMBER">Membro</option>
+                  <option value="ADMIN">Admin</option>
+                  <option value="OWNER">Proprietário</option>
+                </select>
+              </div>
               <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
                 <button type="button" className="btn-ghost" onClick={() => setShowForm(false)}>Cancelar</button>
                 <button type="submit" className="btn-primary" disabled={saving}>
@@ -222,11 +268,10 @@ export default function ProjectsPage() {
       )}
 
       {/* Members modal */}
-      {memberModalProject && token && (
+      {memberModalProject && (
         <ProjectMembersModal
           projectId={memberModalProject.id}
           projectName={memberModalProject.name}
-          token={token}
           onClose={() => setMemberModalProject(null)}
         />
       )}

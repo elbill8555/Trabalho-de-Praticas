@@ -1,4 +1,4 @@
-import { api } from './api';
+import { apiFetch } from './auth';
 
 export interface ProjectMember {
   id: string;
@@ -21,72 +21,33 @@ export interface UpdateMemberRoleRequest {
 }
 
 // Adicionar novo membro ao projeto
-export async function addProjectMember(projectId: string, memberData: AddMemberRequest, token: string) {
-  const response = await api(`/projects/${projectId}/members`, {
+export async function addProjectMember(projectId: string, memberData: AddMemberRequest) {
+  return apiFetch<ProjectMember>(`/api/v1/projects/${projectId}/members`, {
     method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
     body: JSON.stringify(memberData),
   });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to add member');
-  }
-
-  return response.json() as Promise<ProjectMember>;
 }
 
 // Listar membros do projeto
-export async function getProjectMembers(projectId: string, token: string) {
-  const response = await api(`/projects/${projectId}/members`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch project members');
-  }
-
-  return response.json() as Promise<ProjectMember[]>;
+export async function getProjectMembers(projectId: string) {
+  return apiFetch<ProjectMember[]>(`/api/v1/projects/${projectId}/members`);
 }
 
 // Atualizar papel do membro
 export async function updateMemberRole(
   projectId: string,
   userId: string,
-  roleData: UpdateMemberRoleRequest,
-  token: string
+  roleData: UpdateMemberRoleRequest
 ) {
-  const response = await api(`/projects/${projectId}/members/${userId}`, {
+  return apiFetch<ProjectMember>(`/api/v1/projects/${projectId}/members/${userId}`, {
     method: 'PATCH',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
     body: JSON.stringify(roleData),
   });
-
-  if (!response.ok) {
-    throw new Error('Failed to update member role');
-  }
-
-  return response.json() as Promise<ProjectMember>;
 }
 
 // Remover membro do projeto
-export async function removeProjectMember(projectId: string, userId: string, token: string) {
-  const response = await api(`/projects/${projectId}/members/${userId}`, {
+export async function removeProjectMember(projectId: string, userId: string) {
+  return apiFetch<{ message: string }>(`/api/v1/projects/${projectId}/members/${userId}`, {
     method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
   });
-
-  if (!response.ok) {
-    throw new Error('Failed to remove member');
-  }
-
-  return response.json();
 }

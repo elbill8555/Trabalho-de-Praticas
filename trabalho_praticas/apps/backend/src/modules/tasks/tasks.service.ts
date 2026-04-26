@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { MailService } from '../mail/mail.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -18,16 +18,24 @@ export class TasksService {
   ) {
     return this.prisma.task.findMany({
       where: {
-        userId,
+        OR: [{ userId }, { assignedToId: userId }],
         ...(filters.status && { status: filters.status }),
         ...(filters.priority && { priority: filters.priority }),
       },
-      include: { project: { select: { id: true, name: true, color: true } } },
+      include: {
+        project: { select: { id: true, name: true, color: true } },
+        assignedTo: { select: { id: true, name: true, email: true } },
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
 
   async create(userId: string, dto: CreateTaskDto) {
+    await this.validateAssigneeForProject(
+      dto.projectId || null,
+      dto.assignedToId ?? null,
+    );
+
     const task = await this.prisma.task.create({
       data: {
         title: dto.title,
@@ -36,9 +44,13 @@ export class TasksService {
         priority: dto.priority,
         dueDate: dto.dueDate ? new Date(dto.dueDate) : undefined,
         projectId: dto.projectId || null,
+        assignedToId: dto.assignedToId || null,
         userId,
       },
-      include: { project: { select: { id: true, name: true, color: true } } },
+      include: {
+        project: { select: { id: true, name: true, color: true } },
+        assignedTo: { select: { id: true, name: true, email: true } },
+      },
     });
 
     try {
@@ -58,14 +70,33 @@ export class TasksService {
   }
 
   async update(userId: string, id: string, dto: UpdateTaskDto) {
-    await this.findOneOrFail(userId, id);
+    const existingTask = await this.findOneOrFail(userId, id);
+
+    const resolvedProjectId =
+      dto.projectId !== undefined ? dto.projectId : existingTask.projectId;
+    const resolvedAssignedToId =
+      dto.assignedToId !== undefined ? dto.assignedToId : existingTask.assignedToId;
+
+    await this.validateAssigneeForProject(
+      resolvedProjectId ?? null,
+      resolvedAssignedToId ?? null,
+    );
+
     return this.prisma.task.update({
       where: { id },
       data: {
         ...dto,
-        dueDate: dto.dueDate ? new Date(dto.dueDate) : undefined,
+        dueDate:
+          dto.dueDate === undefined
+            ? undefined
+            : dto.dueDate
+            ? new Date(dto.dueDate)
+            : null,
       },
-      include: { project: { select: { id: true, name: true, color: true } } },
+      include: {
+        project: { select: { id: true, name: true, color: true } },
+        assignedTo: { select: { id: true, name: true, email: true } },
+      },
     });
   }
 
@@ -92,5 +123,38 @@ export class TasksService {
     const task = await this.prisma.task.findFirst({ where: { id, userId } });
     if (!task) throw new NotFoundException('Task not found');
     return task;
+  }
+
+  private async validateAssigneeForProject(
+    projectId: string | null,
+    assignedToId: string | null,
+  ) {
+    if (!assignedToId) return;
+
+    if (!projectId) {
+      throw new BadRequestException('A task must belong to a project before assigning a user');
+    }
+
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
+      select: {
+        id: true,
+        userId: true,
+        members: {
+          where: { userId: assignedToId },
+          select: { id: true },
+          take: 1,
+        },
+      },
+    });
+
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
+
+    const canBeAssigned = project.userId === assignedToId || project.members.length > 0;
+    if (!canBeAssigned) {
+      throw new BadRequestException('Assigned user must be a member of the project');
+    }
   }
 }
