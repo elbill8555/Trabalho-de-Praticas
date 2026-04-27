@@ -114,6 +114,9 @@ export class ProjectMembersService {
     return this.prisma.projectMember.update({
       where: { id: member.id },
       data: { role: dto.role },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+      },
     });
   }
 

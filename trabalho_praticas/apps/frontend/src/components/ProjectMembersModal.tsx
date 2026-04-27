@@ -81,11 +81,7 @@ export default function ProjectMembersModal({
         currentUserId,
         { role: newRoleValue as 'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER' }
       );
-      if (updatedMember && updatedMember.user && updatedMember.user.id) {
-        setMembers((prev) => prev.map((m) => (m.user.id === currentUserId ? updatedMember : m)));
-      } else {
-        throw new Error('Resposta inválida do servidor: faltam dados do usuário');
-      }
+      setMembers((prev) => prev.map((m) => (m.user.id === currentUserId ? updatedMember : m)));
     } catch (err) {
       console.error('Erro ao atualizar role:', err);
       setError(`Erro ao atualizar papel: ${(err as Error).message}`);
