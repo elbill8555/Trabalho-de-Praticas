@@ -304,27 +304,29 @@ export default function DashboardPage() {
         <section style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
           {/* Wide card — Project Velocity */}
           <div style={{
-            background: '#003f87',
+            background: 'var(--color-surface-low)',
             padding: '2rem',
             borderRadius: '1.5rem',
-            color: '#ffffff',
+            color: 'var(--color-on-surface)',
             position: 'relative',
             overflow: 'hidden',
+            border: '1px solid var(--color-border)',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
           }}>
             <div style={{ position: 'relative', zIndex: 1 }}>
               <h4 style={{
                 fontFamily: 'var(--font-heading)',
                 fontSize: '1.5rem', fontWeight: 700,
-                marginBottom: '1.5rem', color: '#fff',
+                marginBottom: '1.5rem', color: 'var(--color-on-surface)',
               }}>
                 Velocidade do Projeto
               </h4>
               
               {/* Project progress bars chart */}
               {projects.length > 0 ? (
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', height: '120px', justifyContent: 'space-around', width: '100%', position: 'relative' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1.25rem', height: '140px', justifyContent: 'space-between', width: '100%', position: 'relative', paddingLeft: '1rem', paddingRight: '1rem', paddingBottom: '0.5rem' }}>
                   {/* Background baseline */}
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '100%', background: 'rgba(255,255,255,0.08)', borderRadius: '4px' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: '1rem', right: '1rem', height: '1px', background: 'var(--color-border)' }} />
                   {projects.map(p => {
                     const totalT = p._count?.tasks ?? 0;
                     const doneT = (p.tasks ?? []).filter(t => t.status === 'DONE').length;
@@ -332,42 +334,41 @@ export default function DashboardPage() {
                     const barHeight = Math.max(pct, 5); // Mínimo de 5px de altura visual
                     
                     return (
-                      <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '0.5rem', height: '100%', justifyContent: 'flex-end', zIndex: 2 }}>
-                        {/* Bar */}
+                      <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '0.75rem', height: '100%', justifyContent: 'flex-end', minWidth: 0 }}>
+                        {/* Bar with softened color */}
                         <div 
                           title={`${p.name}: ${pct}%`}
                           style={{
                             width: '100%', height: `${barHeight}%`,
                             background: p.color,
-                            borderRadius: '4px 4px 0 0',
+                            borderRadius: '6px 6px 0 0',
                             transition: 'opacity 0.2s, transform 0.2s, filter 0.2s',
                             cursor: 'pointer',
-                            opacity: 0.95,
-                            minHeight: '4px',
-                            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.3))',
+                            opacity: 0.85,
+                            minHeight: '6px',
+                            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))',
                           }}
                           onMouseEnter={e => {
                             (e.currentTarget as HTMLDivElement).style.opacity = '1';
-                            (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                            (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)';
                           }}
                           onMouseLeave={e => {
-                            (e.currentTarget as HTMLDivElement).style.opacity = '0.9';
+                            (e.currentTarget as HTMLDivElement).style.opacity = '0.85';
                             (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
                           }}
                         />
                         
                         {/* Label */}
                         <div style={{
-                          fontSize: '0.65rem',
-                          color: '#d7e2ff',
+                          fontSize: '0.7rem',
+                          color: 'var(--color-text-secondary)',
                           textAlign: 'center',
                           wordBreak: 'break-word',
                           maxWidth: '100%',
-                          lineHeight: 1.2,
-                          marginTop: '0.5rem',
+                          lineHeight: 1.3,
                         }}>
                           <div style={{ fontWeight: 700, marginBottom: '0.125rem' }}>{pct}%</div>
-                          <div style={{ fontSize: '0.55rem', opacity: 0.8 }}>{p.name.substring(0, 8)}</div>
+                          <div style={{ fontSize: '0.6rem', opacity: 0.75 }}>{p.name.substring(0, 8)}</div>
                         </div>
                       </div>
                     );
@@ -379,41 +380,40 @@ export default function DashboardPage() {
                   alignItems: 'center', 
                   justifyContent: 'center', 
                   height: 120,
-                  color: '#d7e2ff',
+                  color: 'var(--color-text-secondary)',
                   fontSize: '0.9rem',
                 }}>
                   Crie um projeto para visualizar o gráfico
                 </div>
               )}
             </div>
-            {/* Glow blob */}
-            <div style={{
-              position: 'absolute', right: -40, bottom: -40,
-              width: 192, height: 192, borderRadius: '9999px',
-              background: '#0056b3', opacity: 0.5, filter: 'blur(48px)',
-            }} />
           </div>
 
           {/* Narrow card — Tasks closed */}
           <div style={{
-            background: '#e7e8e9',
-            padding: '2rem', borderRadius: '1.5rem',
-            display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+            background: 'var(--color-surface-low)',
+            padding: '2rem', 
+            borderRadius: '1.5rem',
+            border: '1px solid var(--color-border)',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+            display: 'flex', 
+            flexDirection: 'column', 
+            justifyContent: 'space-between',
           }}>
-            <span className="material-symbols-outlined" style={{ color: '#722b00', fontSize: '40px' }}>
+            <span className="material-symbols-outlined" style={{ color: 'var(--color-text-secondary)', fontSize: '40px' }}>
               trending_up
             </span>
             <div>
               <p style={{
                 fontFamily: 'var(--font-heading)',
                 fontSize: '2.5rem', fontWeight: 900,
-                color: '#191c1d', lineHeight: 1,
+                color: 'var(--color-on-surface)', lineHeight: 1,
               }}>
                 {tasksClosedMonth}
               </p>
               <p style={{
                 fontSize: '0.75rem', fontWeight: 700,
-                color: '#424752', textTransform: 'uppercase',
+                color: 'var(--color-text-secondary)', textTransform: 'uppercase',
                 letterSpacing: '-0.01em', marginTop: '0.25rem',
               }}>
                 Tarefas fechadas neste mês
