@@ -158,14 +158,14 @@ export default function DashboardPage() {
 
               <div style={{
                 display: 'flex', alignItems: 'center', gap: '1rem',
-                background: '#f3f4f5',
+                background: 'var(--color-surface-container)',
                 padding: '1.5rem',
                 borderRadius: '0 0 0.75rem 0.75rem',
                 boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
                 transition: 'box-shadow 0.15s',
               }}>
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <span className="material-symbols-outlined" style={{ color: '#003f87', fontSize: '24px' }}>
+                  <span className="material-symbols-outlined" style={{ color: 'var(--color-primary)', fontSize: '24px' }}>
                     add_task
                   </span>
                   <input
@@ -173,20 +173,28 @@ export default function DashboardPage() {
                     placeholder="Adicionar nova tarefa..."
                     value={newTitle}
                     onChange={e => setNewTitle(e.target.value)}
-                    style={{ background: 'transparent', borderBottom: 'none', padding: '0', fontSize: '1.0625rem', fontWeight: 500 }}
+                    style={{ 
+                      background: 'transparent', 
+                      borderBottom: 'none', 
+                      padding: '0', 
+                      fontSize: '1.0625rem', 
+                      fontWeight: 500,
+                      color: 'var(--color-on-surface)',
+                    }}
                   />
                 </div>
                 <button
                   type="submit"
                   style={{
-                    background: '#003f87', color: '#ffffff',
+                    background: 'var(--color-primary)', 
+                    color: '#ffffff',
                     width: 48, height: 48, borderRadius: '0.75rem',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0, border: 'none', cursor: 'pointer',
                     transition: 'background 0.15s, transform 0.1s',
                   }}
-                  onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.background = '#0056b3'}
-                  onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = '#003f87'}
+                  onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-primary-hover)'}
+                  onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-primary)'}
                   onMouseDown={e  => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.95)'}
                   onMouseUp={e    => (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'}
                 >
@@ -314,24 +322,26 @@ export default function DashboardPage() {
               
               {/* Project progress bars chart */}
               {projects.length > 0 ? (
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', height: 120, justifyContent: 'space-around' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', height: '120px', justifyContent: 'space-around', width: '100%' }}>
                   {projects.map(p => {
                     const totalT = p._count?.tasks ?? 0;
                     const doneT = (p.tasks ?? []).filter(t => t.status === 'DONE').length;
                     const pct = totalT ? Math.round((doneT / totalT) * 100) : 0;
+                    const barHeight = Math.max(pct, 5); // Mínimo de 5px de altura visual
                     
                     return (
-                      <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '0.5rem' }}>
+                      <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '0.5rem', height: '100%', justifyContent: 'flex-end' }}>
                         {/* Bar */}
                         <div 
                           title={`${p.name}: ${pct}%`}
                           style={{
-                            width: '100%', height: `${Math.max(pct, 5)}%`,
+                            width: '100%', height: `${barHeight}%`,
                             background: p.color,
                             borderRadius: '4px 4px 0 0',
                             transition: 'opacity 0.2s, transform 0.2s',
                             cursor: 'pointer',
                             opacity: 0.9,
+                            minHeight: '4px',
                           }}
                           onMouseEnter={e => {
                             (e.currentTarget as HTMLDivElement).style.opacity = '1';
@@ -351,6 +361,7 @@ export default function DashboardPage() {
                           wordBreak: 'break-word',
                           maxWidth: '100%',
                           lineHeight: 1.2,
+                          marginTop: '0.5rem',
                         }}>
                           <div style={{ fontWeight: 700, marginBottom: '0.125rem' }}>{pct}%</div>
                           <div style={{ fontSize: '0.55rem', opacity: 0.8 }}>{p.name.substring(0, 8)}</div>

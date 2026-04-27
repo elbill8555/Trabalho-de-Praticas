@@ -124,7 +124,7 @@
   --color-surface-lowest:       #010409;
 
   --color-on-surface:           #E6EDF3;
-  --color-on-surface-variant:   #8B949E;
+  --color-on-surface-variant:   #A8BFDB;
   --color-outline:              #30363D;
   --color-outline-variant:      #21262D;
 
@@ -138,8 +138,8 @@
   /* Legacy aliases */
   --color-bg:                   #0D1117;
   --color-text:                 #E6EDF3;
-  --color-text-secondary:       #8B949E;
-  --color-text-muted:           #6E7681;
+  --color-text-secondary:       #A8BFDB;
+  --color-text-muted:           #8B949E;
   --color-border:               rgba(48,54,61,0.40);
   --color-border-focus:         #58A6FF;
   --color-surface-low2:         #161B22;
@@ -153,7 +153,7 @@
   --color-done-bg:              #0D3E1F;
 
   /* Priority */
-  --color-low:                  #6E7681;
+  --color-low:                  #A8BFDB;
   --color-low-bg:               #161B22;
   --color-medium:               #FFA657;
   --color-medium-bg:            #3D2817;
