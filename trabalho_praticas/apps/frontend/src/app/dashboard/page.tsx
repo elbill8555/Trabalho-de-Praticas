@@ -81,9 +81,32 @@ export default function DashboardPage() {
     } catch { /* silently fail — user can go to /tasks for full form */ }
   }
 
-  /* Toggle check (visual feedback only) */
-  function toggleCheck(id: string) {
-    setChecked(prev => ({ ...prev, [id]: !prev[id] }));
+  /* Toggle check — update task status in API */
+  async function toggleCheck(id: string) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    
+    const newStatus = task.status === 'DONE' ? 'PENDING' : 'DONE';
+    
+    try {
+      await apiFetch(`/api/v1/tasks/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: newStatus }),
+      });
+      
+      // Update local state to reflect change immediately
+      setTasks(prev => 
+        prev.map(t => t.id === id ? { ...t, status: newStatus } : t)
+      );
+      
+      // Update visual feedback
+      setChecked(prev => ({ ...prev, [id]: newStatus === 'DONE' }));
+      
+      // Dispatch refresh event for other components
+      window.dispatchEvent(new Event('refresh-data'));
+    } catch (err) {
+      console.error('Erro ao atualizar tarefa:', err);
+    }
   }
 
   if (loading) return (

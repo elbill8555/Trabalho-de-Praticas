@@ -156,17 +156,17 @@ export default function ProjectsPage() {
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                    <Link href={`/projects/${p.id}`} className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+                    <Link href={`/projects/${p.id}`} className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.5rem 0.75rem', textAlign: 'center', whiteSpace: 'nowrap' }}>
                       Ver tarefas
                     </Link>
-                    <button className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }} onClick={() => setMemberModalProject(p)}>
+                    <button className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.5rem 0.75rem', textAlign: 'center' }} onClick={() => setMemberModalProject(p)}>
                       👥 Membros
                     </button>
-                    <button className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }} onClick={() => openEdit(p)}>
+                    <button className="btn-ghost" style={{ fontSize: '0.8125rem', padding: '0.5rem 0.75rem', textAlign: 'center' }} onClick={() => openEdit(p)}>
                       Editar
                     </button>
-                    <button className="btn-danger" style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }} onClick={() => setDeleteId(p.id)}>
+                    <button className="btn-danger" style={{ fontSize: '0.8125rem', padding: '0.5rem 0.75rem', textAlign: 'center' }} onClick={() => setDeleteId(p.id)}>
                       Excluir
                     </button>
                   </div>
