@@ -91,18 +91,18 @@ export default function TasksPage() {
         </div>
 
         {/* Filters */}
-        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-          <input className="input-field" style={{ maxWidth: 220, flex: '1 1 160px' }}
+        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <input className="input-field" style={{ maxWidth: 220, flex: '1 1 160px', padding: '0.625rem 1rem', fontSize: '0.875rem', borderRadius: '0.5rem', border: '1px solid var(--color-border)', background: '#ffffff' }}
             placeholder="🔍 Buscar tarefa..."
             value={search} onChange={e => setSearch(e.target.value)} />
-          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto' }}
+          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto', padding: '0.625rem 1rem', fontSize: '0.875rem', borderRadius: '0.5rem', border: '1px solid var(--color-border)', background: '#ffffff', cursor: 'pointer' }}
             value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
             <option value="">Todos os status</option>
             <option value="PENDING">Pendente</option>
             <option value="IN_PROGRESS">Em andamento</option>
             <option value="DONE">Concluída</option>
           </select>
-          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto' }}
+          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto', padding: '0.625rem 1rem', fontSize: '0.875rem', borderRadius: '0.5rem', border: '1px solid var(--color-border)', background: '#ffffff', cursor: 'pointer' }}
             value={filterPriority} onChange={e => setFilterPriority(e.target.value)}>
             <option value="">Todas as prioridades</option>
             <option value="LOW">Baixa</option>
@@ -167,7 +167,7 @@ export default function TasksPage() {
                     <td style={{ padding: '0.875rem 1rem', fontSize: '0.8125rem', color: 'var(--color-text-secondary)', whiteSpace: 'nowrap' }}>
                       {t.dueDate ? new Date(t.dueDate).toLocaleDateString('pt-BR') : '—'}
                     </td>
-                    <td style={{ padding: '0.875rem 1rem', minWidth: 220, whiteSpace: 'normal' }}>
+                    <td style={{ padding: '0.875rem 1rem', minWidth: 200, whiteSpace: 'normal' }}>
                       {t.project ? (
                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8125rem' }}>
                           <span style={{ width: 8, height: 8, borderRadius: '50%', background: t.project.color, flexShrink: 0 }} />

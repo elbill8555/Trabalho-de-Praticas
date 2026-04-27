@@ -286,12 +286,12 @@ export default function DashboardPage() {
                 fontSize: '1.5rem', fontWeight: 700,
                 marginBottom: '1rem', color: '#fff',
               }}>
-                Project Velocity
+                Velocidade do Projeto
               </h4>
               <p style={{ color: '#d7e2ff', marginBottom: '2rem', maxWidth: '18rem', lineHeight: 1.5 }}>
                 {pct > 0
-                  ? `You've completed ${pct}% of your tasks. Keep the momentum!`
-                  : 'Add tasks and start building momentum!'}
+                  ? `Você completou ${pct}% de suas tarefas. Mantenha o ritmo!`
+                  : 'Adicione tarefas e comece a ganhar ritmo!'}
               </p>
               {/* Mini bar chart */}
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.5rem', height: 80 }}>
