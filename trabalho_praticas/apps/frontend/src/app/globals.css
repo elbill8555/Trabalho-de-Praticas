@@ -109,6 +109,66 @@
   --header-h:  64px;    /* h-16 */
 }
 
+/* ─── Dark Mode ─────────────────────────────────────────────────── */
+:root.dark-mode {
+  --color-primary:              #b3d9ff;
+  --color-primary-hover:        #99c8ff;
+  --color-primary-container:    #004499;
+  --color-on-primary:           #000000;
+  --color-primary-fixed:        #1a3a66;
+
+  --color-surface:              #121212;
+  --color-surface-low:          #1e1e1e;
+  --color-surface-container:    #2a2a2a;
+  --color-surface-high:         #3a3a3a;
+  --color-surface-lowest:       #0a0a0a;
+
+  --color-on-surface:           #f5f5f5;
+  --color-on-surface-variant:   #b3b3b3;
+  --color-outline:              #808080;
+  --color-outline-variant:      #4a4a4a;
+
+  --color-secondary:            #a8c3f0;
+  --color-secondary-container:  #334a7a;
+  --color-on-secondary-container: #cfe0ff;
+
+  --color-tertiary:             #ffb596;
+  --color-tertiary-fixed:       #4d1f00;
+
+  /* Legacy aliases */
+  --color-bg:                   #121212;
+  --color-text:                 #f5f5f5;
+  --color-text-secondary:       #b3b3b3;
+  --color-text-muted:           #808080;
+  --color-border:               rgba(180,180,180,0.15);
+  --color-border-focus:         #b3d9ff;
+  --color-surface-low2:         #1e1e1e;
+
+  /* Status */
+  --color-pending:              #ffb347;
+  --color-pending-bg:           #4d3300;
+  --color-in-progress:          #64b5f6;
+  --color-in-progress-bg:       #1a3a66;
+  --color-done:                 #4caf50;
+  --color-done-bg:              #1b4620;
+
+  /* Priority */
+  --color-low:                  #90a4ae;
+  --color-low-bg:               #263238;
+  --color-medium:               #ffb347;
+  --color-medium-bg:            #4d3300;
+  --color-high:                 #ff6b6b;
+  --color-high-bg:              #4d1a1a;
+  --color-urgent:               #b39ddb;
+  --color-urgent-bg:            #4a235a;
+
+  /* Error / Success */
+  --color-error:                #ff6b6b;
+  --color-error-bg:             #4d1a1a;
+  --color-success:              #4caf50;
+  --color-success-bg:           #1b4620;
+}
+
 /* ─── Reset / Base ──────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

@@ -4,6 +4,7 @@ import { useEffect, ReactNode } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { getToken, getUser, clearAuth } from '@/lib/auth';
+import { useDarkMode } from '@/hooks/useDarkMode';
 import AiChat from './AiChat';
 
 /* ── Navigation items — matches Stitch dashboard prototype ── */
@@ -24,6 +25,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const router   = useRouter();
   const pathname = usePathname();
   const user     = getUser();
+  const { isDark, toggleDarkMode, mounted } = useDarkMode();
 
   useEffect(() => {
     if (!getToken()) router.replace('/login');
@@ -112,17 +114,22 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </span>
           </button>
 
-          {/* Settings → profile */}
-          <Link href="/profile" aria-label="Perfil" style={{
-            padding: '0.5rem', borderRadius: '9999px',
-            transition: 'background 0.15s', display: 'inline-flex',
-          }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#f3f4f5')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
-            <span className="material-symbols-outlined" style={{ color: 'var(--color-on-surface-variant)', fontSize: '22px' }}>
-              settings
-            </span>
-          </Link>
+          {/* Dark Mode Toggle */}
+          {mounted && (
+            <button 
+              onClick={toggleDarkMode}
+              aria-label={isDark ? 'Modo claro' : 'Modo escuro'} 
+              style={{
+                padding: '0.5rem', borderRadius: '9999px',
+                transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.1)' : '#f3f4f5')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+              <span className="material-symbols-outlined" style={{ color: 'var(--color-on-surface-variant)', fontSize: '22px' }}>
+                {isDark ? 'light_mode' : 'dark_mode'}
+              </span>
+            </button>
+          )}
 
           {/* Avatar */}
           <div style={{
