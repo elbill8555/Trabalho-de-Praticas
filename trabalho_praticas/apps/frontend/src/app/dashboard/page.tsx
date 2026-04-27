@@ -322,7 +322,9 @@ export default function DashboardPage() {
               
               {/* Project progress bars chart */}
               {projects.length > 0 ? (
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', height: '120px', justifyContent: 'space-around', width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', height: '120px', justifyContent: 'space-around', width: '100%', position: 'relative' }}>
+                  {/* Background baseline */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '100%', background: 'rgba(255,255,255,0.08)', borderRadius: '4px' }} />
                   {projects.map(p => {
                     const totalT = p._count?.tasks ?? 0;
                     const doneT = (p.tasks ?? []).filter(t => t.status === 'DONE').length;
@@ -330,7 +332,7 @@ export default function DashboardPage() {
                     const barHeight = Math.max(pct, 5); // Mínimo de 5px de altura visual
                     
                     return (
-                      <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '0.5rem', height: '100%', justifyContent: 'flex-end' }}>
+                      <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '0.5rem', height: '100%', justifyContent: 'flex-end', zIndex: 2 }}>
                         {/* Bar */}
                         <div 
                           title={`${p.name}: ${pct}%`}
@@ -338,10 +340,11 @@ export default function DashboardPage() {
                             width: '100%', height: `${barHeight}%`,
                             background: p.color,
                             borderRadius: '4px 4px 0 0',
-                            transition: 'opacity 0.2s, transform 0.2s',
+                            transition: 'opacity 0.2s, transform 0.2s, filter 0.2s',
                             cursor: 'pointer',
-                            opacity: 0.9,
+                            opacity: 0.95,
                             minHeight: '4px',
+                            filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.3))',
                           }}
                           onMouseEnter={e => {
                             (e.currentTarget as HTMLDivElement).style.opacity = '1';

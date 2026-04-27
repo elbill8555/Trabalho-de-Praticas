@@ -26,6 +26,7 @@ export default function ProjectMembersModal({
   const [newEmail, setNewEmail] = useState('');
   const [newRole, setNewRole] = useState<'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER'>('MEMBER');
   const [adding, setAdding] = useState(false);
+  const [updatingRoleId, setUpdatingRoleId] = useState<string | null>(null);
 
   // Carregar membros
   useEffect(() => {
@@ -73,15 +74,23 @@ export default function ProjectMembersModal({
   // Atualizar papel do membro
   const handleUpdateRole = async (memberId: string, currentUserId: string, newRoleValue: string) => {
     try {
+      setUpdatingRoleId(memberId);
       setError(null);
       const updatedMember = await updateMemberRole(
         projectId,
         currentUserId,
         { role: newRoleValue as 'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER' }
       );
-      setMembers((prev) => prev.map((m) => (m.user.id === currentUserId ? updatedMember : m)));
+      if (updatedMember && updatedMember.user && updatedMember.user.id) {
+        setMembers((prev) => prev.map((m) => (m.user.id === currentUserId ? updatedMember : m)));
+      } else {
+        throw new Error('Resposta inválida do servidor: faltam dados do usuário');
+      }
     } catch (err) {
-      setError((err as Error).message);
+      console.error('Erro ao atualizar role:', err);
+      setError(`Erro ao atualizar papel: ${(err as Error).message}`);
+    } finally {
+      setUpdatingRoleId(null);
     }
   };
 
@@ -104,7 +113,7 @@ export default function ProjectMembersModal({
         <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1rem' }}>Membros de {projectName}</h2>
 
         {error && (
-          <div style={{ background: '#fee', border: '1px solid #fcc', color: '#c33', padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem' }}>
+          <div style={{ background: 'var(--color-error-bg)', border: '1px solid var(--color-error)', color: 'var(--color-error)', padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem' }}>
             {error}
           </div>
         )}
@@ -162,8 +171,9 @@ export default function ProjectMembersModal({
                       onChange={(e) =>
                         handleUpdateRole(member.id, member.user.id, e.target.value)
                       }
+                      disabled={updatingRoleId === member.id}
                       className="input-field"
-                      style={{ flex: 1, fontSize: '0.8125rem' }}
+                      style={{ flex: 1, fontSize: '0.8125rem', opacity: updatingRoleId === member.id ? 0.6 : 1 }}
                     >
                       <option value="VIEWER">Visualizador</option>
                       <option value="MEMBER">Membro</option>
@@ -172,8 +182,9 @@ export default function ProjectMembersModal({
                     </select>
                     <button
                       onClick={() => handleRemoveMember(member.user.id)}
+                      disabled={updatingRoleId === member.id}
                       className="btn-danger"
-                      style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem', flexShrink: 0 }}
+                      style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem', flexShrink: 0, opacity: updatingRoleId === member.id ? 0.6 : 1 }}
                     >
                       ✕
                     </button>

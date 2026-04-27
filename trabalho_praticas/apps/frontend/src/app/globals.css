@@ -380,6 +380,12 @@ input, textarea, select { font-family: inherit; }
   max-width: 520px;
   padding: 2rem;
   animation: slideUp 0.2s ease;
+  color: var(--color-on-surface);
+}
+
+:root.dark-mode .modal {
+  background: rgba(13, 17, 23, 0.95);
+  color: var(--color-on-surface);
 }
 
 /* ─── Animations ────────────────────────────────────────────────── */

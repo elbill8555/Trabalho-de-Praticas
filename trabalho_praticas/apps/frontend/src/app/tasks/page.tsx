@@ -92,17 +92,17 @@ export default function TasksPage() {
 
         {/* Filters */}
         <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <input className="input-field" style={{ maxWidth: 220, flex: '1 1 160px', padding: '0.625rem 1rem', fontSize: '0.875rem', borderRadius: '0.5rem', border: '1px solid var(--color-border)', background: '#ffffff' }}
+          <input className="input-field" style={{ maxWidth: 220, flex: '1 1 160px', padding: '0.625rem 1rem', fontSize: '0.875rem' }}
             placeholder="🔍 Buscar tarefa..."
             value={search} onChange={e => setSearch(e.target.value)} />
-          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto', padding: '0.625rem 1rem', fontSize: '0.875rem', borderRadius: '0.5rem', border: '1px solid var(--color-border)', background: '#ffffff', cursor: 'pointer' }}
+          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto', padding: '0.625rem 1rem', fontSize: '0.875rem', cursor: 'pointer' }}
             value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
             <option value="">Todos os status</option>
             <option value="PENDING">Pendente</option>
             <option value="IN_PROGRESS">Em andamento</option>
             <option value="DONE">Concluída</option>
           </select>
-          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto', padding: '0.625rem 1rem', fontSize: '0.875rem', borderRadius: '0.5rem', border: '1px solid var(--color-border)', background: '#ffffff', cursor: 'pointer' }}
+          <select className="input-field" style={{ maxWidth: 170, flex: '0 0 auto', padding: '0.625rem 1rem', fontSize: '0.875rem', cursor: 'pointer' }}
             value={filterPriority} onChange={e => setFilterPriority(e.target.value)}>
             <option value="">Todas as prioridades</option>
             <option value="LOW">Baixa</option>
