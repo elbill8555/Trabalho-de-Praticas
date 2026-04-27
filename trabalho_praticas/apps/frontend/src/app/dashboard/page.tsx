@@ -307,25 +307,70 @@ export default function DashboardPage() {
               <h4 style={{
                 fontFamily: 'var(--font-heading)',
                 fontSize: '1.5rem', fontWeight: 700,
-                marginBottom: '1rem', color: '#fff',
+                marginBottom: '1.5rem', color: '#fff',
               }}>
                 Velocidade do Projeto
               </h4>
-              <p style={{ color: '#d7e2ff', marginBottom: '2rem', maxWidth: '18rem', lineHeight: 1.5 }}>
-                {pct > 0
-                  ? `Você completou ${pct}% de suas tarefas. Mantenha o ritmo!`
-                  : 'Adicione tarefas e comece a ganhar ritmo!'}
-              </p>
-              {/* Mini bar chart */}
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.5rem', height: 80 }}>
-                {[0.5, 0.75, 0.33, 1, 0.66].map((h, i) => (
-                  <div key={i} style={{
-                    width: 12, borderRadius: '9999px 9999px 0 0',
-                    background: i === 3 ? 'rgba(255,255,255,1)' : `rgba(255,255,255,${0.2 + h * 0.4})`,
-                    height: `${Math.round(h * 100)}%`,
-                  }} />
-                ))}
-              </div>
+              
+              {/* Project progress bars chart */}
+              {projects.length > 0 ? (
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.75rem', height: 120, justifyContent: 'space-around' }}>
+                  {projects.map(p => {
+                    const totalT = p._count?.tasks ?? 0;
+                    const doneT = (p.tasks ?? []).filter(t => t.status === 'DONE').length;
+                    const pct = totalT ? Math.round((doneT / totalT) * 100) : 0;
+                    
+                    return (
+                      <div key={p.id} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '0.5rem' }}>
+                        {/* Bar */}
+                        <div 
+                          title={`${p.name}: ${pct}%`}
+                          style={{
+                            width: '100%', height: `${Math.max(pct, 5)}%`,
+                            background: p.color,
+                            borderRadius: '4px 4px 0 0',
+                            transition: 'opacity 0.2s, transform 0.2s',
+                            cursor: 'pointer',
+                            opacity: 0.9,
+                          }}
+                          onMouseEnter={e => {
+                            (e.currentTarget as HTMLDivElement).style.opacity = '1';
+                            (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                          }}
+                          onMouseLeave={e => {
+                            (e.currentTarget as HTMLDivElement).style.opacity = '0.9';
+                            (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                          }}
+                        />
+                        
+                        {/* Label */}
+                        <div style={{
+                          fontSize: '0.65rem',
+                          color: '#d7e2ff',
+                          textAlign: 'center',
+                          wordBreak: 'break-word',
+                          maxWidth: '100%',
+                          lineHeight: 1.2,
+                        }}>
+                          <div style={{ fontWeight: 700, marginBottom: '0.125rem' }}>{pct}%</div>
+                          <div style={{ fontSize: '0.55rem', opacity: 0.8 }}>{p.name.substring(0, 8)}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  height: 120,
+                  color: '#d7e2ff',
+                  fontSize: '0.9rem',
+                }}>
+                  Crie um projeto para visualizar o gráfico
+                </div>
+              )}
             </div>
             {/* Glow blob */}
             <div style={{
