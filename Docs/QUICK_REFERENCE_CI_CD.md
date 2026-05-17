@@ -10,7 +10,7 @@
 
 ---
 
-## 📁 Arquivos Principais
+## 📁 Arquivos Principais 
 
 ```
 .github/
